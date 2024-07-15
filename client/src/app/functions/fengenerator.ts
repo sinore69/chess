@@ -12,7 +12,6 @@ for(let i=0;i<8;i++){
     if(i!==7){
         fen=fen+'/'
     }
-    console.log(fen)
 }
 }
 function isNumber(str:any) {

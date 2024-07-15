@@ -1,23 +1,54 @@
+import { useRef, useEffect, useState } from "react";
 import React from "react";
-function Board(props: { board: string[][] }) {
+import { updateposition } from "../functions/updateposition";
+import { initialgamestate } from "../functions/initialgamestate";
+import { fengenerator } from "../functions/fengenerator";
+import { calcCoordinates } from "../functions/calccoordinates";
+function Board() {
+  const [board, setboard] = useState<string[][]>(initialgamestate);
+  fengenerator(board);
+  const ref = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    if (ref.current) {
+      ref.current.focus();
+    }
+  }, []);
   function onDragStart(
     e: any,
     rowindex: number,
     colindex: number,
     piece: string
   ) {
-    e.dataTransfer.setData('text/plain',`${rowindex}${colindex}${piece}`)
+    e.dataTransfer.effectAllowed = "move";
+    e.dataTransfer.setData("text/plain", `${rowindex}${colindex}${piece}`);
+    setTimeout(() => {
+      e.target.style.display = "none";
+    }, 0);
   }
-  function onDrop(e:any){
-    console.log(e.dataTransfer.getData('text'))
+  function onDragEnd(e: any) {
+    e.target.style.display = "block";
   }
-  function onDragOver(e:any){
-    e.preventDefault()
+
+  function onDrop(e: any) {
+    const { x, y } = calcCoordinates(e,ref);
+    const [rowindex, colindex, piece] = e.dataTransfer
+      .getData("text")
+      .split("");
+    const newposition = updateposition(board, rowindex, colindex, x, y, piece);
+    setboard(newposition);
+  }
+  function onDragOver(e: any) {
+    e.preventDefault();
   }
   return (
     <div>
-      <div className="flex justify-start flex-col" onDrop={onDrop}onDragOver={onDragOver}>
-        {props.board.map((row: string[], rowindex: number) => (
+      <div
+        className="flex justify-start flex-col"
+        onDrop={onDrop}
+        onDragOver={onDragOver}
+        ref={ref}
+      >
+        {board.map((row: string[], rowindex: number) => (
           <div key={rowindex} className="flex flex-row ">
             {row.map((col: string, colindex) => (
               <div
@@ -31,6 +62,7 @@ function Board(props: { board: string[][] }) {
                 <div
                   className="h-10 w-10 bg-slate-400"
                   draggable={true}
+                  onDragEnd={onDragEnd}
                   onDragStart={(e) => onDragStart(e, rowindex, colindex, col)}
                 >
                   {col}
