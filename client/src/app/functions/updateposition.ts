@@ -1,3 +1,4 @@
+import { isvalidmove } from "./validator/isvalidmove"
 
 export function updateposition(board:string[][],rowindex:number,colindex:number,x:number,y:number,piece:string) {
     const newboard=[
@@ -15,7 +16,9 @@ export function updateposition(board:string[][],rowindex:number,colindex:number,
             newboard[i][j]=board[i][j]
         }
     }
-     newboard[rowindex][colindex]='1'
-     newboard[x][y]=piece
+    if(isvalidmove(rowindex,colindex,x,y,piece,board)){
+        newboard[rowindex][colindex]='1'
+        newboard[x][y]=piece
+    }
     return newboard
 }
