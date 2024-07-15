@@ -4,6 +4,7 @@ import { updateposition } from "../functions/updateposition";
 import { initialgamestate } from "../functions/initialgamestate";
 import { fengenerator } from "../functions/fengenerator";
 import { calcCoordinates } from "../functions/calccoordinates";
+import Image from "next/image";
 function Board() {
   const [board, setboard] = useState<string[][]>(initialgamestate);
   fengenerator(board);
@@ -60,12 +61,12 @@ function Board() {
                 }`}
               >
                 <div
-                  className="h-10 w-10 bg-slate-400"
+                  className=""
                   draggable={true}
                   onDragEnd={onDragEnd}
                   onDragStart={(e) => onDragStart(e, rowindex, colindex, col)}
                 >
-                  {col}
+                  {col!=='1'?<Image src={col===col.toUpperCase()?`/w${col}.png`:`/b${col}.png`} alt="" height={500} width={500}></Image>:""}
                 </div>
               </div>
             ))}
