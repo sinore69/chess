@@ -17,5 +17,7 @@ export function initialgamestate(){
         board[1][i]=pawn
         board[6][i]=pawn.toUpperCase()
     }
+    board[4][3]='B'
+    board[4][4]='b'
     return board
 }

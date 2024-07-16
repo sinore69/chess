@@ -1,5 +1,7 @@
 export function isvalidpawnmove(rowindex:number,colindex:number,x:number,y:number,piece:string,board:string[][]){
-    console.log(piece)
+    if(rowindex==x&&colindex==y){
+        return false
+    }
     if(piece=="P"){
         //normal move
         if(x+1==rowindex&&colindex==y&&board[x][y]==="1"){
@@ -12,7 +14,7 @@ export function isvalidpawnmove(rowindex:number,colindex:number,x:number,y:numbe
             }
         }
         //diagonal move
-        if(x+1==rowindex&&(colindex==y-1||colindex==y+1)&&board[x][y]!=="1"){
+        if(x+1==rowindex&&(colindex==y-1||colindex==y+1)&&board[x][y]!=="1"&& !isUpperCase(board[x][y])){
             return true
         }
     }
@@ -34,3 +36,6 @@ export function isvalidpawnmove(rowindex:number,colindex:number,x:number,y:numbe
     }
     return false
 }
+function isUpperCase(letter:string) {
+    return letter === letter.toUpperCase();
+  }
