@@ -1,5 +1,10 @@
+import { withinbounds } from "../withinbounds"
+
 export function isvalidpawnmove(rowindex:number,colindex:number,x:number,y:number,piece:string,board:string[][]){
     if(rowindex==x&&colindex==y){
+        return false
+    }
+    if(!withinbounds(x,y)){
         return false
     }
     if(piece=="P"){

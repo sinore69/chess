@@ -1,9 +1,10 @@
 import { isUpperCase } from "../isuppercase"
+import { withinbounds } from "../withinbounds"
 export function isvalidrookmove(rowindex:number,colindex:number,x:number,y:number,piece:string,board:string[][]){
     if(rowindex==x&&colindex==y){
         return false
     }
-    if(x>=0&&x<8&&y>=0&&y<8){
+    if(withinbounds(x,y)){
         //prevent same color capture
         if(isUpperCase(piece)===isUpperCase(board[x][y])&&board[x][y]!=="1"){
             return false
