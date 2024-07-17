@@ -13,41 +13,31 @@ export function isvalidrookmove(rowindex:number,colindex:number,x:number,y:numbe
         if(rowindex!=x&&colindex!=y){
             return false
         }
-        //up-bottom
-        for(let i=Number(rowindex)+1;i<x;i++){
-            //console.log(colindex,y)
-            if(colindex==y){
-                if(board[i][colindex]!=="1"){
-                    return false
+        if(colindex==y){
+            //up-bottom
+            for(let i=Number(rowindex)+1;i<x;i++){
+                    if(board[i][colindex]!=="1"){
+                        return false
+                }
+            }
+            //bottom-up
+            for(let i=Number(rowindex)-1;i>x;i--){
+                    if(board[i][colindex]!=="1"){
+                        return false
                 }
             }
         }
-        //bottom-up
-        for(let i=Number(rowindex)-1;i>x;i--){
-            //console.log(colindex,y)
-            if(colindex==y){
-                //console.log(board[i][colindex])
-                if(board[i][colindex]!=="1"){
-                    //console.log("interrupted")
-                    return false
+        if(rowindex==x){
+            //left to right
+            for(let i=Number(colindex)+1;i<y;i++){
+                    if(board[rowindex][i]!=="1"){
+                        return false
                 }
             }
-        }
-        //left to right
-        for(let i=Number(colindex)+1;i<y;i++){
-            console.log(colindex,y)
-            if(rowindex==x){
-                if(board[rowindex][i]!=="1"){
-                    return false
-                }
-            }
-        }
-        //right to left
-        for(let i=Number(colindex)-1;i>y;i--){
-            console.log(colindex,y)
-            if(rowindex==x){
-                if(board[rowindex][i]!=="1"){
-                    return false
+            //right to left
+            for(let i=Number(colindex)-1;i>y;i--){
+                    if(board[rowindex][i]!=="1"){
+                        return false
                 }
             }
         }

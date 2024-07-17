@@ -15,7 +15,6 @@ export function isvalidbishopmove(rowindex:number,colindex:number,x:number,y:num
             if(x>Number(rowindex)&&y>Number(colindex))
             for(let i=1;i<x-Number(rowindex);i++){
                 if(board[Number(rowindex)+i][Number(colindex)+i]!="1"){
-                    console.log('third')
                     return false
                 }   
             }
