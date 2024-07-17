@@ -7,7 +7,6 @@ import { calcCoordinates } from "../functions/calccoordinates";
 import Image from "next/image";
 function Board() {
   const [board, setboard] = useState<string[][]>(initialgamestate);
-  fengenerator(board);
   const ref = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     if (ref.current) {
@@ -37,6 +36,7 @@ function Board() {
       .split("");
     const newposition = updateposition(board, rowindex, colindex, x, y, piece);
     setboard(newposition);
+    fengenerator(newposition);
   }
   function onDragOver(e: any) {
     e.preventDefault();

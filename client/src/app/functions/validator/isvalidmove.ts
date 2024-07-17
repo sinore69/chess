@@ -1,4 +1,5 @@
 import { isvalidbishopmove } from "./bishop";
+import { isvalidkingmove } from "./king";
 import { isvalidknightmove } from "./knight";
 import { isvalidpawnmove } from "./pawn";
 import { isvalidqueenmove } from "./queen";
@@ -18,6 +19,9 @@ export function isvalidmove(rowindex:number,colindex:number,x:number,y:number,pi
             return true
         }
         if((piece==='n'||piece==='N')&&isvalidknightmove(rowindex,colindex,x,y,piece,board)){
+            return true
+        }
+        if((piece==='k'||piece==='K')&&isvalidkingmove(rowindex,colindex,x,y,piece,board)){
             return true
         }
     return false;
