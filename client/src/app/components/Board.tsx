@@ -36,7 +36,14 @@ function Board() {
       .split("");
     const newposition = updateposition(board, rowindex, colindex, x, y, piece);
     setboard(newposition);
-    fengenerator(newposition);
+    const fen=fengenerator(newposition);
+    const data={
+      fen:fen
+    }
+    fetch("http://localhost:5000/bot",{
+      method:"POST",
+      body:JSON.stringify(data)
+    }).then((res)=>{console.log(res)}).catch((err)=>{console.log(err)})
   }
   function onDragOver(e: any) {
     e.preventDefault();

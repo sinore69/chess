@@ -14,7 +14,7 @@ for(let i=0;i<8;i++){
     }
 }
 fen=fen+" b KQkq - 0 1"
-console.log(fen)
+return fen
 }
 function isNumber(str:any) {
     return !isNaN(parseFloat(str)) && isFinite(str);
