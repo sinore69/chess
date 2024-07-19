@@ -28,7 +28,17 @@ function Board() {
   function onDragEnd(e: any) {
     e.target.style.display = "block";
   }
-
+  async function name(fen:string) {
+    const data={
+      fen:fen
+    }
+    const res=await fetch("http://localhost:5000/bot",{
+      method:"POST",
+      body:JSON.stringify(data)
+    })
+    const resp=await res.json()
+    console.log(resp)
+  }
   function onDrop(e: any) {
     const { x, y } = calcCoordinates(e,ref);
     const [rowindex, colindex, piece] = e.dataTransfer
@@ -37,13 +47,7 @@ function Board() {
     const newposition = updateposition(board, rowindex, colindex, x, y, piece);
     setboard(newposition);
     const fen=fengenerator(newposition);
-    const data={
-      fen:fen
-    }
-    fetch("http://localhost:5000/bot",{
-      method:"POST",
-      body:JSON.stringify(data)
-    }).then((res)=>{console.log(res)}).catch((err)=>{console.log(err)})
+    name(fen)
   }
   function onDragOver(e: any) {
     e.preventDefault();

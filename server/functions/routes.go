@@ -2,6 +2,7 @@ package functions
 
 import (
 	"encoding/json"
+	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -44,7 +45,6 @@ func Bot(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Invalid JSON format", http.StatusBadRequest)
 		return
 	}
-	//log.Println(fen.Fen)
 	url := "https://stockfish.online/api/s/v2.php?fen=" + fen.Fen + "&depth=15"
 	res, err := http.Get(url)
 	if err != nil {
@@ -62,42 +62,45 @@ func Bot(w http.ResponseWriter, r *http.Request) {
 	newfen := Fen{
 		Fen: newfen(fen.Fen, eval.Bestmove),
 	}
+	log.Println(newfen)
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(newfen)
-	//log.Println(eval.Bestmove)
 }
 func newfen(fen string, evalmove string) string {
 	start := time.Now()
 	fenarray := strings.Split(fen, " ")
 	board := decodefen(fenarray[0])
-	log.Println(board)
 	newboard := updateposition(board, evalmove)
-	log.Println(newboard)
 	duration := time.Since(start)
 	newfen := genfen(newboard)
 	log.Println(duration)
 	return newfen
 }
 func genfen(board *[8][8]string) string {
-	var fenRows []string
-	for _, row := range board {
-		var fenRow strings.Builder
+	var fen strings.Builder
+	for row := 0; row < 8; row++ {
 		emptyCount := 0
-
-		for _, square := range row {
-			if square == "1" {
+		for col := 0; col < 8; col++ {
+			piece := board[row][col]
+			if piece == "1" {
 				emptyCount++
 			} else {
 				if emptyCount > 0 {
+					fen.WriteString(fmt.Sprintf("%d", emptyCount))
 					emptyCount = 0
 				}
-				fenRow.WriteString(square)
+				fen.WriteString(piece)
 			}
 		}
-		fenRows = append(fenRows, fenRow.String())
+		if emptyCount > 0 {
+			fen.WriteString(fmt.Sprintf("%d", emptyCount))
+		}
+		if row < 7 {
+			fen.WriteRune('/')
+		}
 	}
-	return strings.Join(fenRows, "/")
+	return fen.String()
 }
 func updateposition(board [8][8]string, evalmove string) *[8][8]string {
 	m := make(map[string]int)
