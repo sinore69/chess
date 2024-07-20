@@ -100,6 +100,7 @@ func genfen(board *[8][8]string) string {
 			fen.WriteRune('/')
 		}
 	}
+	//fen.WriteString(" w KQkq - 0 1") // Hard-coded for white to move, full castling rights, no en passant target, halfmove clock, fullmove number
 	return fen.String()
 }
 func updateposition(board [8][8]string, evalmove string) *[8][8]string {
@@ -124,8 +125,28 @@ func updateposition(board [8][8]string, evalmove string) *[8][8]string {
 	if err != nil {
 		panic(err)
 	}
-	log.Println(8-srcRow, srcCol-1, 8-destRow, destCol-1)
-	piece := board[8-srcRow][srcCol-1]
+	log.Println(8-srcRow, srcCol, 8-destRow, destCol)
+	//black castle king side
+	if bestmove == "e8g8" && board[0][4]=="k"{
+		piece := board[8-srcRow][srcCol]
+		board[8-srcRow][srcCol] = "1"
+		board[8-destRow][destCol] = piece
+		piece=board[0][7]
+		board[0][7]="1"
+		board[0][5]=piece
+		return &board
+	}
+	//black castle queen side
+	if bestmove == "e8c8" && board[0][4]=="k"{
+		piece := board[8-srcRow][srcCol]
+		board[8-srcRow][srcCol] = "1"
+		board[8-destRow][destCol] = piece
+		piece=board[0][0]
+		board[0][0]="1"
+		board[0][3]=piece
+		return &board
+	}
+	piece := board[8-srcRow][srcCol]
 	board[8-srcRow][srcCol] = "1"
 	board[8-destRow][destCol] = piece
 	return &board

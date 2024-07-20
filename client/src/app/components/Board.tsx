@@ -5,6 +5,7 @@ import { initialgamestate } from "../functions/initialgamestate";
 import { fengenerator } from "../functions/fengenerator";
 import { calcCoordinates } from "../functions/calccoordinates";
 import Image from "next/image";
+import { decodefen } from "../functions/decodefen";
 function Board() {
   const [board, setboard] = useState<string[][]>(initialgamestate);
   const ref = useRef<HTMLDivElement | null>(null);
@@ -28,7 +29,7 @@ function Board() {
   function onDragEnd(e: any) {
     e.target.style.display = "block";
   }
-  async function name(fen:string) {
+  async function getmove(fen:string) {
     const data={
       fen:fen
     }
@@ -37,17 +38,22 @@ function Board() {
       body:JSON.stringify(data)
     })
     const resp=await res.json()
-    console.log(resp)
+    const newPosition=decodefen(resp.fen)
+    setboard(newPosition)
+    console.log(newPosition)
   }
   function onDrop(e: any) {
+    const oldfen=fengenerator(board)
     const { x, y } = calcCoordinates(e,ref);
     const [rowindex, colindex, piece] = e.dataTransfer
       .getData("text")
       .split("");
     const newposition = updateposition(board, rowindex, colindex, x, y, piece);
     setboard(newposition);
-    const fen=fengenerator(newposition);
-    name(fen)
+    const newfen=fengenerator(newposition);
+    if(oldfen!==newfen){
+      getmove(newfen)
+    }
   }
   function onDragOver(e: any) {
     e.preventDefault();
