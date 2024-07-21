@@ -1,6 +1,7 @@
 import { isvalidmove } from "./validator/isvalidmove"
+import { iscastle } from "./validator/king"
 
-export function updateposition(board:string[][],rowindex:number,colindex:number,x:number,y:number,piece:string) {
+export function updateposition(board:string[][],rowindex:number,colindex:number,x:number,y:number,piece:string,color:string) {
     const newboard=[
         ["1", "1", "1", "1", "1", "1", "1", "1"],
         ["1", "1", "1", "1", "1", "1", "1", "1"],
@@ -16,9 +17,12 @@ export function updateposition(board:string[][],rowindex:number,colindex:number,
             newboard[i][j]=board[i][j]
         }
     }
-    if(isvalidmove(rowindex,colindex,x,y,piece,board)){
+    if(isvalidmove(rowindex,colindex,x,y,piece,board,color)){
         newboard[rowindex][colindex]='1'
         newboard[x][y]=piece
+    }
+    if((piece==='k'||piece==='K')&&iscastle(rowindex,colindex,x,y,piece,board)){
+        
     }
     return newboard
 }

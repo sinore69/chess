@@ -1,4 +1,4 @@
-export function initialgamestate(){
+export function initialgamestate(color:string){
     const board=[
     ["1", "1", "1", "1", "1", "1", "1", "1"],
     ["1", "1", "1", "1", "1", "1", "1", "1"],
@@ -9,13 +9,23 @@ export function initialgamestate(){
     ["1", "1", "1", "1", "1", "1", "1", "1"],
     ["1", "1", "1", "1", "1", "1", "1", "1"],
   ]
-    const pieces='rnbqkbnr'
+    let pieces='rnbqkbnr'
     const pawn='p'
-    for(let i=0;i<8;i++){
+    if(color==="white"){
+      for(let i=0;i<8;i++){
         board[0][i]=pieces.charAt(i)
-        board[7][i]=pieces.charAt(i).toUpperCase()
         board[1][i]=pawn
         board[6][i]=pawn.toUpperCase()
+        board[7][i]=pieces.charAt(i).toUpperCase()
+      } 
+    }else{
+      pieces=pieces.split('').reverse().join('')
+      for(let i=0;i<8;i++){
+        board[0][i]=pieces.charAt(i).toUpperCase()
+        board[1][i]=pawn.toUpperCase()
+        board[6][i]=pawn
+        board[7][i]=pieces.charAt(i)
+      } 
     }
     return board
 }

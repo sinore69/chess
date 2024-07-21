@@ -8,7 +8,6 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
-	"time"
 )
 
 type Fen struct {
@@ -62,19 +61,17 @@ func Bot(w http.ResponseWriter, r *http.Request) {
 	newfen := Fen{
 		Fen: newfen(fen.Fen, eval.Bestmove),
 	}
-	log.Println(newfen)
+	//log.Println(newfen)
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(newfen)
 }
 func newfen(fen string, evalmove string) string {
-	start := time.Now()
 	fenarray := strings.Split(fen, " ")
 	board := decodefen(fenarray[0])
-	newboard := updateposition(board, evalmove)
-	duration := time.Since(start)
+	color:=fenarray[1]
+	newboard := updateposition(board, evalmove,color)
 	newfen := genfen(newboard)
-	log.Println(duration)
 	return newfen
 }
 func genfen(board *[8][8]string) string {
@@ -103,7 +100,7 @@ func genfen(board *[8][8]string) string {
 	//fen.WriteString(" w KQkq - 0 1") // Hard-coded for white to move, full castling rights, no en passant target, halfmove clock, fullmove number
 	return fen.String()
 }
-func updateposition(board [8][8]string, evalmove string) *[8][8]string {
+func updateposition(board [8][8]string, evalmove string,color string) *[8][8]string {
 	m := make(map[string]int)
 	m["a"] = 0
 	m["b"] = 1
@@ -125,7 +122,6 @@ func updateposition(board [8][8]string, evalmove string) *[8][8]string {
 	if err != nil {
 		panic(err)
 	}
-	log.Println(8-srcRow, srcCol, 8-destRow, destCol)
 	//black castle king side
 	if bestmove == "e8g8" && board[0][4]=="k"{
 		piece := board[8-srcRow][srcCol]
@@ -146,9 +142,20 @@ func updateposition(board [8][8]string, evalmove string) *[8][8]string {
 		board[0][3]=piece
 		return &board
 	}
-	piece := board[8-srcRow][srcCol]
-	board[8-srcRow][srcCol] = "1"
-	board[8-destRow][destCol] = piece
+	if color=="b"{
+		log.Println(8-srcRow, srcCol, 8-destRow, destCol)
+		log.Println(color)
+		piece := board[8-srcRow][srcCol]
+		board[8-srcRow][srcCol] = "1"
+		board[8-destRow][destCol] = piece
+	} 
+	if color=="w"{
+		log.Println(color)
+		log.Println(srcRow-1, srcCol, destRow-1, destCol)
+		piece := board[srcRow-1][srcCol]
+		board[srcRow-1][srcCol] = "1"
+		board[destRow-1][destCol] = piece
+	}
 	return &board
 }
 func decodefen(fen string) [8][8]string {

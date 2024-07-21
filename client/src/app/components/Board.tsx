@@ -7,8 +7,9 @@ import { calcCoordinates } from "../functions/calccoordinates";
 import Image from "next/image";
 import { decodefen } from "../functions/decodefen";
 function Board() {
-  const [board, setboard] = useState<string[][]>(initialgamestate);
-  const [color, setcolor] = useState<"black" | "white">("white");
+  const [color, setcolor] = useState<"black" | "white">("black");
+  const [board, setboard] = useState<string[][]>(initialgamestate(color));
+  const [movecount, setmovecount] = useState<number>(1);
   const ref = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     if (ref.current) {
@@ -30,6 +31,11 @@ function Board() {
   function onDragEnd(e: any) {
     e.target.style.display = "block";
   }
+  if (movecount === 1 && color === "black") {
+    // console.log(movecount);
+    setmovecount(movecount + 1);
+    //getmove(fengenerator(board, color));
+  }
   async function getmove(fen: string) {
     const data = {
       fen: fen,
@@ -41,19 +47,18 @@ function Board() {
     const resp = await res.json();
     const newPosition = decodefen(resp.fen);
     setboard(newPosition);
-    console.log(newPosition);
   }
   function onDrop(e: any) {
-    const oldfen = fengenerator(board);
+    const oldfen = fengenerator(board, color);
     const { x, y } = calcCoordinates(e, ref);
     const [rowindex, colindex, piece] = e.dataTransfer
       .getData("text")
       .split("");
-    const newposition = updateposition(board, rowindex, colindex, x, y, piece);
+    const newposition = updateposition(board, rowindex, colindex, x, y, piece,color);
     setboard(newposition);
-    const newfen = fengenerator(newposition);
+    const newfen = fengenerator(newposition, color);
     if (oldfen !== newfen) {
-      getmove(newfen);
+      //getmove(newfen);
     }
   }
   function onDragOver(e: any) {
@@ -87,11 +92,7 @@ function Board() {
                   {col !== "1" ? (
                     <Image
                       src={
-                        color === "white"
-                          ? col === col.toUpperCase()
-                            ? `/w${col}.png`
-                            : `/b${col}.png`
-                          : col === col.toLowerCase()
+                        col === col.toUpperCase()
                           ? `/w${col}.png`
                           : `/b${col}.png`
                       }

@@ -17,3 +17,7 @@ export function isvalidkingmove(rowindex:number,colindex:number,x:number,y:numbe
     }
 return false
 }
+
+export function iscastle(rowindex:number,colindex:number,x:number,y:number,piece:string,board:string[][]){
+return true
+}

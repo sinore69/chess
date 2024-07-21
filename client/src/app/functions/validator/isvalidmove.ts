@@ -1,12 +1,12 @@
 import { isvalidbishopmove } from "./bishop";
-import { isvalidkingmove } from "./king";
+import {  isvalidkingmove } from "./king";
 import { isvalidknightmove } from "./knight";
 import { isvalidpawnmove } from "./pawn";
 import { isvalidqueenmove } from "./queen";
 import { isvalidrookmove } from "./rook";
 
-export function isvalidmove(rowindex:number,colindex:number,x:number,y:number,piece:string,board:string[][]){
-        if((piece==='p'||piece==='P')&&isvalidpawnmove(rowindex,colindex,x,y,piece,board)){
+export function isvalidmove(rowindex:number,colindex:number,x:number,y:number,piece:string,board:string[][],color:string){
+        if((piece==='p'||piece==='P')&&isvalidpawnmove(rowindex,colindex,x,y,piece,board,color)){
             return true
         }
         if((piece==='r'||piece==='R')&&isvalidrookmove(rowindex,colindex,x,y,piece,board)){
