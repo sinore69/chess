@@ -8,6 +8,7 @@ import Image from "next/image";
 import { decodefen } from "../functions/decodefen";
 function Board() {
   const [board, setboard] = useState<string[][]>(initialgamestate);
+  const [color, setcolor] = useState<"black" | "white">("white");
   const ref = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     if (ref.current) {
@@ -29,30 +30,30 @@ function Board() {
   function onDragEnd(e: any) {
     e.target.style.display = "block";
   }
-  async function getmove(fen:string) {
-    const data={
-      fen:fen
-    }
-    const res=await fetch("http://localhost:5000/bot",{
-      method:"POST",
-      body:JSON.stringify(data)
-    })
-    const resp=await res.json()
-    const newPosition=decodefen(resp.fen)
-    setboard(newPosition)
-    console.log(newPosition)
+  async function getmove(fen: string) {
+    const data = {
+      fen: fen,
+    };
+    const res = await fetch("http://localhost:5000/bot", {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+    const resp = await res.json();
+    const newPosition = decodefen(resp.fen);
+    setboard(newPosition);
+    console.log(newPosition);
   }
   function onDrop(e: any) {
-    const oldfen=fengenerator(board)
-    const { x, y } = calcCoordinates(e,ref);
+    const oldfen = fengenerator(board);
+    const { x, y } = calcCoordinates(e, ref);
     const [rowindex, colindex, piece] = e.dataTransfer
       .getData("text")
       .split("");
     const newposition = updateposition(board, rowindex, colindex, x, y, piece);
     setboard(newposition);
-    const newfen=fengenerator(newposition);
-    if(oldfen!==newfen){
-      getmove(newfen)
+    const newfen = fengenerator(newposition);
+    if (oldfen !== newfen) {
+      getmove(newfen);
     }
   }
   function onDragOver(e: any) {
@@ -83,7 +84,24 @@ function Board() {
                   onDragEnd={onDragEnd}
                   onDragStart={(e) => onDragStart(e, rowindex, colindex, col)}
                 >
-                  {col!=='1'?<Image src={col===col.toUpperCase()?`/w${col}.png`:`/b${col}.png`} alt="" height={500} width={500}></Image>:""}
+                  {col !== "1" ? (
+                    <Image
+                      src={
+                        color === "white"
+                          ? col === col.toUpperCase()
+                            ? `/w${col}.png`
+                            : `/b${col}.png`
+                          : col === col.toLowerCase()
+                          ? `/w${col}.png`
+                          : `/b${col}.png`
+                      }
+                      alt=""
+                      height={500}
+                      width={500}
+                    ></Image>
+                  ) : (
+                    ""
+                  )}
                 </div>
               </div>
             ))}
