@@ -34,7 +34,7 @@ function Board() {
   if (movecount === 1 && color === "black") {
     // console.log(movecount);
     setmovecount(movecount + 1);
-    //getmove(fengenerator(board, color));
+    getmove(fengenerator(board, color));
   }
   async function getmove(fen: string) {
     const data = {

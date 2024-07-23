@@ -3,7 +3,8 @@ package functions
 import (
 	"encoding/json"
 	"io"
-	"net/http"	
+	"log"
+	"net/http"
 )
 
 type Fen struct {
@@ -12,7 +13,7 @@ type Fen struct {
 type Evaluation struct {
 	Success      bool    `json:"success"`
 	Evaluation   float64 `json:"evaluation"`
-	Mate         string  `json:"mate"`
+	Mate         interface{}  `json:"mate"`
 	Bestmove     string  `json:"bestmove"`
 	Continuation string  `json:"continuation"`
 }
@@ -25,6 +26,7 @@ func Bot(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	if r.Method != http.MethodPost {
+		log.Println("error")
 		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
 		return
 	}
@@ -50,6 +52,7 @@ func Bot(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
+	//log.Println(string(resBody))
 	err = json.Unmarshal(resBody, &eval)
 	if err != nil {
 		panic(err)
