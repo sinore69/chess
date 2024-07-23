@@ -30,7 +30,7 @@ if(color==="white"){
     }
 }
 fen=fen+` ${color==="white"?"b":"w"} KQkq - 0 1`
-console.log(fen)
+//console.log(fen)
 return fen
 }
 function isNumber(str:any) {
