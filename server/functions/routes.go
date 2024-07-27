@@ -5,17 +5,38 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"strings"
 )
 
 type Fen struct {
 	Fen string `json:"fen"`
 }
 type Evaluation struct {
-	Success      bool    `json:"success"`
-	Evaluation   float64 `json:"evaluation"`
-	Mate         interface{}  `json:"mate"`
-	Bestmove     string  `json:"bestmove"`
-	Continuation string  `json:"continuation"`
+	Text            string      `json:"text"`
+	Eval            interface{} `json:"eval"`
+	Move            string      `json:"move"`
+	Fen             string      `json:"fen"`
+	Depth           int         `json:"depth"`
+	WinChance       interface{} `json:"winChance"`
+	ContinuationArr interface{} `json:"continuationArr"`
+	Mate            interface{} `json:"mate"`
+	Centipawns      interface{}      `json:"centipawns"`
+	San         string `json:"san"`
+	Lan         string `json:"lan"`
+	Turn        string `json:"turn"`
+	Color       string `json:"color"`
+	Piece       string `json:"piece"`
+	Flags       string `json:"flags"`
+	IsCapture   bool   `json:"isCapture"`
+	IsCastling  bool   `json:"isCastling"`
+	IsPromotion bool   `json:"isPromotion"`
+	From        string `json:"from"`
+	To          string `json:"to"`
+	FromNumeric string `json:"fromNumeric"`
+	ToNumeric   string `json:"toNumeric"`
+	TaskId string      `json:"taskId"`
+	Time   interface{} `json:"time"`
+	Type   string      `json:"type"`
 }
 
 func Home(w http.ResponseWriter, r *http.Request) {
@@ -36,14 +57,10 @@ func Bot(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	defer r.Body.Close()
-	var fen Fen
-	err = json.Unmarshal(body, &fen)
-	if err != nil {
-		http.Error(w, "Invalid JSON format", http.StatusBadRequest)
-		return
-	}
-	url := "https://stockfish.online/api/s/v2.php?fen=" + fen.Fen + "&depth=15"
-	res, err := http.Get(url)
+	reqbody := strings.NewReader(string(body))
+	url := "https://chess-api.com/v1"
+	//log.Println(reqbody)
+	res, err := http.Post(url, "application/json", reqbody)
 	if err != nil {
 		panic(err)
 	}
@@ -52,13 +69,14 @@ func Bot(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
-	//log.Println(string(resBody))
 	err = json.Unmarshal(resBody, &eval)
 	if err != nil {
 		panic(err)
 	}
+	//log.Println(eval.Fen)
+	bestmove:=eval.From+eval.To
 	newfen := Fen{
-		Fen: Newfen(fen.Fen, eval.Bestmove),
+		Fen: Newfen(eval.Fen, bestmove),
 	}
 	//log.Println(newfen)
 	w.Header().Set("Content-Type", "application/json")

@@ -8,6 +8,7 @@ import (
 )
 
 func Newfen(fen string, evalmove string) string {
+	log.Println(fen)
 	fenarray := strings.Split(fen, " ")
 	board := Decodefen(fenarray[0])
 	//log.Println(board)
@@ -47,7 +48,7 @@ func Decodefen(fen string) [8][8]string {
 	return board
 }
 
-func Updateposition(board [8][8]string, evalmove string, color string) *[8][8]string {
+func Updateposition(board [8][8]string, bestmove string, color string) *[8][8]string {
 	m := make(map[string]int)
 	m["a"] = 0
 	m["b"] = 1
@@ -57,8 +58,6 @@ func Updateposition(board [8][8]string, evalmove string, color string) *[8][8]st
 	m["f"] = 5
 	m["g"] = 6
 	m["h"] = 7
-	bestmove := strings.Split(evalmove, " ")[1]
-	log.Println(bestmove)
 	srcCol := m[string(bestmove[0])]
 	srcRow, err := strconv.Atoi(string(bestmove[1]))
 	if err != nil {
@@ -79,7 +78,7 @@ func Updateposition(board [8][8]string, evalmove string, color string) *[8][8]st
 		board[0][7] = "1"
 		return &board
 	}
-	if bestmove=="e8c8"{
+	if bestmove == "e8c8" {
 		piece := board[8-srcRow][srcCol]
 		board[8-srcRow][srcCol] = "1"
 		board[8-destRow][destCol] = piece
@@ -88,7 +87,7 @@ func Updateposition(board [8][8]string, evalmove string, color string) *[8][8]st
 		board[0][0] = "1"
 		return &board
 	}
-	if bestmove=="e1g1"{
+	if bestmove == "e1g1" {
 		piece := board[8-srcRow][srcCol]
 		board[8-srcRow][srcCol] = "1"
 		board[8-destRow][destCol] = piece
@@ -97,7 +96,7 @@ func Updateposition(board [8][8]string, evalmove string, color string) *[8][8]st
 		board[7][7] = "1"
 		return &board
 	}
-	if bestmove=="e1c1"{
+	if bestmove == "e1c1" {
 		piece := board[8-srcRow][srcCol]
 		board[8-srcRow][srcCol] = "1"
 		board[8-destRow][destCol] = piece
@@ -138,6 +137,6 @@ func Genfen(board *[8][8]string, color string) string {
 	if color == "w" {
 		return fen.String() + " b"
 	}
-	//fen.WriteString(" w KQkq - 0 1") // Hard-coded for white to move, full castling rights, no en passant target, halfmove clock, fullmove number
+	//fen.WriteString(" w KQkq - 0 1") // Hard-coded for w to move, full castling rights, no en passant target, halfmove clock, fullmove number
 	return fen.String() + " w"
 }

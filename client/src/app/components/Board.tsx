@@ -7,7 +7,7 @@ import { calcCoordinates } from "../functions/calccoordinates";
 import Image from "next/image";
 import { decodefen } from "../functions/decodefen";
 function Board() {
-  const [color, setcolor] = useState<"black" | "white">("white");
+  const [color, setcolor] = useState<"b" | "w">("b");
   const [board, setboard] = useState<string[][]>(initialgamestate(color));
   const [movecount, setmovecount] = useState<number>(1);
   const ref = useRef<HTMLDivElement | null>(null);
@@ -31,7 +31,7 @@ function Board() {
   function onDragEnd(e: any) {
     e.target.style.display = "block";
   }
-  if (movecount === 1 && color === "black") {
+  if (movecount === 1 && color === "b") {
     // console.log(movecount);
     setmovecount(movecount + 1);
     getmove(fengenerator(board, color));
@@ -54,7 +54,15 @@ function Board() {
     const [rowindex, colindex, piece] = e.dataTransfer
       .getData("text")
       .split("");
-    const newposition = updateposition(board, rowindex, colindex, x, y, piece,color);
+    const newposition = updateposition(
+      board,
+      rowindex,
+      colindex,
+      x,
+      y,
+      piece,
+      color
+    );
     setboard(newposition);
     const newfen = fengenerator(newposition, color);
     if (oldfen !== newfen) {
