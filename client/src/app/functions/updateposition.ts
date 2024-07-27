@@ -1,5 +1,5 @@
 import { isvalidmove } from "./validator/isvalidmove";
-import { iscastle } from "./validator/king";
+import { iscastle, isvalidkingmove } from "./validator/king";
 
 export function updateposition(
   board: string[][],
@@ -31,7 +31,11 @@ export function updateposition(
   }
   if (piece === "k" || piece === "K") {
     newboard = iscastle(rowindex, colindex, x, y, board, color);
-    return [...newboard];
+    if (isvalidkingmove(rowindex, colindex, x, y, piece, board)) {
+      newboard[rowindex][colindex] = "1";
+      newboard[x][y] = piece;
+    }
   }
-  return newboard;
+
+  return [...newboard];
 }

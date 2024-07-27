@@ -37,7 +37,9 @@ export function iscastle(
   board: string[][],
   color: string
 ) {
-  if (color === "white") {
+  if (color === "w") {
+    const king = board[rowindex][colindex] === "K" ? "K" : "k";
+    const rook = king === "K" ? "R" : "r";
     if (
       rowindex == x &&
       Number(colindex) + 2 == y /* add fen string logic validation */
@@ -47,10 +49,9 @@ export function iscastle(
         board[rowindex][Number(colindex) + 2] === "1"
       ) {
         board[rowindex][colindex] = "1";
-        board[rowindex][Number(colindex) + 1] = "R";
-        board[rowindex][Number(colindex) + 2] = "K";
+        board[rowindex][Number(colindex) + 1] = rook;
+        board[rowindex][Number(colindex) + 2] = king;
         board[rowindex][Number(colindex) + 3] = "1";
-        console.log("done");
         return board;
       }
     }
@@ -65,14 +66,16 @@ export function iscastle(
         board[rowindex][colindex - 3] === "1"
       ) {
         board[rowindex][colindex] = "1";
-        board[rowindex][colindex - 1] = "R";
-        board[rowindex][colindex - 2] = "K";
+        board[rowindex][colindex - 1] = rook;
+        board[rowindex][colindex - 2] = king;
         board[rowindex][colindex - 4] = "1";
         return board;
       }
     }
   }
-  if (color === "black") {
+  if (color === "b") {
+    const king = board[rowindex][colindex] === "K" ? "K" : "k";
+    const rook = king === "K" ? "R" : "r";
     if (
       rowindex == x &&
       (Number(colindex) + 2 == y ||
@@ -84,8 +87,8 @@ export function iscastle(
         board[rowindex][Number(colindex) + 3] === "1"
       ) {
         board[rowindex][colindex] = "1";
-        board[rowindex][Number(colindex) + 1] = "r";
-        board[rowindex][Number(colindex) + 2] = "k";
+        board[rowindex][Number(colindex) + 1] = rook;
+        board[rowindex][Number(colindex) + 2] = king;
         board[rowindex][Number(colindex) + 4] = "1";
         return board;
       }
@@ -99,8 +102,8 @@ export function iscastle(
         board[rowindex][colindex - 2] === "1"
       ) {
         board[rowindex][colindex] = "1";
-        board[rowindex][colindex - 1] = "r";
-        board[rowindex][colindex - 2] = "k";
+        board[rowindex][colindex - 1] = rook;
+        board[rowindex][colindex - 2] = king;
         board[rowindex][colindex - 3] = "1";
       }
     }
