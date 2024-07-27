@@ -35,14 +35,18 @@ export function iscastle(
   x: number,
   y: number,
   board: string[][],
-  color: string
+  color: string,
+  wCastle: React.MutableRefObject<"" | "KQ" | "K" | "Q">,
+  bCastle: React.MutableRefObject<"" | "kq" | "k" | "q">
 ) {
   if (color === "w") {
     const king = board[rowindex][colindex] === "K" ? "K" : "k";
     const rook = king === "K" ? "R" : "r";
     if (
       rowindex == x &&
-      Number(colindex) + 2 == y /* add fen string logic validation */
+      Number(colindex) + 2 == y &&
+      (wCastle.current === "K" ||
+        wCastle.current === "KQ") /* add fen string logic validation */
     ) {
       if (
         board[rowindex][Number(colindex) + 1] === "1" &&
@@ -52,13 +56,15 @@ export function iscastle(
         board[rowindex][Number(colindex) + 1] = rook;
         board[rowindex][Number(colindex) + 2] = king;
         board[rowindex][Number(colindex) + 3] = "1";
+        wCastle.current = "";
         return board;
       }
     }
     if (
       rowindex == x &&
-      (colindex - 2 == y ||
-        colindex - 3 == y) /* add fen string logic validation */
+      (colindex - 2 == y || colindex - 3 == y) &&
+      (wCastle.current === "Q" ||
+        wCastle.current === "KQ") /* add fen string logic validation */
     ) {
       if (
         board[rowindex][colindex - 1] === "1" &&
@@ -69,6 +75,7 @@ export function iscastle(
         board[rowindex][colindex - 1] = rook;
         board[rowindex][colindex - 2] = king;
         board[rowindex][colindex - 4] = "1";
+        wCastle.current = "";
         return board;
       }
     }
@@ -78,8 +85,9 @@ export function iscastle(
     const rook = king === "K" ? "R" : "r";
     if (
       rowindex == x &&
-      (Number(colindex) + 2 == y ||
-        Number(colindex) + 3 == y) /* add fen string logic validation */
+      (Number(colindex) + 2 == y || Number(colindex) + 3 == y) &&
+      (bCastle.current === "k" ||
+        bCastle.current === "kq") /* add fen string logic validation */
     ) {
       if (
         board[rowindex][Number(colindex) + 1] === "1" &&
@@ -90,12 +98,15 @@ export function iscastle(
         board[rowindex][Number(colindex) + 1] = rook;
         board[rowindex][Number(colindex) + 2] = king;
         board[rowindex][Number(colindex) + 4] = "1";
+        bCastle.current = "";
         return board;
       }
     }
     if (
       rowindex == x &&
-      colindex - 2 == y /* add fen string logic validation */
+      colindex - 2 == y &&
+      (bCastle.current === "k" ||
+        bCastle.current === "kq") /* add fen string logic validation */
     ) {
       if (
         board[rowindex][colindex - 1] === "1" &&
@@ -105,6 +116,8 @@ export function iscastle(
         board[rowindex][colindex - 1] = rook;
         board[rowindex][colindex - 2] = king;
         board[rowindex][colindex - 3] = "1";
+        bCastle.current = "";
+        return board;
       }
     }
   }

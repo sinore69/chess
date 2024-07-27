@@ -29,6 +29,5 @@ export function initialgamestate(color: string) {
       board[7][i] = pieces.charAt(i);
     }
   }
-  //board=decodefen("r3kb1r/ppp2ppp/2n5/2q2b2/2N5/1BK2PP1/PPPP4/RNBQ4 w")
   return board;
 }

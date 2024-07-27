@@ -7,7 +7,9 @@ import { calcCoordinates } from "../functions/calccoordinates";
 import Image from "next/image";
 import { decodefen } from "../functions/decodefen";
 function Board() {
-  const [color, setcolor] = useState<"b" | "w">("b");
+  const [color, setcolor] = useState<"b" | "w">("w");
+  const wCastle = useRef<"KQ" | "K" | "Q" | "">("KQ");
+  const bCastle = useRef<"kq" | "k" | "q" | "">("kq");
   const [board, setboard] = useState<string[][]>(initialgamestate(color));
   const [movecount, setmovecount] = useState<number>(1);
   const ref = useRef<HTMLDivElement | null>(null);
@@ -34,7 +36,7 @@ function Board() {
   if (movecount === 1 && color === "b") {
     // console.log(movecount);
     setmovecount(movecount + 1);
-    getmove(fengenerator(board, color));
+    getmove(fengenerator(board, color, wCastle, bCastle));
   }
   async function getmove(fen: string) {
     const data = {
@@ -49,7 +51,7 @@ function Board() {
     setboard(newPosition);
   }
   function onDrop(e: any) {
-    const oldfen = fengenerator(board, color);
+    const oldfen = fengenerator(board, color, wCastle, bCastle);
     const { x, y } = calcCoordinates(e, ref);
     const [rowindex, colindex, piece] = e.dataTransfer
       .getData("text")
@@ -61,10 +63,13 @@ function Board() {
       x,
       y,
       piece,
-      color
+      color,
+      wCastle,
+      bCastle
     );
     setboard(newposition);
-    const newfen = fengenerator(newposition, color);
+    const newfen = fengenerator(newposition, color, wCastle, bCastle);
+    console.log(newfen);
     if (oldfen !== newfen) {
       getmove(newfen);
     }

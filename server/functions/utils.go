@@ -8,13 +8,12 @@ import (
 )
 
 func Newfen(fen string, evalmove string) string {
-	log.Println(fen)
 	fenarray := strings.Split(fen, " ")
 	board := Decodefen(fenarray[0])
 	//log.Println(board)
 	color := fenarray[1]
 	newboard := Updateposition(board, evalmove, color)
-	newfen := Genfen(newboard, fenarray[1])
+	newfen := Genfen(newboard, color)
 	log.Println(newfen)
 	return newfen
 }

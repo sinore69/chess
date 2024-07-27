@@ -1,4 +1,9 @@
-export function fengenerator(board: string[][], color: string) {
+export function fengenerator(
+  board: string[][],
+  color: string,
+  wCastle: React.MutableRefObject<"" | "KQ" | "K" | "Q">,
+  bCastle: React.MutableRefObject<"" | "kq" | "k" | "q">
+) {
   let fen: string = "";
   if (color === "w") {
     for (let i = 0; i < 8; i++) {
@@ -33,7 +38,11 @@ export function fengenerator(board: string[][], color: string) {
       }
     }
   }
-  fen = fen + ` ${color === "w" ? "b" : "w"} KQkq - 0 1`;
+  const castle =
+    wCastle.current === "" && bCastle.current === ""
+      ? "-"
+      : `${wCastle.current}${bCastle.current}`;
+  fen = fen + ` ${color === "w" ? "b" : "w"} ${castle} - 0 1`;
   //console.log(fen)
   return fen;
 }

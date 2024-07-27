@@ -20,23 +20,23 @@ type Evaluation struct {
 	WinChance       interface{} `json:"winChance"`
 	ContinuationArr interface{} `json:"continuationArr"`
 	Mate            interface{} `json:"mate"`
-	Centipawns      interface{}      `json:"centipawns"`
-	San         string `json:"san"`
-	Lan         string `json:"lan"`
-	Turn        string `json:"turn"`
-	Color       string `json:"color"`
-	Piece       string `json:"piece"`
-	Flags       string `json:"flags"`
-	IsCapture   bool   `json:"isCapture"`
-	IsCastling  bool   `json:"isCastling"`
-	IsPromotion bool   `json:"isPromotion"`
-	From        string `json:"from"`
-	To          string `json:"to"`
-	FromNumeric string `json:"fromNumeric"`
-	ToNumeric   string `json:"toNumeric"`
-	TaskId string      `json:"taskId"`
-	Time   interface{} `json:"time"`
-	Type   string      `json:"type"`
+	Centipawns      interface{} `json:"centipawns"`
+	San             string      `json:"san"`
+	Lan             string      `json:"lan"`
+	Turn            string      `json:"turn"`
+	Color           string      `json:"color"`
+	Piece           string      `json:"piece"`
+	Flags           string      `json:"flags"`
+	IsCapture       bool        `json:"isCapture"`
+	IsCastling      bool        `json:"isCastling"`
+	IsPromotion     bool        `json:"isPromotion"`
+	From            string      `json:"from"`
+	To              string      `json:"to"`
+	FromNumeric     string      `json:"fromNumeric"`
+	ToNumeric       string      `json:"toNumeric"`
+	TaskId          string      `json:"taskId"`
+	Time            interface{} `json:"time"`
+	Type            string      `json:"type"`
 }
 
 func Home(w http.ResponseWriter, r *http.Request) {
@@ -59,7 +59,7 @@ func Bot(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	reqbody := strings.NewReader(string(body))
 	url := "https://chess-api.com/v1"
-	//log.Println(reqbody)
+	log.Println(reqbody)
 	res, err := http.Post(url, "application/json", reqbody)
 	if err != nil {
 		panic(err)
@@ -73,8 +73,9 @@ func Bot(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
+	log.Println(eval)
 	//log.Println(eval.Fen)
-	bestmove:=eval.From+eval.To
+	bestmove := eval.From + eval.To
 	newfen := Fen{
 		Fen: Newfen(eval.Fen, bestmove),
 	}
