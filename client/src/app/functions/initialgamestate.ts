@@ -1,5 +1,3 @@
-import { decodefen } from "./decodefen";
-
 export function initialgamestate(color: string) {
   let board = [
     ["1", "1", "1", "1", "1", "1", "1", "1"],
@@ -29,5 +27,11 @@ export function initialgamestate(color: string) {
       board[7][i] = pieces.charAt(i);
     }
   }
+  // board[7][1]="1"
+  // board[7][2]="1"
+  // board[7][3]="1"
+  // board[7][4]="1"
+  // board[7][5]="1"
+  // board[7][6]="1"
   return board;
 }

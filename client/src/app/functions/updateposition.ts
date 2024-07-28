@@ -27,7 +27,7 @@ export function updateposition(
       newboard[i][j] = board[i][j];
     }
   }
-  if (isvalidmove(rowindex, colindex, x, y, piece, board, color)) {
+  if (isvalidmove(rowindex, colindex, x, y, piece, board, color,wCastle,bCastle)) {
     newboard[rowindex][colindex] = "1";
     newboard[x][y] = piece;
   }
@@ -45,6 +45,12 @@ export function updateposition(
     if (isvalidkingmove(rowindex, colindex, x, y, piece, board)) {
       newboard[rowindex][colindex] = "1";
       newboard[x][y] = piece;
+      if(color==="w"){
+        wCastle.current=""
+      }
+      if(color==="b"){
+        bCastle.current=""
+      }
     }
   }
   return [...newboard];
