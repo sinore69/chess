@@ -6,12 +6,14 @@ import { fengenerator } from "../functions/fengenerator";
 import { calcCoordinates } from "../functions/calccoordinates";
 import Image from "next/image";
 import { decodefen } from "../functions/decodefen";
+import { turn, updateTurn } from "../functions/turn";
 function Board() {
-  const [color, setcolor] = useState<"b" | "w">("w");
+  const [color, setcolor] = useState<"b" | "w">("b");
   const wCastle = useRef<"KQ" | "K" | "Q" | "">("KQ");
   const bCastle = useRef<"kq" | "k" | "q" | "">("kq");
   const [board, setboard] = useState<string[][]>(initialgamestate(color));
   const [movecount, setmovecount] = useState<number>(1);
+  const colorToMove=useRef<"b"|"w">("w");
   const ref = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     if (ref.current) {
@@ -49,6 +51,7 @@ function Board() {
     const resp = await res.json();
     const newPosition = decodefen(resp.fen);
     setboard(newPosition);
+    colorToMove.current=updateTurn(resp.fen)
   }
   function onDrop(e: any) {
     const oldfen = fengenerator(board, color, wCastle, bCastle);
@@ -71,6 +74,7 @@ function Board() {
     const newfen = fengenerator(newposition, color, wCastle, bCastle);
     console.log(newfen);
     if (oldfen !== newfen) {
+      colorToMove.current=color==="w"?"b":"w"
       getmove(newfen);
     }
   }
@@ -98,12 +102,13 @@ function Board() {
               >
                 <div
                   className=""
-                  draggable={true}
+                  draggable={turn(colorToMove.current,col)}
                   onDragEnd={onDragEnd}
                   onDragStart={(e) => onDragStart(e, rowindex, colindex, col)}
                 >
                   {col !== "1" ? (
                     <Image
+                    draggable={turn(colorToMove.current,col)}
                       src={
                         col === col.toUpperCase()
                           ? `/w${col}.png`
