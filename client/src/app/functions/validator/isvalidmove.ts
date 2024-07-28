@@ -36,7 +36,7 @@ export function isvalidmove(
   }
   if (
     (piece === "q" || piece === "Q") &&
-    isvalidqueenmove(rowindex, colindex, x, y, piece, board)
+    isvalidqueenmove(rowindex, colindex, x, y, piece, board,wCastle,bCastle,color)
   ) {
     return true;
   }
