@@ -7,15 +7,19 @@ import (
 	"strings"
 )
 
-func Newfen(fen string, evalmove string) string {
+func Newfen(fen string, evalmove string) (string, string) {
 	fenarray := strings.Split(fen, " ")
 	board := Decodefen(fenarray[0])
 	//log.Println(board)
 	color := fenarray[1]
-	newboard := Updateposition(board, evalmove, color)
-	newfen := Genfen(newboard, color)
-	log.Println(newfen)
-	return newfen
+	castleInfo := fenarray[2]
+	newboard, lastMove, castleValue := Updateposition(board, evalmove, color, castleInfo)
+	if len(lastMove) != 4 {
+		panic("invalid last move generation")
+	}
+	newfen := Genfen(newboard, color, castleValue)
+	log.Println(newfen, lastMove)
+	return newfen, lastMove
 }
 
 func Decodefen(fen string) [8][8]string {
@@ -47,7 +51,7 @@ func Decodefen(fen string) [8][8]string {
 	return board
 }
 
-func Updateposition(board [8][8]string, bestmove string, color string) *[8][8]string {
+func Updateposition(board [8][8]string, bestmove string, color string, castleInfo string) (*[8][8]string, string, string) {
 	m := make(map[string]int)
 	m["a"] = 0
 	m["b"] = 1
@@ -67,50 +71,85 @@ func Updateposition(board [8][8]string, bestmove string, color string) *[8][8]st
 	if err != nil {
 		panic(err)
 	}
-	log.Println(8-srcRow, srcCol, 8-destRow, destCol)
-	if bestmove == "e8g8" {
+	var castleValue string
+	//rook moved by bot
+	if 8-srcRow == 7 && srcCol == 0 && board[8-srcRow][srcCol] == "R" {
+		castleValue = strings.ReplaceAll(castleInfo, "Q", "")
+	}
+	if 8-srcRow == 7 && srcCol == 7 && board[8-srcRow][srcCol] == "R" {
+		castleValue = strings.ReplaceAll(castleInfo, "K", "")
+	}
+	if 8-srcRow == 0 && srcCol == 0 && board[8-srcRow][srcCol] == "r" {
+		castleValue = strings.ReplaceAll(castleInfo, "q", "")
+	}
+	if 8-srcRow == 0 && srcCol == 7 && board[8-srcRow][srcCol] == "r" {
+		castleValue = strings.ReplaceAll(castleInfo, "k", "")
+	}
+	//castled by bot
+	if bestmove == "e8g8" {//blsck king side
 		piece := board[8-srcRow][srcCol]
 		board[8-srcRow][srcCol] = "1"
 		board[8-destRow][destCol] = piece
 		piece = board[0][7]
 		board[0][5] = piece
 		board[0][7] = "1"
-		return &board
+		move := fmt.Sprintf("%d%d%d%d", 8-srcRow, srcCol, 8-destRow, destCol)
+		castleValue=strings.ReplaceAll(castleValue,"k","")
+		return &board, move, castleValue
 	}
-	if bestmove == "e8c8" {
+	if bestmove == "e8c8" {//black queen side
 		piece := board[8-srcRow][srcCol]
 		board[8-srcRow][srcCol] = "1"
 		board[8-destRow][destCol] = piece
 		piece = board[0][0]
 		board[0][3] = piece
 		board[0][0] = "1"
-		return &board
+		move := fmt.Sprintf("%d%d%d%d", 8-srcRow, srcCol, 8-destRow, destCol)
+		castleValue=strings.ReplaceAll(castleValue,"q","")
+		return &board, move, castleValue
 	}
-	if bestmove == "e1g1" {
+	if bestmove == "e1g1" {//white king side 
 		piece := board[8-srcRow][srcCol]
 		board[8-srcRow][srcCol] = "1"
 		board[8-destRow][destCol] = piece
 		piece = board[7][7]
 		board[7][5] = piece
 		board[7][7] = "1"
-		return &board
+		move := fmt.Sprintf("%d%d%d%d", 8-srcRow, srcCol, 8-destRow, destCol)
+		castleValue=strings.ReplaceAll(castleValue,"K","")
+		return &board, move, castleValue
 	}
-	if bestmove == "e1c1" {
+	if bestmove == "e1c1" {//white queen side
 		piece := board[8-srcRow][srcCol]
 		board[8-srcRow][srcCol] = "1"
 		board[8-destRow][destCol] = piece
 		piece = board[7][0]
 		board[7][3] = piece
 		board[7][0] = "1"
-		return &board
+		move := fmt.Sprintf("%d%d%d%d", 8-srcRow, srcCol, 8-destRow, destCol)
+		castleValue=strings.ReplaceAll(castleValue,"Q","")
+		return &board, move, castleValue
+	}
+	if board[8-destRow][destCol] == "R" && 8-destRow == 7 && destCol == 7 {
+		castleValue = strings.ReplaceAll(castleValue, "K", "")
+	}
+	if board[8-destRow][destCol] == "R" && 8-destRow == 0 && destCol == 7 {
+		castleValue = strings.ReplaceAll(castleValue, "Q", "")
+	}
+	if board[8-destRow][destCol] == "r" && 8-destRow == 7 && destCol == 7 {
+		castleValue = strings.ReplaceAll(castleValue, "k", "")
+	}
+	if board[8-destRow][destCol] == "r" && 8-destRow == 0 && destCol == 7 {
+		castleValue = strings.ReplaceAll(castleValue, "q", "")
 	}
 	piece := board[8-srcRow][srcCol]
 	board[8-srcRow][srcCol] = "1"
 	board[8-destRow][destCol] = piece
-	return &board
+	move := fmt.Sprintf("%d%d%d%d", 8-srcRow, srcCol, 8-destRow, destCol)
+	return &board, move, castleValue
 }
 
-func Genfen(board *[8][8]string, color string) string {
+func Genfen(board *[8][8]string, color string, castleValue string) string {
 	var fen strings.Builder
 	for row := 0; row < 8; row++ {
 		emptyCount := 0
@@ -134,8 +173,8 @@ func Genfen(board *[8][8]string, color string) string {
 		}
 	}
 	if color == "w" {
-		return fen.String() + " b"
+		return fen.String() + " b " + castleValue
 	}
 	//fen.WriteString(" w KQkq - 0 1") // Hard-coded for w to move, full castling rights, no en passant target, halfmove clock, fullmove number
-	return fen.String() + " w"
+	return fen.String() + " w " + castleValue
 }

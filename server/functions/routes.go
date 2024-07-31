@@ -9,7 +9,8 @@ import (
 )
 
 type Fen struct {
-	Fen string `json:"fen"`
+	Fen      string `json:"fen"`
+	LastMove string `json:"lastMove"`
 }
 type Evaluation struct {
 	Text            string      `json:"text"`
@@ -59,7 +60,7 @@ func Bot(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	reqbody := strings.NewReader(string(body))
 	url := "https://chess-api.com/v1"
-	log.Println(reqbody)
+	//log.Println(reqbody)
 	res, err := http.Post(url, "application/json", reqbody)
 	if err != nil {
 		panic(err)
@@ -76,10 +77,11 @@ func Bot(w http.ResponseWriter, r *http.Request) {
 	log.Println(eval)
 	//log.Println(eval.Fen)
 	bestmove := eval.From + eval.To
+	newFen, lastMove := Newfen(eval.Fen, bestmove)
 	newfen := Fen{
-		Fen: Newfen(eval.Fen, bestmove),
+		Fen:      newFen,
+		LastMove: lastMove,
 	}
-	//log.Println(newfen)
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(newfen)
