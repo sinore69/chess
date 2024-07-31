@@ -51,7 +51,13 @@ function Board() {
       body: JSON.stringify(data),
     });
     const resp = (await res.json()) as Fen;
-    const newPosition = decodefen(resp.fen, resp.lastMove, underCheck,wCastle,bCastle);
+    const newPosition = decodefen(
+      resp.fen,
+      resp.lastMove,
+      underCheck,
+      wCastle,
+      bCastle
+    );
     setboard(newPosition);
     colorToMove.current = updateTurn(resp.fen);
   }

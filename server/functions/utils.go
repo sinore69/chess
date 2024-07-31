@@ -86,7 +86,7 @@ func Updateposition(board [8][8]string, bestmove string, color string, castleInf
 		castleValue = strings.ReplaceAll(castleInfo, "k", "")
 	}
 	//castled by bot
-	if bestmove == "e8g8" {//blsck king side
+	if bestmove == "e8g8" { //blsck king side
 		piece := board[8-srcRow][srcCol]
 		board[8-srcRow][srcCol] = "1"
 		board[8-destRow][destCol] = piece
@@ -94,10 +94,10 @@ func Updateposition(board [8][8]string, bestmove string, color string, castleInf
 		board[0][5] = piece
 		board[0][7] = "1"
 		move := fmt.Sprintf("%d%d%d%d", 8-srcRow, srcCol, 8-destRow, destCol)
-		castleValue=strings.ReplaceAll(castleValue,"k","")
+		castleValue = strings.ReplaceAll(castleValue, "k", "")
 		return &board, move, castleValue
 	}
-	if bestmove == "e8c8" {//black queen side
+	if bestmove == "e8c8" { //black queen side
 		piece := board[8-srcRow][srcCol]
 		board[8-srcRow][srcCol] = "1"
 		board[8-destRow][destCol] = piece
@@ -105,10 +105,10 @@ func Updateposition(board [8][8]string, bestmove string, color string, castleInf
 		board[0][3] = piece
 		board[0][0] = "1"
 		move := fmt.Sprintf("%d%d%d%d", 8-srcRow, srcCol, 8-destRow, destCol)
-		castleValue=strings.ReplaceAll(castleValue,"q","")
+		castleValue = strings.ReplaceAll(castleValue, "q", "")
 		return &board, move, castleValue
 	}
-	if bestmove == "e1g1" {//white king side 
+	if bestmove == "e1g1" { //white king side
 		piece := board[8-srcRow][srcCol]
 		board[8-srcRow][srcCol] = "1"
 		board[8-destRow][destCol] = piece
@@ -116,10 +116,10 @@ func Updateposition(board [8][8]string, bestmove string, color string, castleInf
 		board[7][5] = piece
 		board[7][7] = "1"
 		move := fmt.Sprintf("%d%d%d%d", 8-srcRow, srcCol, 8-destRow, destCol)
-		castleValue=strings.ReplaceAll(castleValue,"K","")
+		castleValue = strings.ReplaceAll(castleValue, "K", "")
 		return &board, move, castleValue
 	}
-	if bestmove == "e1c1" {//white queen side
+	if bestmove == "e1c1" { //white queen side
 		piece := board[8-srcRow][srcCol]
 		board[8-srcRow][srcCol] = "1"
 		board[8-destRow][destCol] = piece
@@ -127,7 +127,7 @@ func Updateposition(board [8][8]string, bestmove string, color string, castleInf
 		board[7][3] = piece
 		board[7][0] = "1"
 		move := fmt.Sprintf("%d%d%d%d", 8-srcRow, srcCol, 8-destRow, destCol)
-		castleValue=strings.ReplaceAll(castleValue,"Q","")
+		castleValue = strings.ReplaceAll(castleValue, "Q", "")
 		return &board, move, castleValue
 	}
 	if board[8-destRow][destCol] == "R" && 8-destRow == 7 && destCol == 7 {

@@ -43,7 +43,7 @@ export function fengenerator(
       ? "-"
       : `${wCastle.current}${bCastle.current}`;
   fen = fen + ` ${color === "w" ? "b" : "w"} ${castle} - 0 1`;
-  console.log(fen)
+  console.log(fen);
   return fen;
 }
 function isNumber(str: any) {

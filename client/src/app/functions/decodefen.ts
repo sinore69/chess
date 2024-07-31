@@ -10,7 +10,7 @@ export function decodefen(
 ) {
   const rows = fen.split(" ")[0].split("/");
   const color = fen.split(" ")[1];
-  const castleValue=fen.split(" ")[2]
+  const castleValue = fen.split(" ")[2];
   let board = [];
   for (let row of rows) {
     const boardRow = [];
@@ -27,17 +27,17 @@ export function decodefen(
   }
   //check if rook is captured or not and update fen string accordingly
   //underCheck.current=isUnderCheck(board,lastMove,color)
-  let wcastlevalue=""
-  let bcastlevalue=""
-  for(let i=0;i<castleValue.length;i++){
-    if(isUpperCase(castleValue.charAt(i))){
-      wcastlevalue+=castleValue.charAt(i)
-    }else{
-      bcastlevalue+=castleValue.charAt(i)
+  let wcastlevalue = "";
+  let bcastlevalue = "";
+  for (let i = 0; i < castleValue.length; i++) {
+    if (isUpperCase(castleValue.charAt(i))) {
+      wcastlevalue += castleValue.charAt(i);
+    } else {
+      bcastlevalue += castleValue.charAt(i);
     }
   }
-  wCastle.current=wcastlevalue as "" | "KQ" | "K" | "Q"
-  bCastle.current=bcastlevalue as "" | "kq" | "k" | "q"
+  wCastle.current = wcastlevalue as "" | "KQ" | "K" | "Q";
+  bCastle.current = bcastlevalue as "" | "kq" | "k" | "q";
   return color === "w"
     ? board
     : (board.reverse().map((row) => row.reverse()) as string[][]);
