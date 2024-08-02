@@ -1,12 +1,18 @@
 import React, { useState } from "react";
-
+import { useRouter } from 'next/navigation'
 function GameControl() {
   const [showTimeControl, setShowTimeControl] = useState<boolean>(true);
+  const router = useRouter()
   function ShowTimeControl() {
     setShowTimeControl(true);
   }
   function HideTimeControl() {
     setShowTimeControl(false);
+  }
+  function startGame(){
+    if(showTimeControl){
+      router.push("/friend")
+    }
   }
   return (
     <div className="">
@@ -43,7 +49,7 @@ function GameControl() {
         )}
 
         <div className="bg-blue-200 flex p-14">
-          <button className="border border-black p-2">Play</button>
+          <button className="border border-black p-2" onClick={startGame}>Play</button>
         </div>
       </div>
     </div>
