@@ -9,7 +9,7 @@ import { decodefen } from "../functions/decodefen";
 import { turn, updateTurn } from "../functions/turn";
 import { Fen } from "../types/fen";
 function Board() {
-  const [color, setcolor] = useState<"b" | "w">("b");
+  const [color, setcolor] = useState<"b" | "w">("w");
   const [board, setboard] = useState<string[][]>(initialgamestate(color));
   const [movecount, setmovecount] = useState<number>(1);
   const wCastle = useRef<"KQ" | "K" | "Q" | "">("KQ");

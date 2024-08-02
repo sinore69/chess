@@ -29,11 +29,13 @@ export function decodefen(
   //underCheck.current=isUnderCheck(board,lastMove,color)
   let wcastlevalue = "";
   let bcastlevalue = "";
-  for (let i = 0; i < castleValue.length; i++) {
-    if (isUpperCase(castleValue.charAt(i))) {
-      wcastlevalue += castleValue.charAt(i);
-    } else {
-      bcastlevalue += castleValue.charAt(i);
+  if (castleValue) {
+    for (let i = 0; i < castleValue.length; i++) {
+      if (isUpperCase(castleValue.charAt(i))) {
+        wcastlevalue += castleValue.charAt(i);
+      } else {
+        bcastlevalue += castleValue.charAt(i);
+      }
     }
   }
   wCastle.current = wcastlevalue as "" | "KQ" | "K" | "Q";

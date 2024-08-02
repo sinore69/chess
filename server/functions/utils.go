@@ -71,7 +71,7 @@ func Updateposition(board [8][8]string, bestmove string, color string, castleInf
 	if err != nil {
 		panic(err)
 	}
-	var castleValue string
+	castleValue := castleInfo
 	//rook moved by bot
 	if 8-srcRow == 7 && srcCol == 0 && board[8-srcRow][srcCol] == "R" {
 		castleValue = strings.ReplaceAll(castleInfo, "Q", "")
@@ -86,7 +86,7 @@ func Updateposition(board [8][8]string, bestmove string, color string, castleInf
 		castleValue = strings.ReplaceAll(castleInfo, "k", "")
 	}
 	//castled by bot
-	if bestmove == "e8g8" { //blsck king side
+	if bestmove == "e8g8" { //black king side
 		piece := board[8-srcRow][srcCol]
 		board[8-srcRow][srcCol] = "1"
 		board[8-destRow][destCol] = piece
@@ -95,6 +95,7 @@ func Updateposition(board [8][8]string, bestmove string, color string, castleInf
 		board[0][7] = "1"
 		move := fmt.Sprintf("%d%d%d%d", 8-srcRow, srcCol, 8-destRow, destCol)
 		castleValue = strings.ReplaceAll(castleValue, "k", "")
+		castleValue = strings.ReplaceAll(castleValue, "q", "")
 		return &board, move, castleValue
 	}
 	if bestmove == "e8c8" { //black queen side
@@ -105,6 +106,7 @@ func Updateposition(board [8][8]string, bestmove string, color string, castleInf
 		board[0][3] = piece
 		board[0][0] = "1"
 		move := fmt.Sprintf("%d%d%d%d", 8-srcRow, srcCol, 8-destRow, destCol)
+		castleValue = strings.ReplaceAll(castleValue, "k", "")
 		castleValue = strings.ReplaceAll(castleValue, "q", "")
 		return &board, move, castleValue
 	}
@@ -117,6 +119,7 @@ func Updateposition(board [8][8]string, bestmove string, color string, castleInf
 		board[7][7] = "1"
 		move := fmt.Sprintf("%d%d%d%d", 8-srcRow, srcCol, 8-destRow, destCol)
 		castleValue = strings.ReplaceAll(castleValue, "K", "")
+		castleValue = strings.ReplaceAll(castleValue, "Q", "")
 		return &board, move, castleValue
 	}
 	if bestmove == "e1c1" { //white queen side
@@ -127,6 +130,7 @@ func Updateposition(board [8][8]string, bestmove string, color string, castleInf
 		board[7][3] = piece
 		board[7][0] = "1"
 		move := fmt.Sprintf("%d%d%d%d", 8-srcRow, srcCol, 8-destRow, destCol)
+		castleValue = strings.ReplaceAll(castleValue, "K", "")
 		castleValue = strings.ReplaceAll(castleValue, "Q", "")
 		return &board, move, castleValue
 	}
