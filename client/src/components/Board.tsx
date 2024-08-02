@@ -8,8 +8,8 @@ import Image from "next/image";
 import { decodefen } from "../functions/decodefen";
 import { turn, updateTurn } from "../functions/turn";
 import { Fen } from "../types/fen";
-function Board(props: { disable: boolean }) {
-  const [color, setcolor] = useState<"b" | "w">("w");
+function Board(props: { movable: boolean }) {
+  const [color, setcolor] = useState<"b" | "w">("b");
   const [board, setboard] = useState<string[][]>(initialgamestate(color));
   const [movecount, setmovecount] = useState<number>(1);
   const wCastle = useRef<"KQ" | "K" | "Q" | "">("KQ");
@@ -113,14 +113,14 @@ function Board(props: { disable: boolean }) {
               >
                 <div
                   className=""
-                  draggable={props.disable}
+                  draggable={props.movable}
                   onDragEnd={onDragEnd}
                   onDragStart={(e) => onDragStart(e, rowindex, colindex, col)}
                 >
                   {col !== "1" ? (
                     <Image
                       priority
-                      draggable={props.disable}
+                      draggable={props.movable}
                       src={
                         col === col.toUpperCase()
                           ? `/w${col}.png`

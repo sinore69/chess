@@ -12,6 +12,8 @@ function GameControl() {
   function startGame(){
     if(showTimeControl){
       router.push("/friend")
+    }else{
+      router.push("/bot")
     }
   }
   return (
