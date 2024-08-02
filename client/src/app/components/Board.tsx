@@ -67,6 +67,9 @@ function Board() {
     const [rowindex, colindex, piece] = e.dataTransfer
       .getData("text")
       .split("");
+    if(!turn(colorToMove.current,piece)){
+      return
+    }
     const newposition = updateposition(
       board,
       rowindex,
@@ -110,13 +113,13 @@ function Board() {
               >
                 <div
                   className=""
-                  draggable={turn(colorToMove.current, col)}
+                  draggable={true}
                   onDragEnd={onDragEnd}
                   onDragStart={(e) => onDragStart(e, rowindex, colindex, col)}
                 >
                   {col !== "1" ? (
                     <Image
-                      draggable={turn(colorToMove.current, col)}
+                      draggable={true}
                       src={
                         col === col.toUpperCase()
                           ? `/w${col}.png`
