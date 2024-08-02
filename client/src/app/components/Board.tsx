@@ -67,8 +67,8 @@ function Board() {
     const [rowindex, colindex, piece] = e.dataTransfer
       .getData("text")
       .split("");
-    if(!turn(colorToMove.current,piece)){
-      return
+    if (!turn(colorToMove.current, piece)) {
+      return;
     }
     const newposition = updateposition(
       board,
@@ -95,7 +95,7 @@ function Board() {
   return (
     <div>
       <div
-        className="flex justify-start flex-col"
+        className="flex justify-start flex-col h-screen box-border overflow-hidden"
         onDrop={onDrop}
         onDragOver={onDragOver}
         ref={ref}
@@ -119,6 +119,7 @@ function Board() {
                 >
                   {col !== "1" ? (
                     <Image
+                      priority
                       draggable={true}
                       src={
                         col === col.toUpperCase()
