@@ -8,7 +8,9 @@ import Image from "next/image";
 import { turn } from "../functions/turn";
 import { getMove } from "@/functions/getMove";
 import { sendData } from "@/functions/senddata";
-function SocketBoard(props: { movable: boolean ,socket:WebSocket}) {
+import { calCell } from "@/functions/calCell";
+import { calStyle } from "@/functions/calStyle";
+function SocketBoard(props: { movable: boolean; socket: WebSocket }) {
   const [color, setcolor] = useState<"b" | "w">("w");
   const [board, setboard] = useState<string[][]>(initialgamestate(color));
   const [movecount, setmovecount] = useState<number>(1);
@@ -75,7 +77,7 @@ function SocketBoard(props: { movable: boolean ,socket:WebSocket}) {
     console.log(newfen);
     if (oldfen !== newfen) {
       colorToMove.current = color === "w" ? "b" : "w";
-      sendData(newfen,props.socket)
+      sendData(newfen, props.socket);
     }
   }
   function onDragOver(e: any) {
@@ -94,7 +96,7 @@ function SocketBoard(props: { movable: boolean ,socket:WebSocket}) {
             {row.map((col: string, colindex) => (
               <div
                 key={colindex}
-                className={`h-16 w-16 sm:h-20 sm:w-20 lg:h-[90px] lg:w-[90px] border-black ${
+                className={`h-16 w-16 sm:h-20 sm:w-20 lg:h-[90px] lg:w-[90px] border-black relative ${
                   (colindex + rowindex + 1) % 2 === 0
                     ? "bg-slate-300"
                     : "bg-white"
@@ -116,11 +118,32 @@ function SocketBoard(props: { movable: boolean ,socket:WebSocket}) {
                           : `/b${col}.png`
                       }
                       alt=""
-                      height={500}
-                      width={500}
+                      height={90}
+                      width={90}
                     ></Image>
                   ) : (
                     ""
+                  )}
+                  {color === "w" ? (
+                    <div
+                      className={`absolute ${calStyle(
+                        color,
+                        rowindex,
+                        colindex
+                      )}`}
+                    >
+                      {calCell(color, rowindex, colindex)}
+                    </div>
+                  ) : (
+                    <div
+                      className={`absolute ${calStyle(
+                        color,
+                        rowindex,
+                        colindex
+                      )}`}
+                    >
+                      {calCell(color, rowindex, colindex)}
+                    </div>
                   )}
                 </div>
               </div>
