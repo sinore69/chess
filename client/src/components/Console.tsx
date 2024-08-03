@@ -1,10 +1,9 @@
-import GameControl from './GameControl'
-function Console() {
+import GameControl from "./GameControl";
+import GameLog from "./GameLog";
+function Console(props: { mode: string }) {
   return (
-    <div>
-      <GameControl></GameControl>
-    </div>
-  )
+    <div>{props.mode === "bot" ? <GameControl></GameControl> : <GameLog></GameLog>}</div>
+  );
 }
 
-export default Console
+export default Console;

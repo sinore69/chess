@@ -7,7 +7,7 @@ import { calcCoordinates } from "../functions/calccoordinates";
 import Image from "next/image";
 import { turn } from "../functions/turn";
 import { getmove } from "@/functions/getMove";
-function Board(props: { movable: boolean }) {
+function SocketBoard(props: { movable: boolean }) {
   const [color, setcolor] = useState<"b" | "w">("w");
   const [board, setboard] = useState<string[][]>(initialgamestate(color));
   const [movecount, setmovecount] = useState<number>(1);
@@ -131,4 +131,4 @@ function Board(props: { movable: boolean }) {
   );
 }
 
-export default Board;
+export default SocketBoard;

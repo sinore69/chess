@@ -6,7 +6,7 @@ export default function Home() {
     <>
       <div className="flex p-1 gap-x-4 bg-slate-400">
         <Board movable={false}></Board>
-        <Console></Console>
+        <Console mode={"bot"}></Console>
       </div>
     </>
   );
