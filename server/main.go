@@ -9,7 +9,7 @@ import (
 func main() {
 	http.HandleFunc("/", routes.Home)
 	http.HandleFunc("/bot", routes.Bot)
-	http.HandleFunc("/friend", routes.Friend)
+	http.HandleFunc("/friend", routes.CreateGame)
 	log.Println("server is running on port 5000")
 	err := http.ListenAndServe(":5000", nil)
 	if err != nil {

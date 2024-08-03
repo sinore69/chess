@@ -66,15 +66,19 @@ var upgrader = websocket.Upgrader{
 	},
 }
 
-func Friend(w http.ResponseWriter, r *http.Request) {
+func CreateGame(w http.ResponseWriter, r *http.Request) {
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		panic(err)
 	}
-	// defer conn.Close()
-	_, p, err := conn.ReadMessage()
-	if err != nil {
-		panic(err)
+	var data types.Fen
+outer:
+	for {
+		if err := conn.ReadJSON(&data); err != nil {
+			log.Println(err)
+			conn.Close()
+			break outer
+		}
+		log.Println(data)
 	}
-	log.Println(string(p))
 }

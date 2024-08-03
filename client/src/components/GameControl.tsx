@@ -53,6 +53,9 @@ function GameControl() {
         <div className="bg-blue-200 flex p-14">
           <button className="border border-black p-2" onClick={startGame}>Play</button>
         </div>
+        <div>
+          join game
+        </div>
       </div>
     </div>
   );

@@ -6,8 +6,9 @@ import { fengenerator } from "../functions/fengenerator";
 import { calcCoordinates } from "../functions/calccoordinates";
 import Image from "next/image";
 import { turn } from "../functions/turn";
-import { getmove } from "@/functions/getMove";
-function SocketBoard(props: { movable: boolean }) {
+import { getMove } from "@/functions/getMove";
+import { sendData } from "@/functions/senddata";
+function SocketBoard(props: { movable: boolean ,socket:WebSocket}) {
   const [color, setcolor] = useState<"b" | "w">("w");
   const [board, setboard] = useState<string[][]>(initialgamestate(color));
   const [movecount, setmovecount] = useState<number>(1);
@@ -39,7 +40,7 @@ function SocketBoard(props: { movable: boolean }) {
   if (movecount === 1 && color === "b" && props.movable) {
     // console.log(movecount);
     setmovecount(movecount + 1);
-    getmove(
+    getMove(
       fengenerator(board, color, wCastle, bCastle),
       setboard,
       wCastle,
@@ -74,7 +75,7 @@ function SocketBoard(props: { movable: boolean }) {
     console.log(newfen);
     if (oldfen !== newfen) {
       colorToMove.current = color === "w" ? "b" : "w";
-      getmove(newfen, setboard, wCastle, bCastle, underCheck, colorToMove);
+      sendData(newfen,props.socket)
     }
   }
   function onDragOver(e: any) {

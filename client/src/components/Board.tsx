@@ -6,9 +6,11 @@ import { fengenerator } from "../functions/fengenerator";
 import { calcCoordinates } from "../functions/calccoordinates";
 import Image from "next/image";
 import { turn } from "../functions/turn";
-import { getmove } from "@/functions/getMove";
+import { getMove } from "@/functions/getMove";
+import { calCell } from "@/functions/calCell";
+import { calStyle } from "@/functions/calStyle";
 function Board(props: { movable: boolean }) {
-  const [color, setcolor] = useState<"b" | "w">("w");
+  const [color, setcolor] = useState<"b" | "w">("b");
   const [board, setboard] = useState<string[][]>(initialgamestate(color));
   const [movecount, setmovecount] = useState<number>(1);
   const wCastle = useRef<"KQ" | "K" | "Q" | "">("KQ");
@@ -39,7 +41,7 @@ function Board(props: { movable: boolean }) {
   if (movecount === 1 && color === "b" && props.movable) {
     // console.log(movecount);
     setmovecount(movecount + 1);
-    getmove(
+    getMove(
       fengenerator(board, color, wCastle, bCastle),
       setboard,
       wCastle,
@@ -74,7 +76,7 @@ function Board(props: { movable: boolean }) {
     console.log(newfen);
     if (oldfen !== newfen) {
       colorToMove.current = color === "w" ? "b" : "w";
-      getmove(newfen, setboard, wCastle, bCastle, underCheck, colorToMove);
+      getMove(newfen, setboard, wCastle, bCastle, underCheck, colorToMove);
     }
   }
   function onDragOver(e: any) {
@@ -93,7 +95,7 @@ function Board(props: { movable: boolean }) {
             {row.map((col: string, colindex) => (
               <div
                 key={colindex}
-                className={`h-16 w-16 sm:h-20 sm:w-20 lg:h-[90px] lg:w-[90px] border-black ${
+                className={`h-16 w-16 sm:h-20 sm:w-20 lg:h-[90px] lg:w-[90px] border-black relative ${
                   (colindex + rowindex + 1) % 2 === 0
                     ? "bg-slate-300"
                     : "bg-white"
@@ -115,11 +117,32 @@ function Board(props: { movable: boolean }) {
                           : `/b${col}.png`
                       }
                       alt=""
-                      height={500}
-                      width={500}
+                      height={90}
+                      width={90}
                     ></Image>
                   ) : (
                     ""
+                  )}
+                  {color === "w" ? (
+                    <div
+                      className={`absolute ${calStyle(
+                        color,
+                        rowindex,
+                        colindex
+                      )}`}
+                    >
+                      {calCell(color, rowindex, colindex)}
+                    </div>
+                  ) : (
+                    <div
+                      className={`absolute ${calStyle(
+                        color,
+                        rowindex,
+                        colindex
+                      )}`}
+                    >
+                      {calCell(color, rowindex, colindex)}
+                    </div>
                   )}
                 </div>
               </div>

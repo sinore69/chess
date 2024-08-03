@@ -2,7 +2,7 @@ import { Fen } from "@/types/fen";
 import { decodefen } from "./decodefen";
 import { updateTurn } from "./turn";
 
-export async function getmove(
+export async function getMove(
   fen: string,
   setboard: React.Dispatch<React.SetStateAction<string[][]>>,
   wCastle: React.MutableRefObject<"" | "KQ" | "K" | "Q">,
