@@ -93,6 +93,7 @@ func (g *Game) CreateGame(w http.ResponseWriter, r *http.Request) {
 		Creator: conn,
 	}
 	log.Println(g)
+	
 	var data types.Fen
 outer:
 	for {
