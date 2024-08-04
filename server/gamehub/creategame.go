@@ -6,8 +6,16 @@ import (
 	"github.com/gorilla/websocket"
 )
 
-func CreateGame(conn *websocket.Conn) {
-	list:=[]*websocket.Conn{}
-	list = append(list, conn)
-	log.Println(list)
+type Game struct {
+	list []*websocket.Conn
+}
+
+func (g *Game) CreateGame(conn *websocket.Conn) {
+	g.list = append(g.list, conn)
+	log.Println(g.list)
+}
+func NewGame() Game {
+	return Game{
+		list: []*websocket.Conn{},
+	}
 }

@@ -6,12 +6,21 @@ import (
 	"log"
 	"net/http"
 	"server/functions"
-	"server/gamehub"
 	"server/types"
 	"strings"
 
 	"github.com/gorilla/websocket"
 )
+
+type Game struct {
+	list []*websocket.Conn
+}
+
+func NewGame() *Game {
+	return &Game{
+		list: []*websocket.Conn{},
+	}
+}
 
 func Home(w http.ResponseWriter, r *http.Request) {
 	io.WriteString(w, "this works")
@@ -67,12 +76,13 @@ var upgrader = websocket.Upgrader{
 	},
 }
 
-func CreateGame(w http.ResponseWriter, r *http.Request) {
+func (g *Game) CreateGame(w http.ResponseWriter, r *http.Request) {
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		panic(err)
 	}
-	gamehub.CreateGame(conn)
+	g.list = append(g.list, conn)
+	log.Println(g.list)
 	var data types.Fen
 outer:
 	for {

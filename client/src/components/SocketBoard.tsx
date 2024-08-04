@@ -127,7 +127,7 @@ function SocketBoard(props: {
                   ) : (
                     ""
                   )}
-                  {color === "w" ? (
+                  {/* {color === "w" ? (
                     <div
                       className={`absolute ${calStyle(
                         color,
@@ -147,7 +147,7 @@ function SocketBoard(props: {
                     >
                       {calCell(color, rowindex, colindex)}
                     </div>
-                  )}
+                  )} */}
                 </div>
               </div>
             ))}

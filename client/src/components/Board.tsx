@@ -123,9 +123,9 @@ function Board(props: { movable: boolean }) {
                   ) : (
                     ""
                   )}
-                  {color === "w" ? (
+                  {/* {color === "w" ? (
                     <div
-                      className={`absolute ${calStyle(
+                      className={`${calStyle(
                         color,
                         rowindex,
                         colindex
@@ -135,7 +135,7 @@ function Board(props: { movable: boolean }) {
                     </div>
                   ) : (
                     <div
-                      className={`absolute ${calStyle(
+                      className={`${calStyle(
                         color,
                         rowindex,
                         colindex
@@ -143,7 +143,7 @@ function Board(props: { movable: boolean }) {
                     >
                       {calCell(color, rowindex, colindex)}
                     </div>
-                  )}
+                  )} */}
                 </div>
               </div>
             ))}
