@@ -13,12 +13,12 @@ import (
 )
 
 type Game struct {
-	list []*websocket.Conn
+	GameRoom map[int]types.Room
 }
 
 func NewGame() *Game {
 	return &Game{
-		list: []*websocket.Conn{},
+		GameRoom: make(map[int]types.Room),
 	}
 }
 
@@ -81,8 +81,18 @@ func (g *Game) CreateGame(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
-	g.list = append(g.list, conn)
-	log.Println(g.list)
+	var id int
+	for {
+		id = functions.NewRoomId()
+		if g.GameRoom[id].Creator == nil {
+			break
+		}
+		log.Println("Duplicate Room Id. Generating new Id")
+	}
+	g.GameRoom[id] = types.Room{
+		Creator: conn,
+	}
+	log.Println(g)
 	var data types.Fen
 outer:
 	for {
@@ -93,4 +103,12 @@ outer:
 		}
 		log.Println(data)
 	}
+}
+
+func (g *Game) JoinGame(w http.ResponseWriter, r *http.Request) {
+	conn, err := upgrader.Upgrade(w, r, nil)
+	if err != nil {
+		panic(err)
+	}
+	log.Println(conn)
 }
