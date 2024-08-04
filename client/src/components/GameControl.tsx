@@ -1,21 +1,30 @@
 import React, { useState } from "react";
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation";
 function GameControl() {
   const [showTimeControl, setShowTimeControl] = useState<boolean>(true);
-  const router = useRouter()
+  const router = useRouter();
   function ShowTimeControl() {
     setShowTimeControl(true);
   }
   function HideTimeControl() {
     setShowTimeControl(false);
   }
-  function startGame(){
-    if(showTimeControl){
-      router.push("/friend")
-    }else{
-      router.push("/bot")
+  function startGame() {
+    if (showTimeControl) {
+      router.push("/create");
+    } else {
+      router.push("/bot");
     }
   }
+  function handler(e: any) {
+    e.preventDefault();
+    router.push("/join");
+    // const data = {
+    //   id: Number(e.target.roomId.value),
+    // };
+    // console.log(data)
+  }
+
   return (
     <div className="">
       <div className="pl-24 pt-2 lg:h-[720px] lg:w-[460px] bg-red-200 flex flex-col">
@@ -51,10 +60,16 @@ function GameControl() {
         )}
 
         <div className="bg-blue-200 flex p-14">
-          <button className="border border-black p-2" onClick={startGame}>Play</button>
+          <button className="border border-black p-2" onClick={startGame}>
+            Play
+          </button>
         </div>
         <div>
           join game
+          <form onSubmit={handler}>
+            <input type="text" id="roomId" placeholder="Room Id" />
+            <button type="submit">join room</button>
+          </form>
         </div>
       </div>
     </div>

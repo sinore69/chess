@@ -6,15 +6,9 @@ import { fengenerator } from "../functions/fengenerator";
 import { calcCoordinates } from "../functions/calccoordinates";
 import Image from "next/image";
 import { turn } from "../functions/turn";
-import { getMove } from "@/functions/getMove";
 import { sendData } from "@/functions/senddata";
-import { calCell } from "@/functions/calCell";
-import { calStyle } from "@/functions/calStyle";
-function SocketBoard(props: {
-  movable: boolean;
-  socket: WebSocket | undefined;
-}) {
-  const [color, setcolor] = useState<"b" | "w">("w");
+function SocketBoard(props: { movable: boolean; socket: WebSocket }) {
+  const [color, setcolor] = useState<"b" | "w">("b");
   const [board, setboard] = useState<string[][]>(initialgamestate(color));
   const [movecount, setmovecount] = useState<number>(1);
   const wCastle = useRef<"KQ" | "K" | "Q" | "">("KQ");
@@ -42,19 +36,6 @@ function SocketBoard(props: {
   function onDragEnd(e: any) {
     e.target.style.display = "block";
   }
-  if (movecount === 1 && color === "b" && props.movable) {
-    // console.log(movecount);
-    setmovecount(movecount + 1);
-    getMove(
-      fengenerator(board, color, wCastle, bCastle),
-      setboard,
-      wCastle,
-      bCastle,
-      underCheck,
-      colorToMove
-    );
-  }
-
   function onDrop(e: any) {
     const oldfen = fengenerator(board, color, wCastle, bCastle);
     const { x, y } = calcCoordinates(e, ref);
@@ -78,7 +59,7 @@ function SocketBoard(props: {
     setboard(newposition);
     const newfen = fengenerator(newposition, color, wCastle, bCastle);
     console.log(newfen);
-    if (oldfen !== newfen && props.socket) {
+    if (oldfen !== newfen) {
       colorToMove.current = color === "w" ? "b" : "w";
       sendData(newfen, props.socket);
     }
@@ -127,27 +108,6 @@ function SocketBoard(props: {
                   ) : (
                     ""
                   )}
-                  {/* {color === "w" ? (
-                    <div
-                      className={`absolute ${calStyle(
-                        color,
-                        rowindex,
-                        colindex
-                      )}`}
-                    >
-                      {calCell(color, rowindex, colindex)}
-                    </div>
-                  ) : (
-                    <div
-                      className={`absolute ${calStyle(
-                        color,
-                        rowindex,
-                        colindex
-                      )}`}
-                    >
-                      {calCell(color, rowindex, colindex)}
-                    </div>
-                  )} */}
                 </div>
               </div>
             ))}

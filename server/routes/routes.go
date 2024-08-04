@@ -81,20 +81,13 @@ func (g *Game) CreateGame(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
-	var id int
-	for {
-		id = functions.NewRoomId()
-		if g.GameRoom[id].Creator == nil {
-			break
-		}
-		log.Println("Duplicate Room Id. Generating new Id")
-	}
-	g.GameRoom[id] = types.Room{
+	//id:=functions.NewRoomId(g.GameRoom)
+	g.GameRoom[1] = types.Room{
 		Creator: conn,
 	}
-	log.Println(g)
-	
 	var data types.Fen
+	log.Println("creator connected")
+	log.Println(g.GameRoom[1])
 outer:
 	for {
 		if err := conn.ReadJSON(&data); err != nil {
@@ -111,5 +104,19 @@ func (g *Game) JoinGame(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
-	log.Println(conn)
+	room := g.GameRoom[1]
+	room.Player = conn
+	g.GameRoom[1] = room
+	log.Println("player connected")
+	log.Println(g.GameRoom)
+	var data types.Fen
+outer:
+	for {
+		if err := conn.ReadJSON(&data); err != nil {
+			log.Println(err)
+			conn.Close()
+			break outer
+		}
+		log.Println(data)
+	}
 }
