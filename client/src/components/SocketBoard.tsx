@@ -10,7 +10,10 @@ import { getMove } from "@/functions/getMove";
 import { sendData } from "@/functions/senddata";
 import { calCell } from "@/functions/calCell";
 import { calStyle } from "@/functions/calStyle";
-function SocketBoard(props: { movable: boolean; socket: WebSocket }) {
+function SocketBoard(props: {
+  movable: boolean;
+  socket: WebSocket | undefined;
+}) {
   const [color, setcolor] = useState<"b" | "w">("w");
   const [board, setboard] = useState<string[][]>(initialgamestate(color));
   const [movecount, setmovecount] = useState<number>(1);
@@ -75,7 +78,7 @@ function SocketBoard(props: { movable: boolean; socket: WebSocket }) {
     setboard(newposition);
     const newfen = fengenerator(newposition, color, wCastle, bCastle);
     console.log(newfen);
-    if (oldfen !== newfen) {
+    if (oldfen !== newfen && props.socket) {
       colorToMove.current = color === "w" ? "b" : "w";
       sendData(newfen, props.socket);
     }

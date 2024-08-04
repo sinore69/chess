@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"server/functions"
+	"server/gamehub"
 	"server/types"
 	"strings"
 
@@ -71,6 +72,7 @@ func CreateGame(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
+	gamehub.CreateGame(conn)
 	var data types.Fen
 outer:
 	for {
