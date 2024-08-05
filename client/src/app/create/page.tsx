@@ -18,7 +18,7 @@ function page() {
     <>
       {connectionState ? (
         <div className="flex p-1 gap-x-4 bg-slate-400">
-          <SocketBoard movable={true} socket={socket}></SocketBoard>
+          <SocketBoard movable={true} socket={socket} playAs={"Creator"}></SocketBoard>
           <Console mode={"friend"}></Console>
         </div>
       ) : (

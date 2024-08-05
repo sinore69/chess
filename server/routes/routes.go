@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"server/functions"
+	"server/gamehub"
 	"server/types"
 	"strings"
 
@@ -99,7 +100,6 @@ outer:
 		}
 		if g.GameRoom[1].Player != nil {
 			data=functions.UpdateFen(data)
-			//log.Println(data)
 			g.GameRoom[1].Player.WriteJSON(data)
 		}
 	}
@@ -115,6 +115,7 @@ func (g *Game) JoinGame(w http.ResponseWriter, r *http.Request) {
 	g.GameRoom[1] = room
 	log.Println("player connected")
 	log.Println(g.GameRoom)
+	gamehub.SendInitialGameState(room)
 	var data types.Fen
 outer:
 	for {
@@ -124,6 +125,5 @@ outer:
 			break outer
 		}
 		room.Creator.WriteJSON(data)
-		log.Println(data)
 	}
 }

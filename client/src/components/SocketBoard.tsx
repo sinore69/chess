@@ -8,10 +8,15 @@ import Image from "next/image";
 import { turn, updateTurn } from "../functions/turn";
 import { sendData } from "@/functions/senddata";
 import { decodefen } from "@/functions/decodefen";
-import { Fen } from "@/types/fen";
-function SocketBoard(props: { movable: boolean; socket: WebSocket }) {
-  const [color, setcolor] = useState<"b" | "w">("b");
-  const [board, setboard] = useState<string[][]>(initialgamestate(color));
+import { InitialGameStateValidator } from "@/functions/validator/jsonschema/initialgamestate";
+import { GameStateValidator } from "@/functions/validator/jsonschema/gamestate";
+function SocketBoard(props: {
+  movable: boolean;
+  socket: WebSocket;
+  playAs: string;
+}) {
+  const color=useRef<"b"|"w">("w")
+  const [board, setboard] = useState<string[][]>(initialgamestate(color.current));
   const wCastle = useRef<"KQ" | "K" | "Q" | "">("KQ");
   const bCastle = useRef<"kq" | "k" | "q" | "">("kq");
   const colorToMove = useRef<"b" | "w">("w");
@@ -22,17 +27,31 @@ function SocketBoard(props: { movable: boolean; socket: WebSocket }) {
       ref.current.focus();
     }
     props.socket.onmessage = (event) => {
-      const move = JSON.parse(event.data) as Fen;
-      console.log(move)
-      const newposition = decodefen(
-        move.fen,
-        move.lastMove,
-        underCheck,
-        wCastle,
-        bCastle
-      );
-      setboard(newposition);
-      colorToMove.current = updateTurn(move.fen);
+      const data = JSON.parse(event.data);
+      console.log(data);
+      if (InitialGameStateValidator(data)) {
+        if (props.playAs === "Player") {
+          color.current=data.PlayerColor
+          setboard(initialgamestate(color.current))
+          console.log(color)
+        }
+        if (props.playAs === "Creator") {
+          color.current=data.CreatorColor
+          setboard(initialgamestate(color.current))
+          console.log(color)
+        }
+      }
+      if (GameStateValidator(data)) {
+        const newposition = decodefen(
+          data.fen,
+          data.lastMove,
+          underCheck,
+          wCastle,
+          bCastle
+        );
+        setboard(newposition);
+        colorToMove.current = updateTurn(data.fen);
+      }
     };
   }, []);
   function onDragStart(
@@ -51,7 +70,7 @@ function SocketBoard(props: { movable: boolean; socket: WebSocket }) {
     e.target.style.display = "block";
   }
   function onDrop(e: any) {
-    const oldfen = fengenerator(board, color, wCastle, bCastle);
+    const oldfen = fengenerator(board, color.current, wCastle, bCastle);
     const { x, y } = calcCoordinates(e, ref);
     const [rowindex, colindex, piece] = e.dataTransfer
       .getData("text")
@@ -66,15 +85,15 @@ function SocketBoard(props: { movable: boolean; socket: WebSocket }) {
       x,
       y,
       piece,
-      color,
+      color.current,
       wCastle,
       bCastle
     );
     setboard(newposition);
-    const newfen = fengenerator(newposition, color, wCastle, bCastle);
+    const newfen = fengenerator(newposition, color.current, wCastle, bCastle);
     console.log(newfen);
     if (oldfen !== newfen) {
-      colorToMove.current = color === "w" ? "b" : "w";
+      colorToMove.current = color.current === "w" ? "b" : "w";
       sendData(newfen, props.socket);
     }
   }
