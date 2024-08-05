@@ -3,6 +3,7 @@ package functions
 import (
 	"fmt"
 	"log"
+	"server/types"
 	"strconv"
 	"strings"
 )
@@ -181,4 +182,18 @@ func Genfen(board *[8][8]string, color string, castleValue string) string {
 	}
 	//fen.WriteString(" w KQkq - 0 1") // Hard-coded for w to move, full castling rights, no en passant target, halfmove clock, fullmove number
 	return fen.String() + " w " + castleValue
+}
+
+func UpdateFen(data types.Fen) types.Fen {
+	fenarray := strings.Split(data.Fen, " ")
+	if fenarray[1] == "w" {
+		fenarray[1] = "b"
+		data.Fen = strings.Join(fenarray, " ")
+		return data
+	}
+	if fenarray[1] == "b" {
+		fenarray[1] = "w"
+	}
+	data.Fen = strings.Join(fenarray, " ")
+	return data
 }

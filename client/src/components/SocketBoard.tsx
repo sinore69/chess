@@ -5,12 +5,13 @@ import { initialgamestate } from "../functions/initialgamestate";
 import { fengenerator } from "../functions/fengenerator";
 import { calcCoordinates } from "../functions/calccoordinates";
 import Image from "next/image";
-import { turn } from "../functions/turn";
+import { turn, updateTurn } from "../functions/turn";
 import { sendData } from "@/functions/senddata";
+import { decodefen } from "@/functions/decodefen";
+import { Fen } from "@/types/fen";
 function SocketBoard(props: { movable: boolean; socket: WebSocket }) {
   const [color, setcolor] = useState<"b" | "w">("b");
   const [board, setboard] = useState<string[][]>(initialgamestate(color));
-  const [movecount, setmovecount] = useState<number>(1);
   const wCastle = useRef<"KQ" | "K" | "Q" | "">("KQ");
   const bCastle = useRef<"kq" | "k" | "q" | "">("kq");
   const colorToMove = useRef<"b" | "w">("w");
@@ -20,6 +21,19 @@ function SocketBoard(props: { movable: boolean; socket: WebSocket }) {
     if (ref.current) {
       ref.current.focus();
     }
+    props.socket.onmessage = (event) => {
+      const move = JSON.parse(event.data) as Fen;
+      console.log(move)
+      const newposition = decodefen(
+        move.fen,
+        move.lastMove,
+        underCheck,
+        wCastle,
+        bCastle
+      );
+      setboard(newposition);
+      colorToMove.current = updateTurn(move.fen);
+    };
   }, []);
   function onDragStart(
     e: any,

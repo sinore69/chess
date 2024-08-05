@@ -83,7 +83,9 @@ func (g *Game) CreateGame(w http.ResponseWriter, r *http.Request) {
 	}
 	//id:=functions.NewRoomId(g.GameRoom)
 	g.GameRoom[1] = types.Room{
-		Creator: conn,
+		Creator:      conn,
+		CreatorColor: types.White,
+		PlayerColor:  types.Black,
 	}
 	var data types.Fen
 	log.Println("creator connected")
@@ -95,7 +97,11 @@ outer:
 			conn.Close()
 			break outer
 		}
-		log.Println(data)
+		if g.GameRoom[1].Player != nil {
+			data=functions.UpdateFen(data)
+			//log.Println(data)
+			g.GameRoom[1].Player.WriteJSON(data)
+		}
 	}
 }
 
@@ -117,6 +123,7 @@ outer:
 			conn.Close()
 			break outer
 		}
+		room.Creator.WriteJSON(data)
 		log.Println(data)
 	}
 }
