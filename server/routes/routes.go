@@ -99,7 +99,6 @@ outer:
 			break outer
 		}
 		if g.GameRoom[1].Player != nil {
-			data=functions.UpdateFen(data)
 			g.GameRoom[1].Player.WriteJSON(data)
 		}
 	}
@@ -124,6 +123,8 @@ outer:
 			conn.Close()
 			break outer
 		}
-		room.Creator.WriteJSON(data)
+		if g.GameRoom[1].Creator != nil {
+			g.GameRoom[1].Creator.WriteJSON(data)
+		}
 	}
 }

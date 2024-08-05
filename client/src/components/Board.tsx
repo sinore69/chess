@@ -7,8 +7,6 @@ import { calcCoordinates } from "../functions/calccoordinates";
 import Image from "next/image";
 import { turn } from "../functions/turn";
 import { getMove } from "@/functions/getMove";
-import { calCell } from "@/functions/calCell";
-import { calStyle } from "@/functions/calStyle";
 function Board(props: { movable: boolean }) {
   const [color, setcolor] = useState<"b" | "w">("b");
   const [board, setboard] = useState<string[][]>(initialgamestate(color));

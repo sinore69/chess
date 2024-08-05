@@ -5,7 +5,7 @@ import { initialgamestate } from "../functions/initialgamestate";
 import { fengenerator } from "../functions/fengenerator";
 import { calcCoordinates } from "../functions/calccoordinates";
 import Image from "next/image";
-import { turn, updateTurn } from "../functions/turn";
+import { socketturn, turn, updateTurn } from "../functions/turn";
 import { sendData } from "@/functions/senddata";
 import { decodefen } from "@/functions/decodefen";
 import { InitialGameStateValidator } from "@/functions/validator/jsonschema/initialgamestate";
@@ -15,8 +15,10 @@ function SocketBoard(props: {
   socket: WebSocket;
   playAs: string;
 }) {
-  const color=useRef<"b"|"w">("w")
-  const [board, setboard] = useState<string[][]>(initialgamestate(color.current));
+  const color = useRef<"b" | "w">("w");
+  const [board, setboard] = useState<string[][]>(
+    initialgamestate(color.current)
+  );
   const wCastle = useRef<"KQ" | "K" | "Q" | "">("KQ");
   const bCastle = useRef<"kq" | "k" | "q" | "">("kq");
   const colorToMove = useRef<"b" | "w">("w");
@@ -31,14 +33,12 @@ function SocketBoard(props: {
       console.log(data);
       if (InitialGameStateValidator(data)) {
         if (props.playAs === "Player") {
-          color.current=data.PlayerColor
-          setboard(initialgamestate(color.current))
-          console.log(color)
+          color.current = data.PlayerColor;
+          setboard(initialgamestate(color.current));
         }
         if (props.playAs === "Creator") {
-          color.current=data.CreatorColor
-          setboard(initialgamestate(color.current))
-          console.log(color)
+          color.current = data.CreatorColor;
+          setboard(initialgamestate(color.current));
         }
       }
       if (GameStateValidator(data)) {
@@ -75,7 +75,7 @@ function SocketBoard(props: {
     const [rowindex, colindex, piece] = e.dataTransfer
       .getData("text")
       .split("");
-    if (!turn(colorToMove.current, piece)) {
+    if (!socketturn(colorToMove.current, color.current)) {
       return;
     }
     const newposition = updateposition(
@@ -91,9 +91,11 @@ function SocketBoard(props: {
     );
     setboard(newposition);
     const newfen = fengenerator(newposition, color.current, wCastle, bCastle);
-    console.log(newfen);
-    if (oldfen !== newfen) {
-      colorToMove.current = color.current === "w" ? "b" : "w";
+    if (oldfen !== newfen && color.current===colorToMove.current) {
+      console.log(newfen);
+      console.log(colorToMove.current)
+      colorToMove.current=colorToMove.current === "w" ? "b" : "w";
+      console.log(colorToMove.current)
       sendData(newfen, props.socket);
     }
   }
