@@ -4,7 +4,7 @@ import SocketBoard from "@/components/SocketBoard";
 import React, { useRef } from "react";
 
 let socket = new WebSocket("ws://127.0.0.1:5000/create");
-function page() {
+function Page() {
   const connectionState = useRef<boolean>(false);
   socket.onopen = (event) => {
     connectionState.current = true;
@@ -28,4 +28,4 @@ function page() {
   );
 }
 
-export default page;
+export default Page;

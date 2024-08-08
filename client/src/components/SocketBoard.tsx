@@ -23,6 +23,7 @@ function SocketBoard(props: {
   const bCastle = useRef<"kq" | "k" | "q" | "">("kq");
   const colorToMove = useRef<"b" | "w">("w");
   const isCheck = useRef<true | false>(false);
+  const isUnderCheck=useRef<true | false>(false);
   const ref = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     if (ref.current) {
@@ -53,7 +54,7 @@ function SocketBoard(props: {
         colorToMove.current = updateTurn(data.fen);
       }
     };
-  }, []);
+  }, [props.playAs,props.socket]);
   function onDragStart(
     e: any,
     rowindex: number,
@@ -94,7 +95,7 @@ function SocketBoard(props: {
     const newfen = fengenerator(newposition, color.current, wCastle, bCastle);
     if (oldfen !== newfen && color.current === colorToMove.current) {
       colorToMove.current = colorToMove.current === "w" ? "b" : "w";
-      sendData(newfen, props.socket, rowindex, colindex, x, y, isCheck);
+      sendData(newfen, props.socket, rowindex, colindex, x, y, isCheck,isUnderCheck);
     }
   }
   function onDragOver(e: any) {

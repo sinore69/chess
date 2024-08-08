@@ -9,10 +9,11 @@ export function isvalidqueenmove(
   board: string[][],
   wCastle: React.MutableRefObject<"" | "KQ" | "K" | "Q">,
   bCastle: React.MutableRefObject<"" | "kq" | "k" | "q">,
-  color: string
+  color: string,
+  isCheck:React.MutableRefObject<boolean>
 ) {
   if (
-    isvalidbishopmove(rowindex, colindex, x, y, piece, board) ||
+    isvalidbishopmove(rowindex, colindex, x, y, piece, board,isCheck) ||
     isvalidrookmove(
       rowindex,
       colindex,

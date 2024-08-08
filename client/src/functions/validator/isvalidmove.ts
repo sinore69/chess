@@ -55,7 +55,8 @@ export function isvalidmove(
       board,
       wCastle,
       bCastle,
-      color
+      color,
+      isCheck
     )
   ) {
     return true;

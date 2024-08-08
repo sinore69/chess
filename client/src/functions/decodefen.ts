@@ -1,4 +1,3 @@
-import { isisCheck } from "./isisCheck";
 import { isUpperCase } from "./isuppercase";
 
 export function decodefen(
