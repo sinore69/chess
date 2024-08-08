@@ -13,7 +13,8 @@ export function isvalidmove(
   board: string[][],
   color: string,
   wCastle: React.MutableRefObject<"" | "KQ" | "K" | "Q">,
-  bCastle: React.MutableRefObject<"" | "kq" | "k" | "q">
+  bCastle: React.MutableRefObject<"" | "kq" | "k" | "q">,
+  isCheck: React.MutableRefObject<boolean>
 ) {
   if (
     (piece === "p" || piece === "P") &&
@@ -23,19 +24,39 @@ export function isvalidmove(
   }
   if (
     (piece === "r" || piece === "R") &&
-    isvalidrookmove(rowindex, colindex, x, y, piece, board,wCastle,bCastle,color)
+    isvalidrookmove(
+      rowindex,
+      colindex,
+      x,
+      y,
+      piece,
+      board,
+      wCastle,
+      bCastle,
+      color
+    )
   ) {
     return true;
   }
   if (
     (piece === "b" || piece === "B") &&
-    isvalidbishopmove(rowindex, colindex, x, y, piece, board)
+    isvalidbishopmove(rowindex, colindex, x, y, piece, board, isCheck)
   ) {
     return true;
   }
   if (
     (piece === "q" || piece === "Q") &&
-    isvalidqueenmove(rowindex, colindex, x, y, piece, board,wCastle,bCastle,color)
+    isvalidqueenmove(
+      rowindex,
+      colindex,
+      x,
+      y,
+      piece,
+      board,
+      wCastle,
+      bCastle,
+      color
+    )
   ) {
     return true;
   }

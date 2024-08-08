@@ -10,7 +10,8 @@ export function updateposition(
   piece: string,
   color: string,
   wCastle: React.MutableRefObject<"" | "KQ" | "K" | "Q">,
-  bCastle: React.MutableRefObject<"" | "kq" | "k" | "q">
+  bCastle: React.MutableRefObject<"" | "kq" | "k" | "q">,
+  isCheck: React.MutableRefObject<boolean>
 ) {
   let newboard = [
     ["1", "1", "1", "1", "1", "1", "1", "1"],
@@ -27,7 +28,20 @@ export function updateposition(
       newboard[i][j] = board[i][j];
     }
   }
-  if (isvalidmove(rowindex, colindex, x, y, piece, board, color,wCastle,bCastle)) {
+  if (
+    isvalidmove(
+      rowindex,
+      colindex,
+      x,
+      y,
+      piece,
+      board,
+      color,
+      wCastle,
+      bCastle,
+      isCheck
+    )
+  ) {
     newboard[rowindex][colindex] = "1";
     newboard[x][y] = piece;
   }
@@ -45,11 +59,11 @@ export function updateposition(
     if (isvalidkingmove(rowindex, colindex, x, y, piece, board)) {
       newboard[rowindex][colindex] = "1";
       newboard[x][y] = piece;
-      if(color==="w"){
-        wCastle.current=""
+      if (color === "w") {
+        wCastle.current = "";
       }
-      if(color==="b"){
-        bCastle.current=""
+      if (color === "b") {
+        bCastle.current = "";
       }
     }
   }

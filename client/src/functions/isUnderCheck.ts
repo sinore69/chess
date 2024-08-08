@@ -1,10 +1,6 @@
 import { isRookCheck } from "./validator/rook";
 
-export function isUnderCheck(
-  board: string[][],
-  lastMove: string,
-  color: string
-) {
+export function isisCheck(board: string[][], lastMove: string, color: string) {
   const row = Number(lastMove.charAt(2));
   const col = Number(lastMove.charAt(3));
   const piece = board[row][col];

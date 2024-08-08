@@ -7,7 +7,7 @@ export async function getMove(
   setboard: React.Dispatch<React.SetStateAction<string[][]>>,
   wCastle: React.MutableRefObject<"" | "KQ" | "K" | "Q">,
   bCastle: React.MutableRefObject<"" | "kq" | "k" | "q">,
-  underCheck: React.MutableRefObject<boolean>,
+  isCheck: React.MutableRefObject<boolean>,
   colorToMove: React.MutableRefObject<"w" | "b">
 ) {
   const data = {
@@ -21,7 +21,7 @@ export async function getMove(
   const newPosition = decodefen(
     resp.fen,
     resp.lastMove,
-    underCheck,
+    isCheck,
     wCastle,
     bCastle
   );

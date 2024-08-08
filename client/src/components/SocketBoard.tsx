@@ -5,7 +5,7 @@ import { initialgamestate } from "../functions/initialgamestate";
 import { fengenerator } from "../functions/fengenerator";
 import { calcCoordinates } from "../functions/calccoordinates";
 import Image from "next/image";
-import { socketturn, turn, updateTurn } from "../functions/turn";
+import { socketturn, updateTurn } from "../functions/turn";
 import { sendData } from "@/functions/senddata";
 import { decodefen } from "@/functions/decodefen";
 import { InitialGameStateValidator } from "@/functions/validator/jsonschema/initialgamestate";
@@ -22,7 +22,7 @@ function SocketBoard(props: {
   const wCastle = useRef<"KQ" | "K" | "Q" | "">("KQ");
   const bCastle = useRef<"kq" | "k" | "q" | "">("kq");
   const colorToMove = useRef<"b" | "w">("w");
-  const underCheck = useRef<true | false>(false);
+  const isCheck = useRef<true | false>(false);
   const ref = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     if (ref.current) {
@@ -30,7 +30,7 @@ function SocketBoard(props: {
     }
     props.socket.onmessage = (event) => {
       const data = JSON.parse(event.data);
-      console.log(data);
+      // console.log(data);
       if (InitialGameStateValidator(data)) {
         if (props.playAs === "Player") {
           color.current = data.PlayerColor;
@@ -45,7 +45,7 @@ function SocketBoard(props: {
         const newposition = decodefen(
           data.fen,
           data.lastMove,
-          underCheck,
+          isCheck,
           wCastle,
           bCastle
         );
@@ -87,16 +87,14 @@ function SocketBoard(props: {
       piece,
       color.current,
       wCastle,
-      bCastle
+      bCastle,
+      isCheck
     );
     setboard(newposition);
     const newfen = fengenerator(newposition, color.current, wCastle, bCastle);
-    if (oldfen !== newfen && color.current===colorToMove.current) {
-      console.log(newfen);
-      console.log(colorToMove.current)
-      colorToMove.current=colorToMove.current === "w" ? "b" : "w";
-      console.log(colorToMove.current)
-      sendData(newfen, props.socket);
+    if (oldfen !== newfen && color.current === colorToMove.current) {
+      colorToMove.current = colorToMove.current === "w" ? "b" : "w";
+      sendData(newfen, props.socket, rowindex, colindex, x, y, isCheck);
     }
   }
   function onDragOver(e: any) {

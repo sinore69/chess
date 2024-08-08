@@ -14,7 +14,7 @@ function Board(props: { movable: boolean }) {
   const wCastle = useRef<"KQ" | "K" | "Q" | "">("KQ");
   const bCastle = useRef<"kq" | "k" | "q" | "">("kq");
   const colorToMove = useRef<"b" | "w">("w");
-  const underCheck = useRef<true | false>(false);
+  const isCheck = useRef<true | false>(false);
   const ref = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     if (ref.current) {
@@ -44,7 +44,7 @@ function Board(props: { movable: boolean }) {
       setboard,
       wCastle,
       bCastle,
-      underCheck,
+      isCheck,
       colorToMove
     );
   }
@@ -67,14 +67,14 @@ function Board(props: { movable: boolean }) {
       piece,
       color,
       wCastle,
-      bCastle
+      bCastle,
+      isCheck
     );
     setboard(newposition);
     const newfen = fengenerator(newposition, color, wCastle, bCastle);
-    console.log(newfen);
     if (oldfen !== newfen) {
       colorToMove.current = color === "w" ? "b" : "w";
-      getMove(newfen, setboard, wCastle, bCastle, underCheck, colorToMove);
+      getMove(newfen, setboard, wCastle, bCastle, isCheck, colorToMove);
     }
   }
   function onDragOver(e: any) {

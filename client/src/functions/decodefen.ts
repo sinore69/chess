@@ -1,10 +1,10 @@
-import { isUnderCheck } from "./isUnderCheck";
+import { isisCheck } from "./isisCheck";
 import { isUpperCase } from "./isuppercase";
 
 export function decodefen(
   fen: string,
   lastMove: string,
-  underCheck: React.MutableRefObject<boolean>,
+  isCheck: React.MutableRefObject<boolean>,
   wCastle: React.MutableRefObject<"" | "KQ" | "K" | "Q">,
   bCastle: React.MutableRefObject<"" | "kq" | "k" | "q">
 ) {
@@ -26,7 +26,7 @@ export function decodefen(
     board.push(boardRow);
   }
   //check if rook is captured or not and update fen string accordingly
-  //underCheck.current=isUnderCheck(board,lastMove,color)
+  //isCheck.current=isisCheck(board,lastMove,color)
   let wcastlevalue = "";
   let bcastlevalue = "";
   if (castleValue) {
