@@ -46,6 +46,8 @@ function SocketBoard(props: {
       if (GameStateValidator(data)) {
         const newposition = decodefen(
           data.fen,
+          data.lastMove,
+          isCheck,
           wCastle,
           bCastle
         );
