@@ -37,6 +37,7 @@ function safeKingMove(
   col: number,
   piece: string
 ) {
+  console.log(row,col)
   //downward
   for (let i = 1; i <= 7; i++) {
     if (!withinbounds(Number(row) + i, Number(col))) {
@@ -49,8 +50,8 @@ function safeKingMove(
       board[Number(row) + i][Number(col)] == "R" ||
       board[Number(row) + i][Number(col)] == "r" ||
       board[Number(row) + i][Number(col)] == "Q" ||
-      board[Number(row) + i][Number(col)] == "q" //&&
-      // isUpperCase(piece) !== isUpperCase(board[Number(row) + i][Number(col)])
+      (board[Number(row) + i][Number(col)] == "q" &&
+        isUpperCase(piece) !== isUpperCase(board[Number(row) + i][Number(col)]))
     ) {
       return false;
     }
@@ -58,15 +59,18 @@ function safeKingMove(
   }
   //upward
   for (let i = 1; i <= 7; i++) {
+    if (!withinbounds(Number(row) - i, Number(col))) {
+      break;
+    }
     if (board[Number(row) - i][Number(col)] == "1") {
       continue;
     }
     if (
-      board[Number(row) - i][Number(col)] == "R" ||
-      board[Number(row) - i][Number(col)] == "r" ||
-      board[Number(row) - i][Number(col)] == "Q" ||
-      board[Number(row) - i][Number(col)] == "q" //&&
-      // // isUpperCase(piece) !== isUpperCase(board[Number(row) - i][Number(col)])
+      (board[Number(row) - i][Number(col)] == "R" ||
+        board[Number(row) - i][Number(col)] == "r" ||
+        board[Number(row) - i][Number(col)] == "Q" ||
+        board[Number(row) - i][Number(col)] == "q") &&
+      isUpperCase(piece) !== isUpperCase(board[Number(row) - i][Number(col)])
     ) {
       return false;
     }
@@ -74,16 +78,19 @@ function safeKingMove(
   }
   //left to right
   for (let i = 1; i <= 7; i++) {
-    console.log(Number(row),Number(col) + 1)
-    if (board[Number(row)][Number(col) + 1] == "1") {
+    console.log(Number(row), Number(col) + i)
+    if (!withinbounds(Number(row), Number(col) + i)) {
+      break;
+    }
+    if (board[Number(row)][Number(col) + i] == "1") {
       continue;
     }
     if (
-      board[Number(row)][Number(col) + 1] == "R" ||
-      board[Number(row)][Number(col) + 1] == "r" ||
-      board[Number(row)][Number(col) + 1] == "Q" ||
-      board[Number(row)][Number(col) + 1] == "q" //&&
-      // // isUpperCase(piece) !== isUpperCase(board[Number(row)][Number(col) + 1])
+      (board[Number(row)][Number(col) + i] == "R" ||
+        board[Number(row)][Number(col) + i] == "r" ||
+        board[Number(row)][Number(col) + i] == "Q" ||
+        board[Number(row)][Number(col) + i] == "q") &&
+      isUpperCase(piece) !== isUpperCase(board[Number(row)][Number(col) + i])
     ) {
       return false;
     }
@@ -91,15 +98,18 @@ function safeKingMove(
   }
   //right to left
   for (let i = 1; i <= 7; i++) {
-    if (board[Number(row)][Number(col) - 1] == "1") {
+    if (!withinbounds(Number(row), Number(col) - i)) {
+      break;
+    }
+    if (board[Number(row)][Number(col) - i] == "1") {
       continue;
     }
     if (
-      board[Number(row)][Number(col) - 1] == "R" ||
-      board[Number(row)][Number(col) - 1] == "r" ||
-      board[Number(row)][Number(col) - 1] == "Q" ||
-      board[Number(row)][Number(col) - 1] == "q" //&&
-      // // isUpperCase(piece) !== isUpperCase(board[Number(row)][Number(col) - 1])
+      (board[Number(row)][Number(col) - i] == "R" ||
+        board[Number(row)][Number(col) - i] == "r" ||
+        board[Number(row)][Number(col) - i] == "Q" ||
+        board[Number(row)][Number(col) - i] == "q") &&
+      isUpperCase(piece) !== isUpperCase(board[Number(row)][Number(col) - i])
     ) {
       return false;
     }
