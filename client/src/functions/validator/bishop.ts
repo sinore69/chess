@@ -50,7 +50,7 @@ export function isvalidbishopmove(
             return false;
           }
         }
-      if (isBishopCheck(destRow, destCol, board)) {
+      if (isBishopCheck(destRow, destCol, board, piece)) {
         isCheck.current = true;
       }
       return true;
@@ -59,9 +59,14 @@ export function isvalidbishopmove(
   return false;
 }
 
-function isBishopCheck(destRow: number, destCol: number, board: string[][]) {
+function isBishopCheck(
+  destRow: number,
+  destCol: number,
+  board: string[][],
+  piece: string
+) {
   //3rd quadrant
-  for (let i = 1; i < 7; i++) {
+  for (let i = 1; i <= 7; i++) {
     if (
       Number(destRow) + i > 7 ||
       Number(destCol) + i > 7 ||
@@ -74,14 +79,17 @@ function isBishopCheck(destRow: number, destCol: number, board: string[][]) {
       continue;
     }
     if (
-      board[Number(destRow) + i][Number(destCol) + i] == "K" ||
-      board[Number(destRow) + i][Number(destCol) + i] == "k"
+      (board[Number(destRow) + i][Number(destCol) + i] == "K" ||
+        board[Number(destRow) + i][Number(destCol) + i] == "k") &&
+      isUpperCase(piece) !==
+        isUpperCase(board[Number(destRow) + i][Number(destCol) + i])
     ) {
       return true;
     }
+    break
   }
   //1st quadrant
-  for (let i = 1; i < 7; i++) {
+  for (let i = 1; i <= 7; i++) {
     if (
       Number(destRow) - i > 7 ||
       Number(destCol) - i > 7 ||
@@ -94,14 +102,17 @@ function isBishopCheck(destRow: number, destCol: number, board: string[][]) {
       continue;
     }
     if (
-      board[Number(destRow) - i][Number(destCol) - i] == "K" ||
-      board[Number(destRow) - i][Number(destCol) - i] == "k"
+      (board[Number(destRow) - i][Number(destCol) - i] == "K" ||
+        board[Number(destRow) - i][Number(destCol) - i] == "k") &&
+      isUpperCase(piece) !==
+        isUpperCase(board[Number(destRow) - i][Number(destCol) - i])
     ) {
       return true;
     }
+    break
   }
   //2nd quadrant-no block
-  for (let i = 1; i < 7; i++) {
+  for (let i = 1; i <= 7; i++) {
     if (
       Number(destRow) - i > 7 ||
       Number(destCol) + i > 7 ||
@@ -115,13 +126,16 @@ function isBishopCheck(destRow: number, destCol: number, board: string[][]) {
     }
     if (
       board[Number(destRow) - i][Number(destCol) + i] == "K" ||
-      board[Number(destRow) - i][Number(destCol) + i] == "k"
+      (board[Number(destRow) - i][Number(destCol) + i] == "k" &&
+        isUpperCase(piece) !==
+          isUpperCase(board[Number(destRow) - i][Number(destCol) + i]))
     ) {
       return true;
     }
+    break
   }
   //4th quadrant-no block
-  for (let i = 1; i < 7; i++) {
+  for (let i = 1; i <= 7; i++) {
     if (
       Number(destRow) + i > 7 ||
       Number(destCol) - i > 7 ||
@@ -135,10 +149,13 @@ function isBishopCheck(destRow: number, destCol: number, board: string[][]) {
     }
     if (
       board[Number(destRow) + i][Number(destCol) - i] == "K" ||
-      board[Number(destRow) + i][Number(destCol) - i] == "k"
+      (board[Number(destRow) + i][Number(destCol) - i] == "k" &&
+        isUpperCase(piece) !==
+          isUpperCase(board[Number(destRow) + i][Number(destCol) - i]))
     ) {
       return true;
     }
+    break
   }
   return false;
 }
