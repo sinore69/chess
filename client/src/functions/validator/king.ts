@@ -14,7 +14,10 @@ export function isvalidkingmove(
   if (srcRow == destRow && srcCol == destCol) {
     return false;
   }
-  if (isUpperCase(piece) === isUpperCase(board[destRow][destCol]) && board[destRow][destCol] !== "1") {
+  if (
+    isUpperCase(piece) === isUpperCase(board[destRow][destCol]) &&
+    board[destRow][destCol] !== "1"
+  ) {
     return false;
   }
   const row = [-1, -1, 0, 1, 1, 1, 0, -1, -1];
@@ -125,6 +128,94 @@ function safeKingMove(
     }
     break;
   }
+  //diagonal 1st quadrant
+  for (let i = 0; i <= 7; i++) {
+    if (!withinbounds(Number(row) - i, Number(col) - i)) {
+      break;
+    }
+    if (
+      board[Number(row) - i][Number(col) - i] == "1" ||
+      board[Number(row) - i][Number(col) - i] == piece
+    ) {
+      continue;
+    }
+    if (
+      (board[Number(row) - i][Number(col) - i] == "B" ||
+        board[Number(row) - i][Number(col) - i] == "b" ||
+        board[Number(row) - i][Number(col) - i] == "Q" ||
+        board[Number(row) - i][Number(col) - i] == "q") &&
+      isUpperCase(piece) !==
+        isUpperCase(board[Number(row) - i][Number(col) - i])
+    ) {
+      return false;
+    }
+  }
+  //diagonal 2nd quadrant
+  for (let i = 0; i <= 7; i++) {
+    if (!withinbounds(Number(row) - i, Number(col) + i)) {
+      break;
+    }
+    if (
+      board[Number(row) - i][Number(col) + i] == "1" ||
+      board[Number(row) - i][Number(col) + i] == piece
+    ) {
+      continue;
+    }
+    if (
+      (board[Number(row) - i][Number(col) + i] == "B" ||
+        board[Number(row) - i][Number(col) + i] == "b" ||
+        board[Number(row) - i][Number(col) + i] == "Q" ||
+        board[Number(row) - i][Number(col) + i] == "q") &&
+      isUpperCase(piece) !==
+        isUpperCase(board[Number(row) - i][Number(col) + i])
+    ) {
+      return false;
+    }
+  }
+  //diagonal 3rd quadrant
+  for (let i = 0; i <= 7; i++) {
+    if (!withinbounds(Number(row) + i, Number(col) + i)) {
+      break;
+    }
+    if (
+      board[Number(row) + i][Number(col) + i] == "1" ||
+      board[Number(row) + i][Number(col) + i] == piece
+    ) {
+      continue;
+    }
+    if (
+      (board[Number(row) + i][Number(col) + i] == "B" ||
+        board[Number(row) + i][Number(col) + i] == "b" ||
+        board[Number(row) + i][Number(col) + i] == "Q" ||
+        board[Number(row) + i][Number(col) + i] == "q") &&
+      isUpperCase(piece) !==
+        isUpperCase(board[Number(row) + i][Number(col) + i])
+    ) {
+      return false;
+    }
+  }
+  //diagonal 4th quadrant
+  for (let i = 0; i <= 7; i++) {
+    if (!withinbounds(Number(row) + i, Number(col) - i)) {
+      break;
+    }
+    if (
+      board[Number(row) + i][Number(col) - i] == "1" ||
+      board[Number(row) + i][Number(col) - i] == piece
+    ) {
+      continue;
+    }
+    if (
+      (board[Number(row) + i][Number(col) - i] == "B" ||
+        board[Number(row) + i][Number(col) - i] == "b" ||
+        board[Number(row) + i][Number(col) - i] == "Q" ||
+        board[Number(row) + i][Number(col) - i] == "q") &&
+      isUpperCase(piece) !==
+        isUpperCase(board[Number(row) + i][Number(col) - i])
+    ) {
+      return false;
+    }
+  }
   return true;
 }
 
@@ -220,6 +311,5 @@ export function iscastle(
       }
     }
   }
-
   return board;
 }
