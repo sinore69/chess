@@ -7,10 +7,10 @@ export function turn(colorToMove: string, value: string) {
   }
   return false;
 }
-export function socketturn(colorToMove: string, color: string){
-  return color===colorToMove
+export function socketturn(colorToMove: string, color: string) {
+  return color === colorToMove;
 }
-export function updateTurn(fen:string){
-    const fenarray=fen.split(" ")
-    return fenarray[1] as "w"|"b"
+export function updateTurn(fen: string) {
+  const fenarray = fen.split(" ");
+  return fenarray[1] as "w" | "b";
 }

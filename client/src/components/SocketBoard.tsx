@@ -5,11 +5,12 @@ import { initialgamestate } from "../functions/initialgamestate";
 import { fengenerator } from "../functions/fengenerator";
 import { calcCoordinates } from "../functions/calccoordinates";
 import Image from "next/image";
-import { socketturn, updateTurn } from "../functions/turn";
+import { socketturn, turn, updateTurn } from "../functions/turn";
 import { sendData } from "@/functions/senddata";
 import { decodefen } from "@/functions/decodefen";
 import { InitialGameStateValidator } from "@/functions/validator/jsonschema/initialgamestate";
 import { GameStateValidator } from "@/functions/validator/jsonschema/gamestate";
+import { IsUnderCheck } from "@/functions/undercheck";
 function SocketBoard(props: {
   movable: boolean;
   socket: WebSocket;
@@ -23,7 +24,7 @@ function SocketBoard(props: {
   const bCastle = useRef<"kq" | "k" | "q" | "">("kq");
   const colorToMove = useRef<"b" | "w">("w");
   const isCheck = useRef<true | false>(false);
-  const isUnderCheck=useRef<true | false>(false);
+  const isUnderCheck = useRef<true | false>(false);
   const ref = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     if (ref.current) {
@@ -52,9 +53,11 @@ function SocketBoard(props: {
         );
         setboard(newposition);
         colorToMove.current = updateTurn(data.fen);
+        isCheck.current = false;
+        isUnderCheck.current = IsUnderCheck(data.lastMove);
       }
     };
-  }, [props.playAs,props.socket]);
+  }, [props.playAs, props.socket]);
   function onDragStart(
     e: any,
     rowindex: number,
@@ -76,6 +79,9 @@ function SocketBoard(props: {
     const [rowindex, colindex, piece] = e.dataTransfer
       .getData("text")
       .split("");
+    if (!turn(colorToMove.current, piece)) {
+      return;
+    }
     if (!socketturn(colorToMove.current, color.current)) {
       return;
     }
@@ -89,13 +95,23 @@ function SocketBoard(props: {
       color.current,
       wCastle,
       bCastle,
-      isCheck
+      isCheck,
+      isUnderCheck
     );
     setboard(newposition);
     const newfen = fengenerator(newposition, color.current, wCastle, bCastle);
     if (oldfen !== newfen && color.current === colorToMove.current) {
       colorToMove.current = colorToMove.current === "w" ? "b" : "w";
-      sendData(newfen, props.socket, rowindex, colindex, x, y, isCheck,isUnderCheck);
+      sendData(
+        newfen,
+        props.socket,
+        rowindex,
+        colindex,
+        x,
+        y,
+        isCheck,
+        isUnderCheck
+      );
     }
   }
   function onDragOver(e: any) {
