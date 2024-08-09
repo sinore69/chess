@@ -14,7 +14,8 @@ export function isvalidmove(
   color: string,
   wCastle: React.MutableRefObject<"" | "KQ" | "K" | "Q">,
   bCastle: React.MutableRefObject<"" | "kq" | "k" | "q">,
-  isCheck: React.MutableRefObject<boolean>
+  isCheck: React.MutableRefObject<boolean>,
+  isUnderCheck:React.MutableRefObject<boolean>
 ) {
   if (
     (piece === "p" || piece === "P") &&

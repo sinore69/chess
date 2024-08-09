@@ -1,3 +1,4 @@
+import { MutableRefObject } from "react";
 import { isUpperCase } from "../isuppercase";
 import { withinbounds } from "../withinbounds";
 
@@ -7,7 +8,8 @@ export function isvalidkingmove(
   x: number,
   y: number,
   piece: string,
-  board: string[][]
+  board: string[][],
+  isUnderCheck: MutableRefObject<boolean>
 ) {
   if (rowindex == x && colindex == y) {
     return false;
@@ -21,12 +23,89 @@ export function isvalidkingmove(
     if (
       x == Number(rowindex) + row[i] &&
       y == Number(colindex) + col[i] &&
-      withinbounds(x, y)
+      withinbounds(x, y) &&
+      safeKingMove(board, x, y, piece)
     ) {
       return true;
     }
   }
   return false;
+}
+function safeKingMove(
+  board: string[][],
+  row: number,
+  col: number,
+  piece: string
+) {
+  //downward
+  for (let i = 1; i <= 7; i++) {
+    if (!withinbounds(Number(row) + i, Number(col))) {
+      break;
+    }
+    if (board[Number(row) + i][Number(col)] == "1") {
+      continue;
+    }
+    if (
+      board[Number(row) + i][Number(col)] == "R" ||
+      board[Number(row) + i][Number(col)] == "r" ||
+      board[Number(row) + i][Number(col)] == "Q" ||
+      board[Number(row) + i][Number(col)] == "q" //&&
+      // isUpperCase(piece) !== isUpperCase(board[Number(row) + i][Number(col)])
+    ) {
+      return false;
+    }
+    break;
+  }
+  //upward
+  for (let i = 1; i <= 7; i++) {
+    if (board[Number(row) - i][Number(col)] == "1") {
+      continue;
+    }
+    if (
+      board[Number(row) - i][Number(col)] == "R" ||
+      board[Number(row) - i][Number(col)] == "r" ||
+      board[Number(row) - i][Number(col)] == "Q" ||
+      board[Number(row) - i][Number(col)] == "q" //&&
+      // // isUpperCase(piece) !== isUpperCase(board[Number(row) - i][Number(col)])
+    ) {
+      return false;
+    }
+    break;
+  }
+  //left to right
+  for (let i = 1; i <= 7; i++) {
+    console.log(Number(row),Number(col) + 1)
+    if (board[Number(row)][Number(col) + 1] == "1") {
+      continue;
+    }
+    if (
+      board[Number(row)][Number(col) + 1] == "R" ||
+      board[Number(row)][Number(col) + 1] == "r" ||
+      board[Number(row)][Number(col) + 1] == "Q" ||
+      board[Number(row)][Number(col) + 1] == "q" //&&
+      // // isUpperCase(piece) !== isUpperCase(board[Number(row)][Number(col) + 1])
+    ) {
+      return false;
+    }
+    break;
+  }
+  //right to left
+  for (let i = 1; i <= 7; i++) {
+    if (board[Number(row)][Number(col) - 1] == "1") {
+      continue;
+    }
+    if (
+      board[Number(row)][Number(col) - 1] == "R" ||
+      board[Number(row)][Number(col) - 1] == "r" ||
+      board[Number(row)][Number(col) - 1] == "Q" ||
+      board[Number(row)][Number(col) - 1] == "q" //&&
+      // // isUpperCase(piece) !== isUpperCase(board[Number(row)][Number(col) - 1])
+    ) {
+      return false;
+    }
+    break;
+  }
+  return true;
 }
 
 export function iscastle(

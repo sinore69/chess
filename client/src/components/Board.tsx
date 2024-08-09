@@ -15,6 +15,7 @@ function Board(props: { movable: boolean }) {
   const bCastle = useRef<"kq" | "k" | "q" | "">("kq");
   const colorToMove = useRef<"b" | "w">("w");
   const isCheck = useRef<true | false>(false);
+  const isUnderCheck = useRef<true | false>(false);
   const ref = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     if (ref.current) {
@@ -68,7 +69,8 @@ function Board(props: { movable: boolean }) {
       color,
       wCastle,
       bCastle,
-      isCheck
+      isCheck,
+      isUnderCheck
     );
     setboard(newposition);
     const newfen = fengenerator(newposition, color, wCastle, bCastle);

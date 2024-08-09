@@ -2,8 +2,8 @@ import { isUpperCase } from "./isuppercase";
 
 export function decodefen(
   fen: string,
-  lastMove: string,
-  isCheck: React.MutableRefObject<boolean>,
+  // lastMove: string,
+  // isCheck: React.MutableRefObject<boolean>,
   wCastle: React.MutableRefObject<"" | "KQ" | "K" | "Q">,
   bCastle: React.MutableRefObject<"" | "kq" | "k" | "q">
 ) {

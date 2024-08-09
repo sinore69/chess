@@ -3,6 +3,4 @@ export type Fen = {
   lastMove: string;
   fromNumeric: string;
   toNumeric: string;
-  isCheck: boolean;
-  isUnderCheck: boolean;
 };

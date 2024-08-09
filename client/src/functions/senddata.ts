@@ -19,8 +19,6 @@ export function sendData(
     lastMove: lastmove,
     fromNumeric: fromnumeric,
     toNumeric: tonumeric,
-    isCheck:isCheck.current,
-    isUnderCheck:isUnderCheck.current
   };
   if (socket.readyState === 1) {
     console.log(data)
