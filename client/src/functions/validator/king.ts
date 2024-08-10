@@ -216,6 +216,22 @@ export function isKingSafe(
       return false;
     }
   }
+  //knight
+  let Row: number = 0,
+    Col: number = 0;
+  const r = [2, 1, -1, -2, -2, -1, 1, 2];
+  const c = [1, 2, 2, 1, -1, -2, -2, -1];
+  for (let i = 0; i < 8; i++) {
+    Row = Number(row) + r[i];
+    Col = Number(col) + c[i];
+    if (
+      withinbounds(Row, Col) &&
+      (board[Row][Col] == "N" || board[Row][Col] == "n") &&
+      isUpperCase(piece) !== isUpperCase(board[Row][Col])
+    ) {
+      return false;
+    }
+  }
   return true;
 }
 

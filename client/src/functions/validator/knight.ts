@@ -46,7 +46,6 @@ function isKnightCheck(
   for (let i = 0; i < 8; i++) {
     Row = Number(destRow) + row[i];
     Col = Number(destCol) + col[i];
-    console.log(Row,Col)
     if (
       withinbounds(Row, Col) &&
       (board[Row][Col] == "K" || board[Row][Col] == "k") &&
