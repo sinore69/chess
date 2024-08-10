@@ -50,7 +50,10 @@ export function isvalidbishopmove(
             return false;
           }
         }
-      if (isBishopCheck(destRow, destCol, board, piece)) {
+      if (
+        (piece === "b" || piece === "B") &&
+        isBishopCheck(destRow, destCol, board, piece)
+      ) {
         isCheck.current = true;
       }
       return true;
@@ -59,7 +62,7 @@ export function isvalidbishopmove(
   return false;
 }
 
-function isBishopCheck(
+export function isBishopCheck(
   destRow: number,
   destCol: number,
   board: string[][],
@@ -86,7 +89,7 @@ function isBishopCheck(
     ) {
       return true;
     }
-    break
+    break;
   }
   //1st quadrant
   for (let i = 1; i <= 7; i++) {
@@ -109,7 +112,7 @@ function isBishopCheck(
     ) {
       return true;
     }
-    break
+    break;
   }
   //2nd quadrant-no block
   for (let i = 1; i <= 7; i++) {
@@ -132,7 +135,7 @@ function isBishopCheck(
     ) {
       return true;
     }
-    break
+    break;
   }
   //4th quadrant-no block
   for (let i = 1; i <= 7; i++) {
@@ -155,7 +158,7 @@ function isBishopCheck(
     ) {
       return true;
     }
-    break
+    break;
   }
   return false;
 }

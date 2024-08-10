@@ -99,6 +99,7 @@ outer:
 			break outer
 		}
 		if g.GameRoom[1].Player != nil {
+			log.Println(data)
 			g.GameRoom[1].Player.WriteJSON(data)
 		}
 	}
@@ -124,6 +125,7 @@ outer:
 			break outer
 		}
 		if g.GameRoom[1].Creator != nil {
+			log.Println(data)
 			g.GameRoom[1].Creator.WriteJSON(data)
 		}
 	}

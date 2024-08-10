@@ -5,10 +5,10 @@ import { isvalidqueenmove } from "./queen";
 import { isvalidrookmove } from "./rook";
 
 export function isvalidmove(
-  rowindex: number,
-  colindex: number,
-  x: number,
-  y: number,
+  srcRow: number,
+  srcCol: number,
+  destRow: number,
+  destCol: number,
   piece: string,
   board: string[][],
   color: string,
@@ -19,39 +19,40 @@ export function isvalidmove(
 ) {
   if (
     (piece === "p" || piece === "P") &&
-    isvalidpawnmove(rowindex, colindex, x, y, piece, board, color)
+    isvalidpawnmove(srcRow, srcCol, destRow, destCol, piece, board, color)
   ) {
     return true;
   }
   if (
     (piece === "r" || piece === "R") &&
     isvalidrookmove(
-      rowindex,
-      colindex,
-      x,
-      y,
+      srcRow,
+      srcCol,
+      destRow,
+      destCol,
       piece,
       board,
       wCastle,
       bCastle,
-      color
+      color,
+      isCheck
     )
   ) {
     return true;
   }
   if (
     (piece === "b" || piece === "B") &&
-    isvalidbishopmove(rowindex, colindex, x, y, piece, board, isCheck)
+    isvalidbishopmove(srcRow, srcCol, destRow, destCol, piece, board, isCheck)
   ) {
     return true;
   }
   if (
     (piece === "q" || piece === "Q") &&
     isvalidqueenmove(
-      rowindex,
-      colindex,
-      x,
-      y,
+      srcRow,
+      srcCol,
+      destRow,
+      destCol,
       piece,
       board,
       wCastle,
@@ -64,7 +65,7 @@ export function isvalidmove(
   }
   if (
     (piece === "n" || piece === "N") &&
-    isvalidknightmove(rowindex, colindex, x, y, piece, board)
+    isvalidknightmove(srcRow, srcCol, destRow, destCol, piece, board)
   ) {
     return true;
   }
