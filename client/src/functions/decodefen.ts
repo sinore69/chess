@@ -25,7 +25,6 @@ export function decodefen(
     board.push(boardRow);
   }
   //check if rook is captured or not and update fen string accordingly
-  //isCheck.current=isisCheck(board,lastMove,color)
   let wcastlevalue = "";
   let bcastlevalue = "";
   if (castleValue) {

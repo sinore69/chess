@@ -27,14 +27,14 @@ export function isvalidkingmove(
       destRow == Number(srcRow) + row[i] &&
       destCol == Number(srcCol) + col[i] &&
       withinbounds(destRow, destCol) &&
-      safeKingMove(board, destRow, destCol, piece)
+      isKingSafe(board, destRow, destCol, piece)
     ) {
       return true;
     }
   }
   return false;
 }
-function safeKingMove(
+export function isKingSafe(
   board: string[][],
   row: number,
   col: number,

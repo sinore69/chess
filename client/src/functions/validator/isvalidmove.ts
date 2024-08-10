@@ -15,11 +15,11 @@ export function isvalidmove(
   wCastle: React.MutableRefObject<"" | "KQ" | "K" | "Q">,
   bCastle: React.MutableRefObject<"" | "kq" | "k" | "q">,
   isCheck: React.MutableRefObject<boolean>,
-  isUnderCheck:React.MutableRefObject<boolean>
+  isUnderCheck: React.MutableRefObject<boolean>
 ) {
   if (
     (piece === "p" || piece === "P") &&
-    isvalidpawnmove(srcRow, srcCol, destRow, destCol, piece, board, color)
+    isvalidpawnmove(srcRow, srcCol, destRow, destCol, piece, board, color,isCheck)
   ) {
     return true;
   }
@@ -65,7 +65,7 @@ export function isvalidmove(
   }
   if (
     (piece === "n" || piece === "N") &&
-    isvalidknightmove(srcRow, srcCol, destRow, destCol, piece, board)
+    isvalidknightmove(srcRow, srcCol, destRow, destCol, piece, board, isCheck)
   ) {
     return true;
   }

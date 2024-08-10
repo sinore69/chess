@@ -1,107 +1,173 @@
+import { MutableRefObject } from "react";
 import { withinbounds } from "../withinbounds";
+import { isUpperCase } from "../isuppercase";
 
 export function isvalidpawnmove(
-  rowindex: number,
-  colindex: number,
-  x: number,
-  y: number,
+  srcRow: number,
+  srcCol: number,
+  destRow: number,
+  destCol: number,
   piece: string,
   board: string[][],
-  color: string
+  color: string,
+  isCheck: MutableRefObject<boolean>
 ) {
-  if (rowindex == x && colindex == y) {
+  if (srcRow == destRow && srcCol == destCol) {
     return false;
   }
-  if (!withinbounds(x, y)) {
+  if (!withinbounds(destRow, destCol)) {
     return false;
   }
   if (piece == "P" && color === "w") {
-    if (x + 1 == rowindex && colindex == y && board[x][y] === "1") {
+    if (destRow + 1 == srcRow && srcCol == destCol && board[destRow][destCol] === "1") {
       //normal move
+      if (isPawnCheck(board, destRow, destCol, -1, piece)) {
+        isCheck.current = true;
+      }
       return true;
     }
-    if (rowindex == 6 && colindex == y) {
+    if (srcRow == 6 && srcCol == destCol) {
       //first move advantage
-      if (x + 2 == rowindex) {
+      if (destRow + 2 == srcRow) {
+        if (isPawnCheck(board, destRow, destCol, -2, piece)) {
+          isCheck.current = true;
+        }
         return true;
       }
     }
     if (
-      x + 1 == rowindex &&
-      (colindex == y - 1 || colindex == y + 1) &&
-      board[x][y] !== "1" &&
-      !isUpperCase(board[x][y])
+      destRow + 1 == srcRow &&
+      (srcCol == destCol - 1 || srcCol == destCol + 1) &&
+      board[destRow][destCol] !== "1" &&
+      !isUpperCase(board[destRow][destCol])
     ) {
       //diagonal move
+      if (isPawnCheck(board, destRow, destCol, -1, piece)) {
+        isCheck.current = true;
+      }
       return true;
     }
   }
   if (piece == "p" && color === "w") {
-    if (x - 1 == rowindex && colindex == y && board[x][y] === "1") {
+    if (destRow - 1 == srcRow && srcCol == destCol && board[destRow][destCol] === "1") {
       //normal move
+      if (isPawnCheck(board, destRow, destCol, 1, piece)) {
+        isCheck.current = true;
+      }
       return true;
     }
-    if (rowindex == 1 && colindex == y) {
+    if (srcRow == 1 && srcCol == destCol) {
       //first move advantage
-      if (x - 2 == rowindex) {
+      if (destRow - 2 == srcRow) {
+        if (isPawnCheck(board, destRow, destCol, 2, piece)) {
+          isCheck.current = true;
+        }
         return true;
       }
     }
     if (
-      x - 1 == rowindex &&
-      (colindex == y - 1 || colindex == y + 1) &&
-      board[x][y] !== "1" &&
-      isUpperCase(board[x][y])
+      destRow - 1 == srcRow &&
+      (srcCol == destCol - 1 || srcCol == destCol + 1) &&
+      board[destRow][destCol] !== "1" &&
+      isUpperCase(board[destRow][destCol])
     ) {
       //diagonal move
+      if (isPawnCheck(board, destRow, destCol, 1, piece)) {
+        isCheck.current = true;
+      }
       return true;
     }
   }
   if (piece == "p" && color === "b") {
     //normal move
-    if (x + 1 == rowindex && colindex == y && board[x][y] === "1") {
+    if (destRow + 1 == srcRow && srcCol == destCol && board[destRow][destCol] === "1") {
+      if (isPawnCheck(board, destRow, destCol, -1, piece)) {
+        isCheck.current = true;
+      }
       return true;
     }
 
-    if (rowindex == 6 && colindex == y) {
+    if (srcRow == 6 && srcCol == destCol) {
       //first move advantage
-      if (x + 2 == rowindex) {
+      if (destRow + 2 == srcRow) {
+        if (isPawnCheck(board, destRow, destCol, -2, piece)) {
+          isCheck.current = true;
+        }
         return true;
       }
     }
     if (
-      x + 1 == rowindex &&
-      (colindex == y - 1 || colindex == y + 1) &&
-      board[x][y] !== "1" &&
-      isUpperCase(board[x][y])
+      destRow + 1 == srcRow &&
+      (srcCol == destCol - 1 || srcCol == destCol + 1) &&
+      board[destRow][destCol] !== "1" &&
+      isUpperCase(board[destRow][destCol])
     ) {
       //diagonal move
+      if (isPawnCheck(board, destRow, destCol, -1, piece)) {
+        isCheck.current = true;
+      }
       return true;
     }
   }
   if (piece == "P" && color === "b") {
-    if (x - 1 == rowindex && colindex == y && board[x][y] === "1") {
+    if (destRow - 1 == srcRow && srcCol == destCol && board[destRow][destCol] === "1") {
       //normal move
+      if (isPawnCheck(board, destRow, destCol, 1, piece)) {
+        isCheck.current = true;
+      }
       return true;
     }
-    if (rowindex == 1 && colindex == y) {
+    if (srcRow == 1 && srcCol == destCol) {
       //first move advantage
-      if (x - 2 == rowindex) {
+      if (destRow - 2 == srcRow) {
+        if (isPawnCheck(board, destRow, destCol, 2, piece)) {
+          isCheck.current = true;
+        }
         return true;
       }
     }
     if (
-      x - 1 == rowindex &&
-      (colindex == y - 1 || colindex == y + 1) &&
-      board[x][y] !== "1" &&
-      !isUpperCase(board[x][y])
+      destRow - 1 == srcRow &&
+      (srcCol == destCol - 1 || srcCol == destCol + 1) &&
+      board[destRow][destCol] !== "1" &&
+      !isUpperCase(board[destRow][destCol])
     ) {
       //diagonal move
+      if (isPawnCheck(board, destRow, destCol, 1, piece)) {
+        isCheck.current = true;
+      }
       return true;
     }
   }
   return false;
 }
-function isUpperCase(letter: string) {
-  return letter === letter.toUpperCase();
+function isPawnCheck(
+  board: string[][],
+  row: number,
+  col: number,
+  offset: number,
+  piece: string
+) {
+  console.log(row,col)
+  if (withinbounds(Number(row) + offset, Number(col) + 1)) {
+    if (
+      (board[Number(row) + offset][Number(col) + 1] == "K" ||
+        board[Number(row) + offset][Number(col) + 1] == "k") &&
+      isUpperCase(board[Number(row) + offset][Number(col) + 1]) !==
+        isUpperCase(piece)
+    ) {
+      return true;
+    }
+  }
+  if (withinbounds(Number(row) + offset, Number(col) - 1)) {
+    if (
+      (board[Number(row) + offset][Number(col) - 1] == "K" ||
+        board[Number(row) + offset][Number(col) - 1] == "k") &&
+      isUpperCase(board[Number(row) + offset][Number(col) - 1]) !==
+        isUpperCase(piece)
+    ) {
+      return true;
+    }
+  }
+  return false;
 }
