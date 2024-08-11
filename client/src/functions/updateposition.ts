@@ -58,7 +58,18 @@ export function updateposition(
       wCastle,
       bCastle
     );
-    if (isvalidkingmove(rowindex, colindex, x, y, piece, board,isUnderCheck)) {
+    if (
+      isvalidkingmove(
+        rowindex,
+        colindex,
+        x,
+        y,
+        piece,
+        color,
+        board,
+        isUnderCheck
+      )
+    ) {
       newboard[rowindex][colindex] = "1";
       newboard[x][y] = piece;
       if (color === "w") {

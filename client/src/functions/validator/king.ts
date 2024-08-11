@@ -8,6 +8,7 @@ export function isvalidkingmove(
   destRow: number,
   destCol: number,
   piece: string,
+  color: string,
   board: string[][],
   isUnderCheck: MutableRefObject<boolean>
 ) {
@@ -27,7 +28,7 @@ export function isvalidkingmove(
       destRow == Number(srcRow) + row[i] &&
       destCol == Number(srcCol) + col[i] &&
       withinbounds(destRow, destCol) &&
-      isKingSafe(board, destRow, destCol, piece)
+      isKingSafe(board, destRow, destCol, piece, color)
     ) {
       return true;
     }
@@ -38,7 +39,8 @@ export function isKingSafe(
   board: string[][],
   row: number,
   col: number,
-  piece: string
+  piece: string,
+  color: string
 ) {
   //downward
   for (let i = 1; i <= 7; i++) {
@@ -230,6 +232,17 @@ export function isKingSafe(
       isUpperCase(piece) !== isUpperCase(board[Row][Col])
     ) {
       return false;
+    }
+  }
+  //pawn
+  if(color==="w"){
+    if(board[Number(row)-1][Number(col)-1]==="p"||board[Number(row)-1][Number(col)+1]==="p"){
+      return false
+    }
+  }
+  if(color==="b"){
+    if(board[Number(row)-1][Number(col)-1]==="P"||board[Number(row)-1][Number(col)+1]==="P"){
+      return false
     }
   }
   return true;
