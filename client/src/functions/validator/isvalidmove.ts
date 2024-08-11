@@ -1,5 +1,5 @@
+import { checkKingSafety } from "../undercheck";
 import { isvalidbishopmove } from "./bishop";
-import { isKingSafe } from "./king";
 import { isvalidknightmove } from "./knight";
 import { isvalidpawnmove } from "./pawn";
 import { isvalidqueenmove } from "./queen";
@@ -35,37 +35,7 @@ export function isvalidmove(
   ) {
     board[srcRow][srcCol] = "1";
     board[destRow][destCol] = piece;
-    if (color === "w") {
-      console.log(wKingPos.current);
-      if (
-        isKingSafe(
-          board,
-          parseInt(wKingPos.current.charAt(0)),
-          parseInt(wKingPos.current.charAt(1)),
-          "K",
-          "w"
-        )
-      ) {
-        return true;
-      } else {
-        return false;
-      }
-    }
-    if (color === "b") {
-      if (
-        isKingSafe(
-          board,
-          parseInt(bKingPos.current.charAt(0)),
-          parseInt(bKingPos.current.charAt(1)),
-          "k",
-          "b"
-        )
-      ) {
-        return true;
-      } else {
-        return false;
-      }
-    }
+    return checkKingSafety(board,color,wKingPos,bKingPos)
   }
   if (
     (piece === "r" || piece === "R") &&
@@ -84,36 +54,7 @@ export function isvalidmove(
   ) {
     board[srcRow][srcCol] = "1";
     board[destRow][destCol] = piece;
-    if (color === "w") {
-      if (
-        isKingSafe(
-          board,
-          parseInt(wKingPos.current.charAt(0)),
-          parseInt(wKingPos.current.charAt(1)),
-          "K",
-          "w"
-        )
-      ) {
-        return true;
-      } else {
-        return false;
-      }
-    }
-    if (color === "b") {
-      if (
-        isKingSafe(
-          board,
-          parseInt(bKingPos.current.charAt(0)),
-          parseInt(bKingPos.current.charAt(1)),
-          "k",
-          "b"
-        )
-      ) {
-        return true;
-      } else {
-        return false;
-      }
-    }
+    return checkKingSafety(board,color,wKingPos,bKingPos)
   }
   if (
     (piece === "b" || piece === "B") &&
@@ -121,37 +62,7 @@ export function isvalidmove(
   ) {
     board[srcRow][srcCol] = "1";
     board[destRow][destCol] = piece;
-    if (color === "w") {
-      console.log(wKingPos.current);
-      if (
-        isKingSafe(
-          board,
-          parseInt(wKingPos.current.charAt(0)),
-          parseInt(wKingPos.current.charAt(1)),
-          "K",
-          "w"
-        )
-      ) {
-        return true;
-      } else {
-        return false;
-      }
-    }
-    if (color === "b") {
-      if (
-        isKingSafe(
-          board,
-          parseInt(bKingPos.current.charAt(0)),
-          parseInt(bKingPos.current.charAt(1)),
-          "k",
-          "b"
-        )
-      ) {
-        return true;
-      } else {
-        return false;
-      }
-    }
+    return checkKingSafety(board,color,wKingPos,bKingPos)
   }
   if (
     (piece === "q" || piece === "Q") &&
@@ -170,37 +81,7 @@ export function isvalidmove(
   ) {
     board[srcRow][srcCol] = "1";
     board[destRow][destCol] = piece;
-    if (color === "w") {
-      console.log(wKingPos.current);
-      if (
-        isKingSafe(
-          board,
-          parseInt(wKingPos.current.charAt(0)),
-          parseInt(wKingPos.current.charAt(1)),
-          "K",
-          "w"
-        )
-      ) {
-        return true;
-      } else {
-        return false;
-      }
-    }
-    if (color === "b") {
-      if (
-        isKingSafe(
-          board,
-          parseInt(bKingPos.current.charAt(0)),
-          parseInt(bKingPos.current.charAt(1)),
-          "k",
-          "b"
-        )
-      ) {
-        return true;
-      } else {
-        return false;
-      }
-    }
+    return checkKingSafety(board,color,wKingPos,bKingPos)
   }
   if (
     (piece === "n" || piece === "N") &&
@@ -208,37 +89,7 @@ export function isvalidmove(
   ) {
     board[srcRow][srcCol] = "1";
     board[destRow][destCol] = piece;
-    if (color === "w") {
-      console.log(wKingPos.current);
-      if (
-        isKingSafe(
-          board,
-          parseInt(wKingPos.current.charAt(0)),
-          parseInt(wKingPos.current.charAt(1)),
-          "K",
-          "w"
-        )
-      ) {
-        return true;
-      } else {
-        return false;
-      }
-    }
-    if (color === "b") {
-      if (
-        isKingSafe(
-          board,
-          parseInt(bKingPos.current.charAt(0)),
-          parseInt(bKingPos.current.charAt(1)),
-          "k",
-          "b"
-        )
-      ) {
-        return true;
-      } else {
-        return false;
-      }
-    }
+    return checkKingSafety(board,color,wKingPos,bKingPos)
   }
   return false;
 }
