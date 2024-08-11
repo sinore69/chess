@@ -235,14 +235,24 @@ export function isKingSafe(
     }
   }
   //pawn
-  if(color==="w"){
-    if(board[Number(row)-1][Number(col)-1]==="p"||board[Number(row)-1][Number(col)+1]==="p"){
-      return false
+  if (color === "w") {
+    if (
+      (withinbounds(Number(row) - 1, Number(col) - 1) &&
+        board[Number(row) - 1][Number(col) - 1] === "p") ||
+      (withinbounds(Number(row) - 1, Number(col) + 1) &&
+        board[Number(row) - 1][Number(col) + 1] === "p")
+    ) {
+      return false;
     }
   }
-  if(color==="b"){
-    if(board[Number(row)-1][Number(col)-1]==="P"||board[Number(row)-1][Number(col)+1]==="P"){
-      return false
+  if (color === "b") {
+    if (
+      (withinbounds(Number(row) - 1, Number(col) - 1) &&
+        board[Number(row) - 1][Number(col) - 1] === "P") ||
+      (withinbounds(Number(row) - 1, Number(col) + 1) &&
+        board[Number(row) - 1][Number(col) + 1] === "P")
+    ) {
+      return false;
     }
   }
   return true;

@@ -3,16 +3,18 @@ import { iscastle, isvalidkingmove } from "./validator/king";
 
 export function updateposition(
   board: string[][],
-  rowindex: number,
-  colindex: number,
-  x: number,
-  y: number,
+  srcRow: number,
+  srcCol: number,
+  destRow: number,
+  destCol: number,
   piece: string,
   color: string,
   wCastle: React.MutableRefObject<"" | "KQ" | "K" | "Q">,
   bCastle: React.MutableRefObject<"" | "kq" | "k" | "q">,
   isCheck: React.MutableRefObject<boolean>,
-  isUnderCheck: React.MutableRefObject<boolean>
+  isUnderCheck: React.MutableRefObject<boolean>,
+  wKingPos:React.MutableRefObject<string>,
+  bKingPos:React.MutableRefObject<string>
 ) {
   let newboard = [
     ["1", "1", "1", "1", "1", "1", "1", "1"],
@@ -31,28 +33,30 @@ export function updateposition(
   }
   if (
     isvalidmove(
-      rowindex,
-      colindex,
-      x,
-      y,
+      srcRow,
+      srcCol,
+      destRow,
+      destCol,
       piece,
       board,
       color,
       wCastle,
       bCastle,
       isCheck,
-      isUnderCheck
+      isUnderCheck,
+      wKingPos,
+      bKingPos
     )
   ) {
-    newboard[rowindex][colindex] = "1";
-    newboard[x][y] = piece;
+    newboard[srcRow][srcCol] = "1";
+    newboard[destRow][destCol] = piece;
   }
   if (piece === "k" || piece === "K") {
     newboard = iscastle(
-      rowindex,
-      colindex,
-      x,
-      y,
+      srcRow,
+      srcCol,
+      destRow,
+      destCol,
       board,
       color,
       wCastle,
@@ -60,18 +64,18 @@ export function updateposition(
     );
     if (
       isvalidkingmove(
-        rowindex,
-        colindex,
-        x,
-        y,
+        srcRow,
+        srcCol,
+        destRow,
+        destCol,
         piece,
         color,
         board,
         isUnderCheck
       )
     ) {
-      newboard[rowindex][colindex] = "1";
-      newboard[x][y] = piece;
+      newboard[srcRow][srcCol] = "1";
+      newboard[destRow][destCol] = piece;
       if (color === "w") {
         wCastle.current = "";
       }

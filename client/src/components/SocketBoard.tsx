@@ -22,6 +22,8 @@ function SocketBoard(props: {
   );
   const wCastle = useRef<"KQ" | "K" | "Q" | "">("KQ");
   const bCastle = useRef<"kq" | "k" | "q" | "">("kq");
+  const wKingPos = useRef<string>("");
+  const bKingPos = useRef<string>("");
   const colorToMove = useRef<"b" | "w">("w");
   const isCheck = useRef<true | false>(false);
   const isUnderCheck = useRef<true | false>(false);
@@ -49,7 +51,9 @@ function SocketBoard(props: {
           data.lastMove,
           isCheck,
           wCastle,
-          bCastle
+          bCastle,
+          wKingPos,
+          bKingPos
         );
         setboard(newposition);
         colorToMove.current = updateTurn(data.fen);
@@ -96,7 +100,9 @@ function SocketBoard(props: {
       wCastle,
       bCastle,
       isCheck,
-      isUnderCheck
+      isUnderCheck,
+      wKingPos,
+      bKingPos
     );
     setboard(newposition);
     const newfen = fengenerator(newposition, color.current, wCastle, bCastle);

@@ -148,7 +148,6 @@ function isPawnCheck(
   offset: number,
   piece: string
 ) {
-  console.log(row,col)
   if (withinbounds(Number(row) + offset, Number(col) + 1)) {
     if (
       (board[Number(row) + offset][Number(col) + 1] == "K" ||
