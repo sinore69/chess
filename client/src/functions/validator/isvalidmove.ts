@@ -16,7 +16,6 @@ export function isvalidmove(
   wCastle: React.MutableRefObject<"" | "KQ" | "K" | "Q">,
   bCastle: React.MutableRefObject<"" | "kq" | "k" | "q">,
   isCheck: React.MutableRefObject<boolean>,
-  isUnderCheck: React.MutableRefObject<boolean>,
   wKingPos: React.MutableRefObject<string>,
   bKingPos: React.MutableRefObject<string>
 ) {

@@ -7,6 +7,6 @@ import (
 
 func SendInitialGameState(room types.Room) {
 	room.Creator.WriteJSON(room)
-	time.Sleep(time.Millisecond*150)
+	time.Sleep(time.Millisecond*80)
 	room.Player.WriteJSON(room)
 }

@@ -13,8 +13,8 @@ export function updateposition(
   bCastle: React.MutableRefObject<"" | "kq" | "k" | "q">,
   isCheck: React.MutableRefObject<boolean>,
   isUnderCheck: React.MutableRefObject<boolean>,
-  wKingPos:React.MutableRefObject<string>,
-  bKingPos:React.MutableRefObject<string>
+  wKingPos: React.MutableRefObject<string>,
+  bKingPos: React.MutableRefObject<string>
 ) {
   let newboard = [
     ["1", "1", "1", "1", "1", "1", "1", "1"],
@@ -43,7 +43,6 @@ export function updateposition(
       wCastle,
       bCastle,
       isCheck,
-      isUnderCheck,
       wKingPos,
       bKingPos
     )

@@ -151,6 +151,7 @@ export function isKingSafe(
     ) {
       return false;
     }
+    break;
   }
   //diagonal 2nd quadrant
   for (let i = 0; i <= 7; i++) {
@@ -173,6 +174,7 @@ export function isKingSafe(
     ) {
       return false;
     }
+    break;
   }
   //diagonal 3rd quadrant
   for (let i = 0; i <= 7; i++) {
@@ -195,6 +197,7 @@ export function isKingSafe(
     ) {
       return false;
     }
+    break;
   }
   //diagonal 4th quadrant
   for (let i = 0; i <= 7; i++) {
@@ -217,6 +220,7 @@ export function isKingSafe(
     ) {
       return false;
     }
+    break;
   }
   //knight
   let Row: number = 0,
