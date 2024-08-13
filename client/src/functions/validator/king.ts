@@ -131,7 +131,7 @@ export function isKingSafe(
     break;
   }
   //diagonal 1st quadrant
-  for (let i = 0; i <= 7; i++) {
+  for (let i = 1; i <= 7; i++) {
     if (!withinbounds(Number(row) - i, Number(col) - i)) {
       break;
     }
@@ -154,7 +154,8 @@ export function isKingSafe(
     break;
   }
   //diagonal 2nd quadrant
-  for (let i = 0; i <= 7; i++) {
+  for (let i = 1; i <= 7; i++) {
+    console.log(Number(row) - i, Number(col) + i)
     if (!withinbounds(Number(row) - i, Number(col) + i)) {
       break;
     }
@@ -177,7 +178,7 @@ export function isKingSafe(
     break;
   }
   //diagonal 3rd quadrant
-  for (let i = 0; i <= 7; i++) {
+  for (let i = 1; i <= 7; i++) {
     if (!withinbounds(Number(row) + i, Number(col) + i)) {
       break;
     }
@@ -200,7 +201,7 @@ export function isKingSafe(
     break;
   }
   //diagonal 4th quadrant
-  for (let i = 0; i <= 7; i++) {
+  for (let i = 1; i <= 7; i++) {
     if (!withinbounds(Number(row) + i, Number(col) - i)) {
       break;
     }
