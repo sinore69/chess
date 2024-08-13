@@ -2,7 +2,7 @@ import { MutableRefObject } from "react";
 import { withinbounds } from "../withinbounds";
 import { isUpperCase } from "../isuppercase";
 
-export function isvalidpawnmove(
+export function isValidPawnmove(
   srcRow: number,
   srcCol: number,
   destRow: number,
@@ -19,7 +19,11 @@ export function isvalidpawnmove(
     return false;
   }
   if (piece == "P" && color === "w") {
-    if (destRow + 1 == srcRow && srcCol == destCol && board[destRow][destCol] === "1") {
+    if (
+      destRow + 1 == srcRow &&
+      srcCol == destCol &&
+      board[destRow][destCol] === "1"
+    ) {
       //normal move
       if (isPawnCheck(board, destRow, destCol, -1, piece)) {
         isCheck.current = true;
@@ -49,7 +53,11 @@ export function isvalidpawnmove(
     }
   }
   if (piece == "p" && color === "w") {
-    if (destRow - 1 == srcRow && srcCol == destCol && board[destRow][destCol] === "1") {
+    if (
+      destRow - 1 == srcRow &&
+      srcCol == destCol &&
+      board[destRow][destCol] === "1"
+    ) {
       //normal move
       if (isPawnCheck(board, destRow, destCol, 1, piece)) {
         isCheck.current = true;
@@ -80,7 +88,11 @@ export function isvalidpawnmove(
   }
   if (piece == "p" && color === "b") {
     //normal move
-    if (destRow + 1 == srcRow && srcCol == destCol && board[destRow][destCol] === "1") {
+    if (
+      destRow + 1 == srcRow &&
+      srcCol == destCol &&
+      board[destRow][destCol] === "1"
+    ) {
       if (isPawnCheck(board, destRow, destCol, -1, piece)) {
         isCheck.current = true;
       }
@@ -110,7 +122,11 @@ export function isvalidpawnmove(
     }
   }
   if (piece == "P" && color === "b") {
-    if (destRow - 1 == srcRow && srcCol == destCol && board[destRow][destCol] === "1") {
+    if (
+      destRow - 1 == srcRow &&
+      srcCol == destCol &&
+      board[destRow][destCol] === "1"
+    ) {
       //normal move
       if (isPawnCheck(board, destRow, destCol, 1, piece)) {
         isCheck.current = true;

@@ -5,4 +5,5 @@ type Fen struct {
 	LastMove    string `json:"lastMove"`
 	FromNumeric string `json:"fromNumeric"`
 	ToNumeric   string `json:"toNumeric"`
+	EnPassant   string `json:"enPassant"`
 }

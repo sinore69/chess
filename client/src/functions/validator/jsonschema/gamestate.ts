@@ -9,6 +9,7 @@ const schema: JSONSchemaType<Fen> = {
     lastMove: { type: "string" },
     fromNumeric: { type: "string" },
     toNumeric: { type: "string" },
+    enPassant: { type: "string" },
   },
   required: ["fen", "lastMove"],
   additionalProperties: false,

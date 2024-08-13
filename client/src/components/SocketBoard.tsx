@@ -11,6 +11,7 @@ import { decodefen } from "@/functions/decodefen";
 import { InitialGameStateValidator } from "@/functions/validator/jsonschema/initialgamestate";
 import { GameStateValidator } from "@/functions/validator/jsonschema/gamestate";
 import { IsUnderCheck } from "@/functions/undercheck";
+
 function SocketBoard(props: {
   movable: boolean;
   socket: WebSocket;
@@ -27,7 +28,9 @@ function SocketBoard(props: {
   const colorToMove = useRef<"b" | "w">("w");
   const isCheck = useRef<true | false>(false);
   const isUnderCheck = useRef<true | false>(false);
+  const enPassant=useRef<string>("")
   const ref = useRef<HTMLDivElement | null>(null);
+
   useEffect(() => {
     if (ref.current) {
       ref.current.focus();
@@ -62,6 +65,7 @@ function SocketBoard(props: {
       }
     };
   }, [props.playAs, props.socket]);
+
   function onDragStart(
     e: any,
     rowindex: number,
@@ -74,6 +78,7 @@ function SocketBoard(props: {
       e.target.style.display = "none";
     }, 0);
   }
+
   function onDragEnd(e: any) {
     e.target.style.display = "block";
   }
@@ -102,7 +107,8 @@ function SocketBoard(props: {
       isCheck,
       isUnderCheck,
       wKingPos,
-      bKingPos
+      bKingPos,
+      enPassant
     );
     setboard(newposition);
     const newfen = fengenerator(newposition, color.current, wCastle, bCastle);
@@ -116,10 +122,10 @@ function SocketBoard(props: {
         x,
         y,
         isCheck,
-        isUnderCheck
       );
     }
   }
+
   function onDragOver(e: any) {
     e.preventDefault();
   }

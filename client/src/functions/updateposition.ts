@@ -14,7 +14,8 @@ export function updateposition(
   isCheck: React.MutableRefObject<boolean>,
   isUnderCheck: React.MutableRefObject<boolean>,
   wKingPos: React.MutableRefObject<string>,
-  bKingPos: React.MutableRefObject<string>
+  bKingPos: React.MutableRefObject<string>,
+  enPassant:React.MutableRefObject<string>
 ) {
   let newboard = [
     ["1", "1", "1", "1", "1", "1", "1", "1"],
@@ -44,7 +45,8 @@ export function updateposition(
       bCastle,
       isCheck,
       wKingPos,
-      bKingPos
+      bKingPos,
+      enPassant
     )
   ) {
     newboard[srcRow][srcCol] = "1";

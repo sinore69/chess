@@ -1,7 +1,7 @@
 import { checkKingSafety } from "../undercheck";
 import { isvalidbishopmove } from "./bishop";
 import { isvalidknightmove } from "./knight";
-import { isvalidpawnmove } from "./pawn";
+import { isValidPawnmove } from "./pawn";
 import { isvalidqueenmove } from "./queen";
 import { isvalidrookmove } from "./rook";
 
@@ -17,11 +17,12 @@ export function isvalidmove(
   bCastle: React.MutableRefObject<"" | "kq" | "k" | "q">,
   isCheck: React.MutableRefObject<boolean>,
   wKingPos: React.MutableRefObject<string>,
-  bKingPos: React.MutableRefObject<string>
+  bKingPos: React.MutableRefObject<string>,
+  enPassant: React.MutableRefObject<string>
 ) {
   if (
     (piece === "p" || piece === "P") &&
-    isvalidpawnmove(
+    isValidPawnmove(
       srcRow,
       srcCol,
       destRow,
@@ -34,7 +35,7 @@ export function isvalidmove(
   ) {
     board[srcRow][srcCol] = "1";
     board[destRow][destCol] = piece;
-    return checkKingSafety(board,color,wKingPos,bKingPos)
+    return checkKingSafety(board, color, wKingPos, bKingPos);
   }
   if (
     (piece === "r" || piece === "R") &&
@@ -53,7 +54,7 @@ export function isvalidmove(
   ) {
     board[srcRow][srcCol] = "1";
     board[destRow][destCol] = piece;
-    return checkKingSafety(board,color,wKingPos,bKingPos)
+    return checkKingSafety(board, color, wKingPos, bKingPos);
   }
   if (
     (piece === "b" || piece === "B") &&
@@ -61,7 +62,7 @@ export function isvalidmove(
   ) {
     board[srcRow][srcCol] = "1";
     board[destRow][destCol] = piece;
-    return checkKingSafety(board,color,wKingPos,bKingPos)
+    return checkKingSafety(board, color, wKingPos, bKingPos);
   }
   if (
     (piece === "q" || piece === "Q") &&
@@ -80,7 +81,7 @@ export function isvalidmove(
   ) {
     board[srcRow][srcCol] = "1";
     board[destRow][destCol] = piece;
-    return checkKingSafety(board,color,wKingPos,bKingPos)
+    return checkKingSafety(board, color, wKingPos, bKingPos);
   }
   if (
     (piece === "n" || piece === "N") &&
@@ -88,7 +89,7 @@ export function isvalidmove(
   ) {
     board[srcRow][srcCol] = "1";
     board[destRow][destCol] = piece;
-    return checkKingSafety(board,color,wKingPos,bKingPos)
+    return checkKingSafety(board, color, wKingPos, bKingPos);
   }
   return false;
 }

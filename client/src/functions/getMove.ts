@@ -8,7 +8,9 @@ export async function getMove(
   wCastle: React.MutableRefObject<"" | "KQ" | "K" | "Q">,
   bCastle: React.MutableRefObject<"" | "kq" | "k" | "q">,
   isCheck: React.MutableRefObject<boolean>,
-  colorToMove: React.MutableRefObject<"w" | "b">
+  colorToMove: React.MutableRefObject<"w" | "b">,
+  wKingPos:React.MutableRefObject<string>,
+  bKingPos:React.MutableRefObject<string>
 ) {
   const data = {
     fen: fen,
@@ -23,7 +25,9 @@ export async function getMove(
     resp.lastMove,
     isCheck,
     wCastle,
-    bCastle
+    bCastle,
+    wKingPos,
+    bKingPos
   );
   setboard(newPosition);
   colorToMove.current = updateTurn(resp.fen);

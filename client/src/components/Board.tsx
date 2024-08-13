@@ -16,7 +16,10 @@ function Board(props: { movable: boolean }) {
   const colorToMove = useRef<"b" | "w">("w");
   const isCheck = useRef<true | false>(false);
   const isUnderCheck = useRef<true | false>(false);
+  const wKingPos = useRef<string>("");
+  const bKingPos = useRef<string>("");
   const ref = useRef<HTMLDivElement | null>(null);
+  const enPassant = useRef<string>("");
   useEffect(() => {
     if (ref.current) {
       ref.current.focus();
@@ -46,7 +49,9 @@ function Board(props: { movable: boolean }) {
       wCastle,
       bCastle,
       isCheck,
-      colorToMove
+      colorToMove,
+      wKingPos,
+      bKingPos
     );
   }
 
@@ -70,13 +75,25 @@ function Board(props: { movable: boolean }) {
       wCastle,
       bCastle,
       isCheck,
-      isUnderCheck
+      isUnderCheck,
+      wKingPos,
+      bKingPos,
+      enPassant
     );
     setboard(newposition);
     const newfen = fengenerator(newposition, color, wCastle, bCastle);
     if (oldfen !== newfen) {
       colorToMove.current = color === "w" ? "b" : "w";
-      getMove(newfen, setboard, wCastle, bCastle, isCheck, colorToMove);
+      getMove(
+        newfen,
+        setboard,
+        wCastle,
+        bCastle,
+        isCheck,
+        colorToMove,
+        wKingPos,
+        bKingPos
+      );
     }
   }
   function onDragOver(e: any) {

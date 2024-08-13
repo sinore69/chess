@@ -155,7 +155,6 @@ export function isKingSafe(
   }
   //diagonal 2nd quadrant
   for (let i = 1; i <= 7; i++) {
-    console.log(Number(row) - i, Number(col) + i)
     if (!withinbounds(Number(row) - i, Number(col) + i)) {
       break;
     }
