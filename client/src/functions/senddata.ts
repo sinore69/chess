@@ -9,6 +9,7 @@ export function sendData(
   destRow: number,
   destCol: number,
   isCheck: React.MutableRefObject<boolean>,
+  enPassant: React.MutableRefObject<string>
 ) {
   const lastmove = calcLastMove(srcRow, srcCol, destRow, destCol, isCheck);
   const fromnumeric = fromNumeric(srcRow, srcCol);
@@ -18,10 +19,10 @@ export function sendData(
     lastMove: lastmove,
     fromNumeric: fromnumeric,
     toNumeric: tonumeric,
-    enPassant:""
+    enPassant: enPassant.current,
   };
   if (socket.readyState === 1) {
-    console.log(data)
+    console.log(data);
     socket.send(JSON.stringify(data));
   }
 }

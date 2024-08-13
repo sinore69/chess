@@ -10,7 +10,8 @@ export function isValidPawnmove(
   piece: string,
   board: string[][],
   color: string,
-  isCheck: MutableRefObject<boolean>
+  isCheck: MutableRefObject<boolean>,
+  enPassant: React.MutableRefObject<string>
 ) {
   if (srcRow == destRow && srcCol == destCol) {
     return false;
@@ -18,7 +19,7 @@ export function isValidPawnmove(
   if (!withinbounds(destRow, destCol)) {
     return false;
   }
-  if (piece == "P" && color === "w") {
+  if (piece === "P" && color === "w") {
     if (
       destRow + 1 == srcRow &&
       srcCol == destCol &&
@@ -32,10 +33,15 @@ export function isValidPawnmove(
     }
     if (srcRow == 6 && srcCol == destCol) {
       //first move advantage
-      if (destRow + 2 == srcRow) {
+      if (
+        destRow + 2 == srcRow &&
+        board[Number(destRow)][destCol] == "1" &&
+        board[Number(destRow) + 1][destCol] == "1"
+      ) {
         if (isPawnCheck(board, destRow, destCol, -2, piece)) {
           isCheck.current = true;
         }
+        ifEnpassant(enPassant, destRow, destCol, board, "p", color);
         return true;
       }
     }
@@ -66,7 +72,11 @@ export function isValidPawnmove(
     }
     if (srcRow == 1 && srcCol == destCol) {
       //first move advantage
-      if (destRow - 2 == srcRow) {
+      if (
+        destRow - 2 == srcRow &&
+        board[Number(destRow) - 1][destCol] == "1" &&
+        board[Number(destRow)][destCol] == "1"
+      ) {
         if (isPawnCheck(board, destRow, destCol, 2, piece)) {
           isCheck.current = true;
         }
@@ -101,10 +111,15 @@ export function isValidPawnmove(
 
     if (srcRow == 6 && srcCol == destCol) {
       //first move advantage
-      if (destRow + 2 == srcRow) {
+      if (
+        destRow + 2 == srcRow &&
+        board[Number(destRow) + 1][destCol] == "1" &&
+        board[Number(destRow)][destCol] == "1"
+      ) {
         if (isPawnCheck(board, destRow, destCol, -2, piece)) {
           isCheck.current = true;
         }
+        ifEnpassant(enPassant, destRow, destCol, board, "P", color);
         return true;
       }
     }
@@ -135,7 +150,11 @@ export function isValidPawnmove(
     }
     if (srcRow == 1 && srcCol == destCol) {
       //first move advantage
-      if (destRow - 2 == srcRow) {
+      if (
+        destRow - 2 == srcRow &&
+        board[Number(destRow) - 1][destCol] == "1" &&
+        board[Number(destRow)][destCol] == "1"
+      ) {
         if (isPawnCheck(board, destRow, destCol, 2, piece)) {
           isCheck.current = true;
         }
@@ -185,4 +204,56 @@ function isPawnCheck(
     }
   }
   return false;
+}
+
+export function EnPassantMove(
+  destRow: number,
+  destCol: number,
+  color: string,
+  enPassant: React.MutableRefObject<string>
+) {
+  if (color === "w") {
+    if (enPassant.current.charAt(0) != color) {
+      if (
+        Number(destRow) === Number(7 - parseInt(enPassant.current.charAt(1))) &&
+        Number(destCol) === Number(7 - parseInt(enPassant.current.charAt(2)))
+      ) {
+        return true;
+      }
+    }
+  }
+  if (color === "b") {
+    if (enPassant.current.charAt(0) != color) {
+      if (
+        Number(destRow) === Number(7 - parseInt(enPassant.current.charAt(1))) &&
+        Number(destCol) === Number(7 - parseInt(enPassant.current.charAt(2)))
+      ) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+function ifEnpassant(
+  enPassant: React.MutableRefObject<string>,
+  destRow: number,
+  destCol: number,
+  board: string[][],
+  counterPiece: string,
+  color: string
+) {
+  if (
+    withinbounds(destRow, Number(destCol) + 1) &&
+    board[destRow][Number(destCol) + 1] === counterPiece
+  ) {
+    enPassant.current = color + (Number(destRow) + 1) + destCol;
+  } else if (
+    withinbounds(destRow, Number(destCol) - 1) &&
+    board[destRow][Number(destCol) - 1] === counterPiece
+  ) {
+    enPassant.current = color + (Number(destRow) + 1) + destCol;
+  } else {
+    enPassant.current = "";
+  }
 }

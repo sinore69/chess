@@ -58,6 +58,7 @@ function SocketBoard(props: {
           wKingPos,
           bKingPos
         );
+        enPassant.current=data.enPassant
         setboard(newposition);
         colorToMove.current = updateTurn(data.fen);
         isCheck.current = false;
@@ -122,7 +123,9 @@ function SocketBoard(props: {
         x,
         y,
         isCheck,
+        enPassant
       );
+      enPassant.current=""
     }
   }
 

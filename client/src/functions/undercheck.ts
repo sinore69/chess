@@ -43,4 +43,5 @@ export function checkKingSafety(
       return false;
     }
   }
+  return false
 }

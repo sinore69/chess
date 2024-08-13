@@ -1,7 +1,7 @@
 import { checkKingSafety } from "../undercheck";
 import { isvalidbishopmove } from "./bishop";
 import { isvalidknightmove } from "./knight";
-import { isValidPawnmove } from "./pawn";
+import { EnPassantMove, isValidPawnmove } from "./pawn";
 import { isvalidqueenmove } from "./queen";
 import { isvalidrookmove } from "./rook";
 
@@ -30,7 +30,8 @@ export function isvalidmove(
       piece,
       board,
       color,
-      isCheck
+      isCheck,
+      enPassant
     )
   ) {
     board[srcRow][srcCol] = "1";
