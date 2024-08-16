@@ -54,11 +54,11 @@ export function isKingSafe(
       continue;
     }
     if (
-      board[Number(row) + i][Number(col)] == "R" ||
-      board[Number(row) + i][Number(col)] == "r" ||
-      board[Number(row) + i][Number(col)] == "Q" ||
-      (board[Number(row) + i][Number(col)] == "q" &&
-        isUpperCase(piece) !== isUpperCase(board[Number(row) + i][Number(col)]))
+      (board[Number(row) + i][Number(col)] == "R" ||
+        board[Number(row) + i][Number(col)] == "r" ||
+        board[Number(row) + i][Number(col)] == "Q" ||
+        board[Number(row) + i][Number(col)] == "q") &&
+      isUpperCase(piece) !== isUpperCase(board[Number(row) + i][Number(col)])
     ) {
       return false;
     }
