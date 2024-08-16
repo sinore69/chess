@@ -3,7 +3,7 @@ import Console from "@/components/Console";
 import SocketBoard from "@/components/SocketBoard";
 import React, { useRef } from "react";
 
-let socket = new WebSocket("ws://127.0.0.1:5000/create");
+let socket = new WebSocket(`ws://${process.env.NEXT_PUBLIC_IP}:5000/create`);
 function Page() {
   const connectionState = useRef<boolean>(false);
   socket.onopen = (event) => {

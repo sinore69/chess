@@ -1,7 +1,8 @@
+import { promotionData } from "@/types/promotion";
 import { checkKingSafety } from "../undercheck";
 import { isvalidbishopmove } from "./bishop";
 import { isvalidknightmove } from "./knight";
-import { EnPassantMove, isValidPawnmove } from "./pawn";
+import { isValidPawnmove } from "./pawn";
 import { isvalidqueenmove } from "./queen";
 import { isvalidrookmove } from "./rook";
 
@@ -18,7 +19,8 @@ export function isvalidmove(
   isCheck: React.MutableRefObject<boolean>,
   wKingPos: React.MutableRefObject<string>,
   bKingPos: React.MutableRefObject<string>,
-  enPassant: React.MutableRefObject<string>
+  enPassant: React.MutableRefObject<string>,
+  promotion:React.MutableRefObject<promotionData>
 ) {
   if (
     (piece === "p" || piece === "P") &&
@@ -31,7 +33,8 @@ export function isvalidmove(
       board,
       color,
       isCheck,
-      enPassant
+      enPassant,
+      promotion
     )
   ) {
     board[srcRow][srcCol] = "1";

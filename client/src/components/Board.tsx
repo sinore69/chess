@@ -7,6 +7,7 @@ import { calcCoordinates } from "../functions/calccoordinates";
 import Image from "next/image";
 import { turn } from "../functions/turn";
 import { getMove } from "@/functions/getMove";
+import { promotionData } from "@/types/promotion";
 function Board(props: { movable: boolean }) {
   const [color, setcolor] = useState<"b" | "w">("b");
   const [board, setboard] = useState<string[][]>(initialgamestate(color));
@@ -19,7 +20,11 @@ function Board(props: { movable: boolean }) {
   const wKingPos = useRef<string>("");
   const bKingPos = useRef<string>("");
   const ref = useRef<HTMLDivElement | null>(null);
-  const enPassant = useRef<string>("");
+ const Promotion = useRef<promotionData>({
+    color: "",
+    isPromotion: false,
+    position: "",
+  }); const enPassant = useRef<string>("");
   useEffect(() => {
     if (ref.current) {
       ref.current.focus();
@@ -78,7 +83,8 @@ function Board(props: { movable: boolean }) {
       isUnderCheck,
       wKingPos,
       bKingPos,
-      enPassant
+      enPassant,
+      Promotion
     );
     setboard(newposition);
     const newfen = fengenerator(newposition, color, wCastle, bCastle);

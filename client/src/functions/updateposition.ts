@@ -1,3 +1,4 @@
+import { promotionData } from "@/types/promotion";
 import { checkKingSafety } from "./undercheck";
 import { isvalidmove } from "./validator/isvalidmove";
 import { iscastle, isvalidkingmove } from "./validator/king";
@@ -17,7 +18,8 @@ export function updateposition(
   isUnderCheck: React.MutableRefObject<boolean>,
   wKingPos: React.MutableRefObject<string>,
   bKingPos: React.MutableRefObject<string>,
-  enPassant: React.MutableRefObject<string>
+  enPassant: React.MutableRefObject<string>,
+  promotion:React.MutableRefObject<promotionData>
 ) {
   let kingSafety: boolean = true;
   let newboard = [
@@ -62,7 +64,8 @@ export function updateposition(
       isCheck,
       wKingPos,
       bKingPos,
-      enPassant
+      enPassant,
+      promotion
     )
   ) {
     newboard[srcRow][srcCol] = "1";

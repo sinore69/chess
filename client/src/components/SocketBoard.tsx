@@ -11,6 +11,8 @@ import { decodefen } from "@/functions/decodefen";
 import { InitialGameStateValidator } from "@/functions/validator/jsonschema/initialgamestate";
 import { GameStateValidator } from "@/functions/validator/jsonschema/gamestate";
 import { IsUnderCheck } from "@/functions/undercheck";
+import { promotionData } from "@/types/promotion";
+import PromotionPopUp from "./PromotionPopUp";
 
 function SocketBoard(props: {
   movable: boolean;
@@ -28,7 +30,12 @@ function SocketBoard(props: {
   const colorToMove = useRef<"b" | "w">("w");
   const isCheck = useRef<true | false>(false);
   const isUnderCheck = useRef<true | false>(false);
-  const enPassant=useRef<string>("")
+  const enPassant = useRef<string>("");
+  const Promotion = useRef<promotionData>({
+    color: "",
+    isPromotion: false,
+    position: "",
+  });
   const ref = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -58,7 +65,7 @@ function SocketBoard(props: {
           wKingPos,
           bKingPos
         );
-        enPassant.current=data.enPassant
+        enPassant.current = data.enPassant;
         setboard(newposition);
         colorToMove.current = updateTurn(data.fen);
         isCheck.current = false;
@@ -109,7 +116,8 @@ function SocketBoard(props: {
       isUnderCheck,
       wKingPos,
       bKingPos,
-      enPassant
+      enPassant,
+      Promotion
     );
     setboard(newposition);
     const newfen = fengenerator(newposition, color.current, wCastle, bCastle);
@@ -125,7 +133,7 @@ function SocketBoard(props: {
         isCheck,
         enPassant
       );
-      enPassant.current=""
+      enPassant.current = "";
     }
   }
 
@@ -135,7 +143,7 @@ function SocketBoard(props: {
   return (
     <div>
       <div
-        className="flex justify-start flex-col h-screen box-border overflow-hidden"
+        className="relative flex justify-start flex-col h-screen box-border overflow-hidden"
         onDrop={onDrop}
         onDragOver={onDragOver}
         ref={ref}
@@ -178,6 +186,13 @@ function SocketBoard(props: {
             ))}
           </div>
         ))}
+        {Promotion.current.isPromotion ? (
+          <div className="absolute top-[275px] left-[120px]">
+            <PromotionPopUp promotion={Promotion}></PromotionPopUp>
+          </div>
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );

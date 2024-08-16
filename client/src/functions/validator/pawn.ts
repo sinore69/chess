@@ -1,6 +1,7 @@
 import { MutableRefObject } from "react";
 import { withinbounds } from "../withinbounds";
 import { isUpperCase } from "../isuppercase";
+import { promotionData } from "@/types/promotion";
 
 export function isValidPawnmove(
   srcRow: number,
@@ -11,7 +12,8 @@ export function isValidPawnmove(
   board: string[][],
   color: string,
   isCheck: MutableRefObject<boolean>,
-  enPassant: React.MutableRefObject<string>
+  enPassant: React.MutableRefObject<string>,
+  promotion: React.MutableRefObject<promotionData>
 ) {
   if (srcRow == destRow && srcCol == destCol) {
     return false;
@@ -29,6 +31,12 @@ export function isValidPawnmove(
       if (isPawnCheck(board, destRow, destCol, -1, piece)) {
         isCheck.current = true;
       }
+      if (destRow === 0) {
+        promotion.current.color = color;
+        promotion.current.isPromotion = true;
+        promotion.current.position = "" + destRow + destCol;
+      }
+      console.log(promotion.current);
       return true;
     }
     if (srcRow == 6 && srcCol == destCol) {
@@ -54,6 +62,11 @@ export function isValidPawnmove(
       //diagonal move
       if (isPawnCheck(board, destRow, destCol, -1, piece)) {
         isCheck.current = true;
+      }
+      if (destRow === 0) {
+        promotion.current.isPromotion = true;
+        promotion.current.color = color;
+        promotion.current.position = "" + destRow + destCol;
       }
       return true;
     }
@@ -106,6 +119,11 @@ export function isValidPawnmove(
       if (isPawnCheck(board, destRow, destCol, -1, piece)) {
         isCheck.current = true;
       }
+      if (destRow === 0) {
+        promotion.current.isPromotion = true;
+        promotion.current.color = color;
+        promotion.current.position = "" + destRow + destCol;
+      }
       return true;
     }
 
@@ -132,6 +150,11 @@ export function isValidPawnmove(
       //diagonal move
       if (isPawnCheck(board, destRow, destCol, -1, piece)) {
         isCheck.current = true;
+      }
+      if (destRow === 0) {
+        promotion.current.isPromotion = true;
+        promotion.current.color = color;
+        promotion.current.position = "" + destRow + destCol;
       }
       return true;
     }
