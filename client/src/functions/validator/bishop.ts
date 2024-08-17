@@ -1,5 +1,7 @@
+import { MutableRefObject } from "react";
 import { isUpperCase } from "../isuppercase";
 import { withinbounds } from "../withinbounds";
+import { IsRookCapture } from "../IsRookCapture";
 export function isvalidbishopmove(
   srcRow: number,
   srcCol: number,
@@ -7,7 +9,10 @@ export function isvalidbishopmove(
   destCol: number,
   piece: string,
   board: string[][],
-  isCheck: React.MutableRefObject<boolean>
+  isCheck: React.MutableRefObject<boolean>,
+  wCastle: MutableRefObject<"" | "K" | "KQ" | "Q">,
+  bCastle: MutableRefObject<"" | "k" | "kq" | "q">,
+  color: string
 ) {
   if (srcRow == destRow && srcCol == destCol) {
     return false;
@@ -56,6 +61,7 @@ export function isvalidbishopmove(
       ) {
         isCheck.current = true;
       }
+      IsRookCapture(board, destRow, destCol, wCastle, bCastle, color);
       return true;
     }
   }

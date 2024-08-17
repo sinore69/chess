@@ -15,11 +15,10 @@ export function updateposition(
   wCastle: React.MutableRefObject<"" | "KQ" | "K" | "Q">,
   bCastle: React.MutableRefObject<"" | "kq" | "k" | "q">,
   isCheck: React.MutableRefObject<boolean>,
-  isUnderCheck: React.MutableRefObject<boolean>,
   wKingPos: React.MutableRefObject<string>,
   bKingPos: React.MutableRefObject<string>,
   enPassant: React.MutableRefObject<string>,
-  promotion:React.MutableRefObject<promotionData>
+  promotion: React.MutableRefObject<promotionData>
 ) {
   let kingSafety: boolean = true;
   let newboard = [
@@ -92,7 +91,8 @@ export function updateposition(
         piece,
         color,
         board,
-        isUnderCheck
+        wCastle,
+        bCastle
       )
     ) {
       newboard[srcRow][srcCol] = "1";

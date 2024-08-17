@@ -20,11 +20,12 @@ function Board(props: { movable: boolean }) {
   const wKingPos = useRef<string>("");
   const bKingPos = useRef<string>("");
   const ref = useRef<HTMLDivElement | null>(null);
- const Promotion = useRef<promotionData>({
+  const Promotion = useRef<promotionData>({
     color: "",
     isPromotion: false,
     position: "",
-  }); const enPassant = useRef<string>("");
+  });
+  const enPassant = useRef<string>("");
   useEffect(() => {
     if (ref.current) {
       ref.current.focus();
@@ -80,7 +81,6 @@ function Board(props: { movable: boolean }) {
       wCastle,
       bCastle,
       isCheck,
-      isUnderCheck,
       wKingPos,
       bKingPos,
       enPassant,

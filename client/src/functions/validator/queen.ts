@@ -1,3 +1,4 @@
+import { MutableRefObject } from "react";
 import { isBishopCheck, isvalidbishopmove } from "./bishop";
 import { isRookCheck, isvalidrookmove } from "./rook";
 export function isvalidqueenmove(
@@ -13,7 +14,18 @@ export function isvalidqueenmove(
   isCheck: React.MutableRefObject<boolean>
 ) {
   if (
-    isvalidbishopmove(srcRow, srcCol, destRow, destCol, piece, board, isCheck) ||
+    isvalidbishopmove(
+      srcRow,
+      srcCol,
+      destRow,
+      destCol,
+      piece,
+      board,
+      isCheck,
+      wCastle,
+      bCastle,
+      color
+    ) ||
     isvalidrookmove(
       srcRow,
       srcCol,
@@ -27,10 +39,23 @@ export function isvalidqueenmove(
       isCheck
     )
   ) {
-    if (isRookCheck(board, destRow, destCol, piece) || isBishopCheck(destRow, destCol, board, piece)) {
-      isCheck.current = true;
-    }
+    isQueenCheck(board, destRow, destCol, piece, isCheck);
     return true;
   }
   return false;
+}
+export function isQueenCheck(
+  board: string[][],
+  destRow: number,
+  destCol: number,
+  piece: string,
+  isCheck: MutableRefObject<boolean>
+) {
+  if (
+    isRookCheck(board, destRow, destCol, piece) ||
+    isBishopCheck(destRow, destCol, board, piece)
+  ) {
+    isCheck.current = true;
+  }
+  return isCheck.current;
 }

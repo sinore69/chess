@@ -1,6 +1,7 @@
 import { MutableRefObject } from "react";
 import { isUpperCase } from "../isuppercase";
 import { withinbounds } from "../withinbounds";
+import { IsRookCapture } from "../IsRookCapture";
 
 export function isvalidkingmove(
   srcRow: number,
@@ -10,7 +11,8 @@ export function isvalidkingmove(
   piece: string,
   color: string,
   board: string[][],
-  isUnderCheck: MutableRefObject<boolean>
+  wCastle: MutableRefObject<"" | "KQ" | "K" | "Q">,
+  bCastle: MutableRefObject<"" | "q" | "kq" | "k">
 ) {
   if (srcRow == destRow && srcCol == destCol) {
     return false;
@@ -30,6 +32,7 @@ export function isvalidkingmove(
       withinbounds(destRow, destCol) &&
       isKingSafe(board, destRow, destCol, piece, color)
     ) {
+      IsRookCapture(board, destRow, destCol, wCastle, bCastle, color);
       return true;
     }
   }

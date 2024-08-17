@@ -2,6 +2,7 @@ import { MutableRefObject } from "react";
 import { withinbounds } from "../withinbounds";
 import { isUpperCase } from "../isuppercase";
 import { promotionData } from "@/types/promotion";
+import { IsRookCapture } from "../IsRookCapture";
 
 export function isValidPawnmove(
   srcRow: number,
@@ -13,7 +14,9 @@ export function isValidPawnmove(
   color: string,
   isCheck: MutableRefObject<boolean>,
   enPassant: React.MutableRefObject<string>,
-  promotion: React.MutableRefObject<promotionData>
+  promotion: React.MutableRefObject<promotionData>,
+  wCastle: React.MutableRefObject<"" | "KQ" | "K" | "Q">,
+  bCastle: React.MutableRefObject<"" | "kq" | "k" | "q">
 ) {
   if (srcRow == destRow && srcCol == destCol) {
     return false;
@@ -36,7 +39,6 @@ export function isValidPawnmove(
         promotion.current.isPromotion = true;
         promotion.current.position = "" + destRow + destCol;
       }
-      console.log(promotion.current);
       return true;
     }
     if (srcRow == 6 && srcCol == destCol) {
@@ -68,6 +70,7 @@ export function isValidPawnmove(
         promotion.current.color = color;
         promotion.current.position = "" + destRow + destCol;
       }
+      IsRookCapture(board, destRow, destCol, wCastle, bCastle, color);
       return true;
     }
   }
@@ -106,6 +109,7 @@ export function isValidPawnmove(
       if (isPawnCheck(board, destRow, destCol, 1, piece)) {
         isCheck.current = true;
       }
+      IsRookCapture(board, destRow, destCol, wCastle, bCastle, color);
       return true;
     }
   }
@@ -156,6 +160,7 @@ export function isValidPawnmove(
         promotion.current.color = color;
         promotion.current.position = "" + destRow + destCol;
       }
+      IsRookCapture(board, destRow, destCol, wCastle, bCastle, color);
       return true;
     }
   }
@@ -194,6 +199,7 @@ export function isValidPawnmove(
       if (isPawnCheck(board, destRow, destCol, 1, piece)) {
         isCheck.current = true;
       }
+      IsRookCapture(board, destRow, destCol, wCastle, bCastle, color);
       return true;
     }
   }

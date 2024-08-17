@@ -20,7 +20,7 @@ export function isvalidmove(
   wKingPos: React.MutableRefObject<string>,
   bKingPos: React.MutableRefObject<string>,
   enPassant: React.MutableRefObject<string>,
-  promotion:React.MutableRefObject<promotionData>
+  promotion: React.MutableRefObject<promotionData>
 ) {
   if (
     (piece === "p" || piece === "P") &&
@@ -34,7 +34,9 @@ export function isvalidmove(
       color,
       isCheck,
       enPassant,
-      promotion
+      promotion,
+      wCastle,
+      bCastle
     )
   ) {
     board[srcRow][srcCol] = "1";
@@ -62,7 +64,18 @@ export function isvalidmove(
   }
   if (
     (piece === "b" || piece === "B") &&
-    isvalidbishopmove(srcRow, srcCol, destRow, destCol, piece, board, isCheck)
+    isvalidbishopmove(
+      srcRow,
+      srcCol,
+      destRow,
+      destCol,
+      piece,
+      board,
+      isCheck,
+      wCastle,
+      bCastle,
+      color
+    )
   ) {
     board[srcRow][srcCol] = "1";
     board[destRow][destCol] = piece;
@@ -89,7 +102,18 @@ export function isvalidmove(
   }
   if (
     (piece === "n" || piece === "N") &&
-    isvalidknightmove(srcRow, srcCol, destRow, destCol, piece, board, isCheck)
+    isvalidknightmove(
+      srcRow,
+      srcCol,
+      destRow,
+      destCol,
+      piece,
+      board,
+      isCheck,
+      wCastle,
+      bCastle,
+      color
+    )
   ) {
     board[srcRow][srcCol] = "1";
     board[destRow][destCol] = piece;

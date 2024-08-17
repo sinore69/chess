@@ -113,7 +113,6 @@ function SocketBoard(props: {
       wCastle,
       bCastle,
       isCheck,
-      isUnderCheck,
       wKingPos,
       bKingPos,
       enPassant,
@@ -187,8 +186,12 @@ function SocketBoard(props: {
           </div>
         ))}
         {Promotion.current.isPromotion ? (
-          <div className="absolute top-[275px] left-[120px]">
-            <PromotionPopUp promotion={Promotion}></PromotionPopUp>
+          <div className="absolute top-[275px] left-[135px]">
+            <PromotionPopUp
+              promotion={Promotion}
+              board={board}
+              setboard={setboard}
+            ></PromotionPopUp>
           </div>
         ) : (
           <></>
