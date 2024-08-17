@@ -120,7 +120,11 @@ function SocketBoard(props: {
     );
     setboard(newposition);
     const newfen = fengenerator(newposition, color.current, wCastle, bCastle);
-    if (oldfen !== newfen && color.current === colorToMove.current) {
+    if (
+      oldfen !== newfen &&
+      color.current === colorToMove.current &&
+      Promotion.current.isPromotion === false
+    ) {
       colorToMove.current = colorToMove.current === "w" ? "b" : "w";
       sendData(
         newfen,
@@ -191,6 +195,12 @@ function SocketBoard(props: {
               promotion={Promotion}
               board={board}
               setboard={setboard}
+              isCheck={isCheck}
+              colorToMove={colorToMove}
+              enPassant={enPassant}
+              wCastle={wCastle}
+              bCastle={bCastle}
+              socket={props.socket}
             ></PromotionPopUp>
           </div>
         ) : (

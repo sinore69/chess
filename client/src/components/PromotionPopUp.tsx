@@ -1,3 +1,6 @@
+import { fengenerator } from "@/functions/fengenerator";
+import IsCheck from "@/functions/IsCheck";
+import { sendData } from "@/functions/senddata";
 import { promotionData } from "@/types/promotion";
 import Image from "next/image";
 import React from "react";
@@ -6,17 +9,50 @@ function PromotionPopUp(props: {
   promotion: React.MutableRefObject<promotionData>;
   board: string[][];
   setboard: React.Dispatch<React.SetStateAction<string[][]>>;
+  isCheck: React.MutableRefObject<boolean>;
+  colorToMove: React.MutableRefObject<"w" | "b">;
+  enPassant: React.MutableRefObject<string>;
+  wCastle: React.MutableRefObject<"" | "KQ" | "K" | "Q">;
+  bCastle: React.MutableRefObject<"" | "kq" | "k" | "q">;
+  socket: WebSocket;
 }) {
-  console.log(props.promotion.current);
   function promote(color: string, piece: string, position: string) {
-    const row = parseInt(position.charAt(0));
-    const col = parseInt(position.charAt(1));
+    const srcRow = parseInt(position.charAt(0));
+    const srcCol = parseInt(position.charAt(1));
+    const destRow = parseInt(position.charAt(2));
+    const destCol = parseInt(position.charAt(3));
     if (color === "w") {
-      props.board[row][col] = piece.toUpperCase();
+      props.board[destRow][destCol] = piece.toUpperCase();
     } else {
-      props.board[row][col] = piece.toLowerCase();
+      props.board[destRow][destCol] = piece.toLowerCase();
     }
     props.setboard([...props.board]);
+    IsCheck(
+      props.board,
+      destRow,
+      destCol,
+      props.board[destRow][destCol],
+      props.isCheck
+    );
+
+    props.colorToMove.current = props.colorToMove.current === "w" ? "b" : "w";
+    props.enPassant.current = "";
+    const newfen = fengenerator(
+      props.board,
+      color,
+      props.wCastle,
+      props.bCastle
+    );
+    sendData(
+      newfen,
+      props.socket,
+      srcRow,
+      srcCol,
+      destRow,
+      destCol,
+      props.isCheck,
+      props.enPassant
+    );
     props.promotion.current.isPromotion = false;
     props.promotion.current.color = "";
     props.promotion.current.position = "";

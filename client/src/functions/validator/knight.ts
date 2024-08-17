@@ -41,7 +41,7 @@ export function isvalidknightmove(
   }
   return false;
 }
-function isKnightCheck(
+export function isKnightCheck(
   board: string[][],
   destRow: number,
   destCol: number,
@@ -62,4 +62,5 @@ function isKnightCheck(
       return true;
     }
   }
+  return false
 }

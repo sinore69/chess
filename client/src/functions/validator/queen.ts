@@ -39,7 +39,7 @@ export function isvalidqueenmove(
       isCheck
     )
   ) {
-    isQueenCheck(board, destRow, destCol, piece, isCheck);
+    isCheck.current = isQueenCheck(board, destRow, destCol, piece);
     return true;
   }
   return false;
@@ -48,14 +48,13 @@ export function isQueenCheck(
   board: string[][],
   destRow: number,
   destCol: number,
-  piece: string,
-  isCheck: MutableRefObject<boolean>
+  piece: string
 ) {
   if (
     isRookCheck(board, destRow, destCol, piece) ||
     isBishopCheck(destRow, destCol, board, piece)
   ) {
-    isCheck.current = true;
+    return true;
   }
-  return isCheck.current;
+  return false;
 }

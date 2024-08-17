@@ -37,7 +37,7 @@ export function isValidPawnmove(
       if (destRow === 0) {
         promotion.current.color = color;
         promotion.current.isPromotion = true;
-        promotion.current.position = "" + destRow + destCol;
+        promotion.current.position = "" + srcRow + srcCol + destRow + destCol;
       }
       return true;
     }
@@ -68,7 +68,7 @@ export function isValidPawnmove(
       if (destRow === 0) {
         promotion.current.isPromotion = true;
         promotion.current.color = color;
-        promotion.current.position = "" + destRow + destCol;
+        promotion.current.position = "" + srcRow + srcCol + destRow + destCol;
       }
       IsRookCapture(board, destRow, destCol, wCastle, bCastle, color);
       return true;
@@ -126,7 +126,7 @@ export function isValidPawnmove(
       if (destRow === 0) {
         promotion.current.isPromotion = true;
         promotion.current.color = color;
-        promotion.current.position = "" + destRow + destCol;
+        promotion.current.position = "" + srcRow + srcCol + destRow + destCol;
       }
       return true;
     }
@@ -158,7 +158,7 @@ export function isValidPawnmove(
       if (destRow === 0) {
         promotion.current.isPromotion = true;
         promotion.current.color = color;
-        promotion.current.position = "" + destRow + destCol;
+        promotion.current.position = "" + srcRow + srcCol + destRow + destCol;
       }
       IsRookCapture(board, destRow, destCol, wCastle, bCastle, color);
       return true;
@@ -205,7 +205,7 @@ export function isValidPawnmove(
   }
   return false;
 }
-function isPawnCheck(
+export function isPawnCheck(
   board: string[][],
   row: number,
   col: number,
