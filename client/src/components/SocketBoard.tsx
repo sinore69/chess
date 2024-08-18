@@ -13,6 +13,7 @@ import { GameStateValidator } from "@/functions/validator/jsonschema/gamestate";
 import { IsUnderCheck } from "@/functions/undercheck";
 import { promotionData } from "@/types/promotion";
 import PromotionPopUp from "./PromotionPopUp";
+import TimeControl from "./TimeControl";
 
 function SocketBoard(props: {
   movable: boolean;
@@ -143,69 +144,71 @@ function SocketBoard(props: {
   function onDragOver(e: any) {
     e.preventDefault();
   }
+
   return (
-    <div>
-      <div
-        className="relative flex justify-start flex-col h-screen box-border overflow-hidden"
-        onDrop={onDrop}
-        onDragOver={onDragOver}
-        ref={ref}
-      >
-        {board.map((row: string[], rowindex: number) => (
-          <div key={rowindex} className="flex flex-row ">
-            {row.map((col: string, colindex) => (
-              <div
-                key={colindex}
-                className={`h-16 w-16 sm:h-20 sm:w-20 lg:h-[90px] lg:w-[90px] border-black relative ${
-                  (colindex + rowindex + 1) % 2 === 0
-                    ? "bg-slate-300"
-                    : "bg-white"
-                }`}
-              >
+    <div className="relative justify-start flex-col min-h-screen box-border max-h-full inline-block">
+      <div className="bg-blue-200"> 
+        <TimeControl></TimeControl>
+        <div className="h-1"></div>
+        <div onDrop={onDrop} onDragOver={onDragOver} ref={ref}>
+          {board.map((row: string[], rowindex: number) => (
+            <div key={rowindex} className="flex flex-row ">
+              {row.map((col: string, colindex) => (
                 <div
-                  className=""
-                  draggable={props.movable}
-                  onDragEnd={onDragEnd}
-                  onDragStart={(e) => onDragStart(e, rowindex, colindex, col)}
+                  key={colindex}
+                  className={`h-16 w-16 sm:h-20 sm:w-20 lg:h-[80px] lg:w-[80px] border-black relative ${
+                    (colindex + rowindex + 1) % 2 === 0
+                      ? "bg-slate-300"
+                      : "bg-white"
+                  }`}
                 >
-                  {col !== "1" ? (
-                    <Image
-                      priority
-                      draggable={props.movable}
-                      src={
-                        col === col.toUpperCase()
-                          ? `/w${col}.png`
-                          : `/b${col}.png`
-                      }
-                      alt=""
-                      height={90}
-                      width={90}
-                    ></Image>
-                  ) : (
-                    ""
-                  )}
+                  <div
+                    className=""
+                    draggable={props.movable}
+                    onDragEnd={onDragEnd}
+                    onDragStart={(e) => onDragStart(e, rowindex, colindex, col)}
+                  >
+                    {col !== "1" ? (
+                      <Image
+                        priority
+                        draggable={props.movable}
+                        src={
+                          col === col.toUpperCase()
+                            ? `/w${col}.png`
+                            : `/b${col}.png`
+                        }
+                        alt=""
+                        height={80}
+                        width={80}
+                      ></Image>
+                    ) : (
+                      ""
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        ))}
-        {Promotion.current.isPromotion ? (
-          <div className="absolute top-[275px] left-[135px]">
-            <PromotionPopUp
-              promotion={Promotion}
-              board={board}
-              setboard={setboard}
-              isCheck={isCheck}
-              colorToMove={colorToMove}
-              enPassant={enPassant}
-              wCastle={wCastle}
-              bCastle={bCastle}
-              socket={props.socket}
-            ></PromotionPopUp>
-          </div>
-        ) : (
-          <></>
-        )}
+              ))}
+            </div>
+          ))}
+          <div className="h-1"></div>
+          <TimeControl></TimeControl>
+          {Promotion.current.isPromotion ? (
+            <div className="absolute top-[275px] left-[135px]">
+              <PromotionPopUp
+                promotion={Promotion}
+                board={board}
+                setboard={setboard}
+                isCheck={isCheck}
+                colorToMove={colorToMove}
+                enPassant={enPassant}
+                wCastle={wCastle}
+                bCastle={bCastle}
+                socket={props.socket}
+              ></PromotionPopUp>
+            </div>
+          ) : (
+            <></>
+          )}
+        </div>
       </div>
     </div>
   );

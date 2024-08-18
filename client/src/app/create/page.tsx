@@ -17,8 +17,12 @@ function Page() {
   return (
     <>
       {connectionState ? (
-        <div className="flex p-1 gap-x-4 bg-slate-400">
-          <SocketBoard movable={true} socket={socket} playAs={"Creator"}></SocketBoard>
+        <div className="flex p-1 gap-x-4 bg-slate-400 box-border max-h-screen min-h-screen">
+          <SocketBoard
+            movable={true}
+            socket={socket}
+            playAs={"Creator"}
+          ></SocketBoard>
           <Console mode={"friend"}></Console>
         </div>
       ) : (
