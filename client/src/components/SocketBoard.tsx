@@ -1,5 +1,4 @@
 import { useRef, useEffect, useState } from "react";
-import React from "react";
 import { updateposition } from "../functions/updateposition";
 import { initialgamestate } from "../functions/initialgamestate";
 import { fengenerator } from "../functions/fengenerator";

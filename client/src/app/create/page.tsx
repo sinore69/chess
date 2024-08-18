@@ -4,10 +4,13 @@ import SocketBoard from "@/components/SocketBoard";
 import React, { useRef } from "react";
 
 let socket = new WebSocket(`ws://${process.env.NEXT_PUBLIC_IP}:5000/create`);
+const gameTime = sessionStorage.getItem("gameTime");
+
 function Page() {
   const connectionState = useRef<boolean>(false);
   socket.onopen = (event) => {
     connectionState.current = true;
+    socket.send(JSON.stringify({ gameTime: gameTime }));
     console.log("connection opened");
   };
   socket.onclose = (event) => {

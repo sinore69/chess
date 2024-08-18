@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 function GameControl() {
   const [showTimeControl, setShowTimeControl] = useState<boolean>(true);
@@ -16,6 +16,7 @@ function GameControl() {
   function startGame() {
     if (showTimeControl) {
       router.push("/create");
+      sessionStorage.setItem("gameTime", "" + gameTime);
     } else {
       router.push("/bot");
     }
