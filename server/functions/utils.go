@@ -149,6 +149,23 @@ func Updateposition(board [8][8]string, bestmove string, color string, castleInf
 	}
 	piece := board[8-srcRow][srcCol]
 	board[8-srcRow][srcCol] = "1"
+	//rook capture
+	if board[8-destRow][destCol] == "r" {
+		if destCol == 0 {
+			castleValue = strings.ReplaceAll(castleValue, "q", "")
+		}
+		if destCol == 7 {
+			castleValue = strings.ReplaceAll(castleValue, "k", "")
+		}
+	}
+	if board[8-destRow][destCol] == "R" {
+		if destCol == 0 {
+			castleValue = strings.ReplaceAll(castleValue, "Q", "")
+		}
+		if destCol == 7 {
+			castleValue = strings.ReplaceAll(castleValue, "K", "")
+		}
+	}
 	board[8-destRow][destCol] = piece
 	move := fmt.Sprintf("%d%d%d%d", 8-srcRow, srcCol, 8-destRow, destCol)
 	return &board, move, castleValue

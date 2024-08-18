@@ -93,11 +93,18 @@ func (g *Game) CreateGame(w http.ResponseWriter, r *http.Request) {
 	log.Println(g.GameRoom[1])
 outer:
 	for {
-		if err := conn.ReadJSON(&data); err != nil {
+		_, msg, err := conn.ReadMessage()
+		if err != nil {
 			log.Println(err)
 			conn.Close()
 			break outer
 		}
+		log.Println(string(msg))
+		err = json.Unmarshal(msg, &data)
+		if err != nil {
+			log.Println(err)
+		}
+		log.Println(data.EnPassant)
 		if g.GameRoom[1].Player != nil {
 			log.Println(data)
 			g.GameRoom[1].Player.WriteJSON(data)
