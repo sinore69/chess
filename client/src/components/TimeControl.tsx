@@ -4,8 +4,8 @@ function TimeControl(props: { time: number; start: boolean }) {
   const [seconds, setSeconds] = useState<number>(0);
   const [minutes, setMinutes] = useState<number>(props.time);
   const [isRunning, setIsRunning] = useState<boolean>(props.start);
-  var timer: string | number | NodeJS.Timeout | undefined;
   useEffect(() => {
+  var timer: string | number | NodeJS.Timeout | undefined;
     if (isRunning) {
       timer = setInterval(() => {
         setSeconds(seconds - 1);

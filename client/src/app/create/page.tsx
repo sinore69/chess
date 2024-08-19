@@ -4,8 +4,11 @@ import SocketBoard from "@/components/SocketBoard";
 import React, { useRef } from "react";
 
 let socket = new WebSocket(`ws://${process.env.NEXT_PUBLIC_IP}:5000/create`);
-const gameTime = sessionStorage.getItem("gameTime");
-
+let gameTime: string | null;
+if (typeof window !== "undefined") {
+  gameTime = sessionStorage.getItem("gameTime");
+  sessionStorage.getItem("key");
+}
 function Page() {
   const connectionState = useRef<boolean>(false);
   socket.onopen = (event) => {
