@@ -9,6 +9,7 @@ const schema: JSONSchemaType<InitialGameState> = {
     CreatorColor: { type: "string" },
     Player: { type: "object" },
     PlayerColor: { type: "string" },
+    Time: { type: "number" },
   },
   required: ["CreatorColor", "PlayerColor"],
   additionalProperties: false,

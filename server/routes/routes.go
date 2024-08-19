@@ -8,6 +8,7 @@ import (
 	"server/functions"
 	"server/gamehub"
 	"server/types"
+	"strconv"
 	"strings"
 
 	"github.com/gorilla/websocket"
@@ -88,7 +89,8 @@ func (g *Game) CreateGame(w http.ResponseWriter, r *http.Request) {
 		CreatorColor: types.White,
 		PlayerColor:  types.Black,
 	}
-	var data types.Fen
+	var result types.Fen
+	var gametime types.GameTime
 	log.Println("creator connected")
 	log.Println(g.GameRoom[1])
 outer:
@@ -99,15 +101,28 @@ outer:
 			conn.Close()
 			break outer
 		}
-		log.Println(string(msg))
-		err = json.Unmarshal(msg, &data)
+		err = json.Unmarshal(msg, &result)
 		if err != nil {
 			log.Println(err)
 		}
-		log.Println(data.EnPassant)
-		if g.GameRoom[1].Player != nil {
-			log.Println(data)
-			g.GameRoom[1].Player.WriteJSON(data)
+		err = json.Unmarshal(msg, &gametime)
+		if err != nil {
+			log.Println(err)
+		}
+		if gametime.GameTime != "" {
+			log.Println(gametime.GameTime)
+			time, err := strconv.Atoi(gametime.GameTime)
+			room := g.GameRoom[1]
+			if err != nil {
+				log.Println("Error:", err)
+			} else {
+				room.Time = time
+				g.GameRoom[1] = room
+			}
+		}
+		if g.GameRoom[1].Player != nil && result.Fen != "" {
+			log.Println(result)
+			g.GameRoom[1].Player.WriteJSON(result)
 		}
 	}
 }

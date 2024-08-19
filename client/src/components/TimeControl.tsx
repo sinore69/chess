@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 
-function TimeControl() {
+function TimeControl(props: { time: number; start: boolean }) {
   const [seconds, setSeconds] = useState<number>(0);
-  const [minutes, setMinutes] = useState<number>(1);
-  const [isRunning, setIsRunning] = useState<boolean>(true);
+  const [minutes, setMinutes] = useState<number>(props.time);
+  const [isRunning, setIsRunning] = useState<boolean>(props.start);
   var timer: string | number | NodeJS.Timeout | undefined;
   useEffect(() => {
     if (isRunning) {

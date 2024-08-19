@@ -14,4 +14,5 @@ type Room struct {
 	CreatorColor Color
 	Player       *websocket.Conn
 	PlayerColor  Color
+	Time         int
 }

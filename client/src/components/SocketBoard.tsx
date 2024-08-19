@@ -23,6 +23,8 @@ function SocketBoard(props: {
   const [board, setboard] = useState<string[][]>(
     initialgamestate(color.current)
   );
+  const [timeControl, setTimeControl] = useState<number>(3);
+  const [startTimer, setStartTimer] = useState<boolean>(false);
   const wCastle = useRef<"KQ" | "K" | "Q" | "">("KQ");
   const bCastle = useRef<"kq" | "k" | "q" | "">("kq");
   const wKingPos = useRef<string>("");
@@ -54,6 +56,8 @@ function SocketBoard(props: {
           color.current = data.CreatorColor;
           setboard(initialgamestate(color.current));
         }
+        setTimeControl(parseInt(data.Time));
+        setStartTimer(true);
       }
       if (GameStateValidator(data)) {
         const newposition = decodefen(
@@ -146,8 +150,12 @@ function SocketBoard(props: {
 
   return (
     <div className="relative justify-start flex-col min-h-screen box-border max-h-full inline-block">
-      <div className="bg-blue-200"> 
-        <TimeControl></TimeControl>
+      <div className="bg-blue-200">
+        {startTimer ? (
+          <TimeControl time={timeControl} start={true}></TimeControl>
+        ) : (
+          <></>
+        )}
         <div className="h-1"></div>
         <div onDrop={onDrop} onDragOver={onDragOver} ref={ref}>
           {board.map((row: string[], rowindex: number) => (
@@ -189,7 +197,11 @@ function SocketBoard(props: {
             </div>
           ))}
           <div className="h-1"></div>
-          <TimeControl></TimeControl>
+          {startTimer ? (
+            <TimeControl time={timeControl} start={true}></TimeControl>
+          ) : (
+            <></>
+          )}
           {Promotion.current.isPromotion ? (
             <div className="absolute top-[275px] left-[135px]">
               <PromotionPopUp
