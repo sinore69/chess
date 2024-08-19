@@ -3,7 +3,6 @@ import React, {useEffect, useState } from "react";
 function TimeControl(props: { time: number; isRunning:boolean}) {
   const [seconds, setSeconds] = useState<number>(0);
   const [minutes, setMinutes] = useState<number>(props.time);
-  console.log(props.time)
   useEffect(() => {
   var timer: string | number | NodeJS.Timeout | undefined;
     if (props.isRunning) {

@@ -13,6 +13,7 @@ import { IsUnderCheck } from "@/functions/undercheck";
 import { promotionData } from "@/types/promotion";
 import PromotionPopUp from "./PromotionPopUp";
 import TimeControl from "./TimeControl";
+import { IsCheckMate } from "@/functions/IsCheckMate";
 
 function SocketBoard(props: {
   movable: boolean;
@@ -65,8 +66,6 @@ function SocketBoard(props: {
       if (GameStateValidator(data)) {
         const newposition = decodefen(
           data.fen,
-          data.lastMove,
-          isCheck,
           wCastle,
           bCastle,
           wKingPos,
@@ -77,6 +76,7 @@ function SocketBoard(props: {
         colorToMove.current = updateTurn(data.fen);
         isCheck.current = false;
         isUnderCheck.current = IsUnderCheck(data.lastMove);
+          IsCheckMate(newposition,wKingPos,bKingPos,color)
       }
     };
   }, [props.playAs, props.socket]);
