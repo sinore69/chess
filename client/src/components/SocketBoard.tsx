@@ -56,7 +56,10 @@ function SocketBoard(props: {
           color.current = data.CreatorColor;
           setboard(initialgamestate(color.current));
         }
-        setTimeControl(parseInt(data.Time));
+        if (parseInt(data.Time) == 0) {
+        } else {
+          setTimeControl(parseInt(data.Time));
+        }
         setStartTimer(true);
       }
       if (GameStateValidator(data)) {
@@ -152,7 +155,10 @@ function SocketBoard(props: {
     <div className="relative justify-start flex-col min-h-screen box-border max-h-full inline-block">
       <div className="bg-blue-200">
         {startTimer ? (
-          <TimeControl time={timeControl} start={true}></TimeControl>
+          <TimeControl
+            time={timeControl}
+            isRunning={color.current !== colorToMove.current}
+          ></TimeControl>
         ) : (
           <></>
         )}
@@ -198,7 +204,10 @@ function SocketBoard(props: {
           ))}
           <div className="h-1"></div>
           {startTimer ? (
-            <TimeControl time={timeControl} start={true}></TimeControl>
+            <TimeControl
+              time={timeControl}
+              isRunning={color.current === colorToMove.current}
+            ></TimeControl>
           ) : (
             <></>
           )}
