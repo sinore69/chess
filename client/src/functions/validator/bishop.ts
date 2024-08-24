@@ -57,7 +57,7 @@ export function isvalidbishopmove(
         }
       if (
         (piece === "b" || piece === "B") &&
-        isBishopCheck(destRow, destCol, board, piece)
+        isBishopCheck(destRow, destCol, board, piece, isCheck)
       ) {
         isCheck.current = true;
       }
@@ -72,7 +72,8 @@ export function isBishopCheck(
   destRow: number,
   destCol: number,
   board: string[][],
-  piece: string
+  piece: string,
+  isCheck: MutableRefObject<boolean>
 ) {
   //3rd quadrant
   for (let i = 1; i <= 7; i++) {
@@ -93,6 +94,7 @@ export function isBishopCheck(
       isUpperCase(piece) !==
         isUpperCase(board[Number(destRow) + i][Number(destCol) + i])
     ) {
+      isCheck.current = true;
       return true;
     }
     break;
@@ -116,6 +118,7 @@ export function isBishopCheck(
       isUpperCase(piece) !==
         isUpperCase(board[Number(destRow) - i][Number(destCol) - i])
     ) {
+      isCheck.current = true;
       return true;
     }
     break;
@@ -139,6 +142,7 @@ export function isBishopCheck(
         isUpperCase(piece) !==
           isUpperCase(board[Number(destRow) - i][Number(destCol) + i]))
     ) {
+      isCheck.current = true;
       return true;
     }
     break;
@@ -162,6 +166,7 @@ export function isBishopCheck(
         isUpperCase(piece) !==
           isUpperCase(board[Number(destRow) + i][Number(destCol) - i]))
     ) {
+      isCheck.current = true;
       return true;
     }
     break;
@@ -191,7 +196,7 @@ export function allBishopMove(
         ) {
           break outer;
         } else {
-          moves.push(ogPos + (row - 1) + (col + 1));
+          moves.push(ogPos + (row - i) + (col + i));
           break outer;
         }
       }

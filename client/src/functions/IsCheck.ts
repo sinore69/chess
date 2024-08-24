@@ -11,19 +11,19 @@ function IsCheck(
   isCheck: React.MutableRefObject<boolean>
 ) {
   if (piece === "Q" || piece === "q") {
-    isCheck.current = isQueenCheck(board, destRow, destCol, piece);
+    isCheck.current = isQueenCheck(board, destRow, destCol, piece, isCheck);
     return;
   }
   if (piece === "R" || piece === "r") {
-    isCheck.current = isRookCheck(board, destRow, destCol, piece);
+    isCheck.current = isRookCheck(board, destRow, destCol, piece, isCheck);
     return;
   }
   if (piece === "B" || piece === "b") {
-    isCheck.current = isBishopCheck(destRow, destCol, board, piece);
+    isCheck.current = isBishopCheck(destRow, destCol, board, piece, isCheck);
     return;
   }
   if (piece === "N" || piece === "n") {
-    isCheck.current = isKnightCheck(board, destRow, destCol, piece);
+    isCheck.current = isKnightCheck(board, destRow, destCol, piece, isCheck);
     return;
   }
 }

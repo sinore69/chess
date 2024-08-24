@@ -1,10 +1,11 @@
 import { promotionData } from "@/types/promotion";
 import { checkKingSafety } from "../undercheck";
-import { isvalidbishopmove } from "./bishop";
-import { isvalidknightmove } from "./knight";
+import { isBishopCheck, isvalidbishopmove } from "./bishop";
+import { isKnightCheck, isvalidknightmove } from "./knight";
 import { isValidPawnmove } from "./pawn";
-import { isvalidqueenmove } from "./queen";
-import { isvalidrookmove } from "./rook";
+import { isQueenCheck, isvalidqueenmove } from "./queen";
+import { isRookCheck, isvalidrookmove, updateCastleString } from "./rook";
+import { IsRookCapture } from "../IsRookCapture";
 
 export function isvalidmove(
   srcRow: number,
@@ -23,7 +24,31 @@ export function isvalidmove(
   promotion: React.MutableRefObject<promotionData>,
   allPossibleMove: Set<string>
 ) {
-  if (allPossibleMove.has(piece + srcRow + srcCol + destRow + destCol)) {
+  const moveMade = piece + srcRow + srcCol + destRow + destCol;
+  if (allPossibleMove.has(moveMade)) {
+    switch (piece) {
+      case "r":
+      case "R":
+        updateCastleString(piece, srcRow, srcCol, wCastle, bCastle);
+        IsRookCapture(board, destRow, destCol, wCastle, bCastle, color);
+        isRookCheck(board, destRow, destCol, piece, isCheck);
+        break;
+      case "n":
+      case "N":
+        IsRookCapture(board, destRow, destCol, wCastle, bCastle, color);
+        isKnightCheck(board,destRow,destCol,piece,isCheck)
+        break;
+      case "b":
+      case "B":
+        IsRookCapture(board, destRow, destCol, wCastle, bCastle, color);
+        isBishopCheck(destRow, destCol, board, piece, isCheck);
+        break;
+      case "q":
+      case "Q":
+        isQueenCheck(board, destRow, destCol, piece, isCheck);
+        IsRookCapture(board, destRow, destCol, wCastle, bCastle, color);
+        break;
+    }
     return true;
   }
   // if (

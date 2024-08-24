@@ -27,5 +27,9 @@ export function initialgamestate(color: string) {
       board[7][i] = pieces.charAt(i);
     }
   }
+  board[0][1]="1"
+  board[0][2]="1"
+  board[0][5]="1"
+  board[0][6]="1"
   return board;
 }

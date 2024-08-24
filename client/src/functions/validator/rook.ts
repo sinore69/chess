@@ -93,7 +93,7 @@ export function isvalidrookmove(
   }
   if (
     (piece === "r" || piece === "R") &&
-    isRookCheck(board, destRow, destCol, piece)
+    isRookCheck(board, destRow, destCol, piece, isCheck)
   ) {
     isCheck.current = true;
   }
@@ -104,7 +104,8 @@ export function isRookCheck(
   board: string[][],
   row: number,
   col: number,
-  piece: string
+  piece: string,
+  isCheck: MutableRefObject<boolean>
 ) {
   //top to bottom
   for (let i = Number(row) + 1; i <= 7; i++) {
@@ -116,6 +117,7 @@ export function isRookCheck(
     }
     if (board[i][col] === "k" || board[i][col] === "K") {
       if (isUpperCase(board[i][col]) !== isUpperCase(piece)) {
+        isCheck.current = true;
         return true;
       }
     }
@@ -131,6 +133,7 @@ export function isRookCheck(
     }
     if (board[i][col] === "k" || board[i][col] === "K") {
       if (isUpperCase(board[i][col]) !== isUpperCase(piece)) {
+        isCheck.current = true;
         return true;
       }
     }
@@ -146,6 +149,7 @@ export function isRookCheck(
     }
     if (board[row][i] === "k" || board[row][i] === "K") {
       if (isUpperCase(board[row][i]) !== isUpperCase(piece)) {
+        isCheck.current = true;
         return true;
       }
     }
@@ -161,6 +165,7 @@ export function isRookCheck(
     }
     if (board[row][i] === "k" || board[row][i] === "K") {
       if (isUpperCase(board[row][i]) !== isUpperCase(piece)) {
+        isCheck.current = true;
         return true;
       }
     }
@@ -246,4 +251,43 @@ export function allRookMoves(
     }
   }
   return moves;
+}
+
+export function updateCastleString(
+  piece: string,
+  srcRow: number,
+  srcCol: number,
+  wCastle: MutableRefObject<"" | "KQ" | "K" | "Q">,
+  bCastle: MutableRefObject<"" | "kq" | "k" | "q">
+) {
+  if (isUpperCase(piece)) {
+    //white
+    if (srcRow == 7 && srcCol == 7) {
+      //king side castle fen string update
+      const castleValue = wCastle.current.replace("K", "") as "" | "Q";
+      wCastle.current =
+        wCastle.current.indexOf("K") !== -1 ? castleValue : wCastle.current;
+    }
+    if (srcRow == 7 && srcCol == 0) {
+      //queen side castle fen string update
+      const castleValue = wCastle.current.replace("Q", "") as "" | "K";
+      wCastle.current =
+        wCastle.current.indexOf("Q") != -1 ? castleValue : wCastle.current;
+    }
+  }
+  if (!isUpperCase(piece)) {
+    //black
+    if (srcRow == 7 && srcCol == 7) {
+      //queen side castle fen string update
+      const castleValue = bCastle.current.replace("q", "") as "" | "k";
+      bCastle.current =
+        bCastle.current.indexOf("q") != -1 ? castleValue : bCastle.current;
+    }
+    if (srcRow == 7 && srcCol == 0) {
+      //king side castle fen string update
+      const castleValue = bCastle.current.replace("k", "") as "" | "q";
+      bCastle.current =
+        bCastle.current.indexOf("k") !== -1 ? castleValue : bCastle.current;
+    }
+  }
 }

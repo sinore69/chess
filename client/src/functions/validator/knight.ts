@@ -32,7 +32,7 @@ export function isvalidknightmove(
       destCol == Number(srcCol) + col[i] &&
       withinbounds(destRow, destCol)
     ) {
-      if (isKnightCheck(board, destRow, destCol, piece)) {
+      if (isKnightCheck(board, destRow, destCol, piece, isCheck)) {
         isCheck.current = true;
       }
       IsRookCapture(board, destRow, destCol, wCastle, bCastle, color);
@@ -45,7 +45,8 @@ export function isKnightCheck(
   board: string[][],
   destRow: number,
   destCol: number,
-  piece: string
+  piece: string,
+  isCheck: MutableRefObject<boolean>
 ) {
   let Row: number = 0,
     Col: number = 0;
@@ -59,6 +60,7 @@ export function isKnightCheck(
       (board[Row][Col] == "K" || board[Row][Col] == "k") &&
       isUpperCase(piece) !== isUpperCase(board[Row][Col])
     ) {
+      isCheck.current = true;
       return true;
     }
   }
