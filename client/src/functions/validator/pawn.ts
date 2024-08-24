@@ -286,3 +286,35 @@ function ifEnpassant(
     enPassant.current = "";
   }
 }
+
+export function allPawnMove(
+  board: string[][],
+  color: string,
+  row: number,
+  col: number,
+  piece: string
+) {
+  const ogPos = piece + row + col;
+  let moves: string[] = [];
+  //first move advantage
+  if (row === 6 && board[row - 1][col] === "1" && board[row - 2][col] === "1") {
+    moves.push(ogPos + (row - 1) + col);
+    moves.push(ogPos + (row - 2) + col);
+  }
+  //normal move
+  if (board[row - 1][col] === "1") {
+    moves.push(ogPos + (row - 1) + col);
+  }
+  //diagonal capture
+  if (withinbounds(row - 1, col - 1) && board[row - 1][col - 1] !== "1") {
+    if (isUpperCase(board[row][col]) !== isUpperCase(board[row - 1][col - 1])) {
+      moves.push(ogPos + (row - 1) + (col - 1));
+    }
+  }
+  if (withinbounds(row - 1, col + 1) && board[row - 1][col + 1] !== "1") {
+    if (isUpperCase(board[row][col]) !== isUpperCase(board[row - 1][col + 1])) {
+      moves.push(ogPos + (row - 1) + (col + 1));
+    }
+  }
+  return moves;
+}

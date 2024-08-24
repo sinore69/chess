@@ -22,8 +22,6 @@ export async function getMove(
   const resp = (await res.json()) as Fen;
   const newPosition = decodefen(
     resp.fen,
-    resp.lastMove,
-    isCheck,
     wCastle,
     bCastle,
     wKingPos,

@@ -2,13 +2,17 @@ import { MutableRefObject } from "react";
 import { withinbounds } from "./withinbounds";
 import { isKingSafe } from "./validator/king";
 import { isUpperCase } from "./isuppercase";
+import { canBlock } from "./canBlock";
+import { canCapture } from "./canCapture";
 
 export function IsCheckMate(
   board: string[][],
   wKingPos: MutableRefObject<string>,
   bKingPos: MutableRefObject<string>,
-  color: MutableRefObject<"b" | "w">
+  color: MutableRefObject<"b" | "w">,
+  lastMove: string
 ) {
+  //king has no legal move
   let srcRow,
     srcCol,
     destRow,
@@ -41,8 +45,12 @@ export function IsCheckMate(
       }
     }
   }
-  console.log(validMoveCount);
   if (validMoveCount === 0) {
+    //attacking piece can be captured or check can be blocked
+    if (canBlock() || canCapture(board, lastMove, color.current)) {
+      return false;
+    }
     console.log("checkmate");
+    return true;
   }
 }

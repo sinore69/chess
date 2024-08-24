@@ -20,104 +20,108 @@ export function isvalidmove(
   wKingPos: React.MutableRefObject<string>,
   bKingPos: React.MutableRefObject<string>,
   enPassant: React.MutableRefObject<string>,
-  promotion: React.MutableRefObject<promotionData>
+  promotion: React.MutableRefObject<promotionData>,
+  allPossibleMove: Set<string>
 ) {
-  if (
-    (piece === "p" || piece === "P") &&
-    isValidPawnmove(
-      srcRow,
-      srcCol,
-      destRow,
-      destCol,
-      piece,
-      board,
-      color,
-      isCheck,
-      enPassant,
-      promotion,
-      wCastle,
-      bCastle
-    )
-  ) {
-    board[srcRow][srcCol] = "1";
-    board[destRow][destCol] = piece;
-    return checkKingSafety(board, color, wKingPos, bKingPos);
+  if (allPossibleMove.has(piece + srcRow + srcCol + destRow + destCol)) {
+    return true;
   }
-  if (
-    (piece === "r" || piece === "R") &&
-    isvalidrookmove(
-      srcRow,
-      srcCol,
-      destRow,
-      destCol,
-      piece,
-      board,
-      wCastle,
-      bCastle,
-      color,
-      isCheck
-    )
-  ) {
-    board[srcRow][srcCol] = "1";
-    board[destRow][destCol] = piece;
-    return checkKingSafety(board, color, wKingPos, bKingPos);
-  }
-  if (
-    (piece === "b" || piece === "B") &&
-    isvalidbishopmove(
-      srcRow,
-      srcCol,
-      destRow,
-      destCol,
-      piece,
-      board,
-      isCheck,
-      wCastle,
-      bCastle,
-      color
-    )
-  ) {
-    board[srcRow][srcCol] = "1";
-    board[destRow][destCol] = piece;
-    return checkKingSafety(board, color, wKingPos, bKingPos);
-  }
-  if (
-    (piece === "q" || piece === "Q") &&
-    isvalidqueenmove(
-      srcRow,
-      srcCol,
-      destRow,
-      destCol,
-      piece,
-      board,
-      wCastle,
-      bCastle,
-      color,
-      isCheck
-    )
-  ) {
-    board[srcRow][srcCol] = "1";
-    board[destRow][destCol] = piece;
-    return checkKingSafety(board, color, wKingPos, bKingPos);
-  }
-  if (
-    (piece === "n" || piece === "N") &&
-    isvalidknightmove(
-      srcRow,
-      srcCol,
-      destRow,
-      destCol,
-      piece,
-      board,
-      isCheck,
-      wCastle,
-      bCastle,
-      color
-    )
-  ) {
-    board[srcRow][srcCol] = "1";
-    board[destRow][destCol] = piece;
-    return checkKingSafety(board, color, wKingPos, bKingPos);
-  }
+  // if (
+  //   (piece === "p" || piece === "P") &&
+  //   isValidPawnmove(
+  //     srcRow,
+  //     srcCol,
+  //     destRow,
+  //     destCol,
+  //     piece,
+  //     board,
+  //     color,
+  //     isCheck,
+  //     enPassant,
+  //     promotion,
+  //     wCastle,
+  //     bCastle
+  //   )
+  // ) {
+  //   board[srcRow][srcCol] = "1";
+  //   board[destRow][destCol] = piece;
+  //   return checkKingSafety(board, color, wKingPos, bKingPos);
+  // }
+  // if (
+  //   (piece === "r" || piece === "R") &&
+  //   isvalidrookmove(
+  //     srcRow,
+  //     srcCol,
+  //     destRow,
+  //     destCol,
+  //     piece,
+  //     board,
+  //     wCastle,
+  //     bCastle,
+  //     color,
+  //     isCheck
+  //   )
+  // ) {
+  //   board[srcRow][srcCol] = "1";
+  //   board[destRow][destCol] = piece;
+  //   return checkKingSafety(board, color, wKingPos, bKingPos);
+  // }
+  // if (
+  //   (piece === "b" || piece === "B") &&
+  //   isvalidbishopmove(
+  //     srcRow,
+  //     srcCol,
+  //     destRow,
+  //     destCol,
+  //     piece,
+  //     board,
+  //     isCheck,
+  //     wCastle,
+  //     bCastle,
+  //     color
+  //   )
+  // ) {
+  //   board[srcRow][srcCol] = "1";
+  //   board[destRow][destCol] = piece;
+  //   return checkKingSafety(board, color, wKingPos, bKingPos);
+  // }
+  // if (
+  //   (piece === "q" || piece === "Q") &&
+  //   isvalidqueenmove(
+  //     srcRow,
+  //     srcCol,
+  //     destRow,
+  //     destCol,
+  //     piece,
+  //     board,
+  //     wCastle,
+  //     bCastle,
+  //     color,
+  //     isCheck
+  //   )
+  // ) {
+  //   board[srcRow][srcCol] = "1";
+  //   board[destRow][destCol] = piece;
+  //   return checkKingSafety(board, color, wKingPos, bKingPos);
+  // }
+  // if (
+  //   (piece === "n" || piece === "N") &&
+  //   isvalidknightmove(
+  //     srcRow,
+  //     srcCol,
+  //     destRow,
+  //     destCol,
+  //     piece,
+  //     board,
+  //     isCheck,
+  //     wCastle,
+  //     bCastle,
+  //     color
+  //   )
+  // ) {
+  //   board[srcRow][srcCol] = "1";
+  //   board[destRow][destCol] = piece;
+  //   return checkKingSafety(board, color, wKingPos, bKingPos);
+  // }
   return false;
 }

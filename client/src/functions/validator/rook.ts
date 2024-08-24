@@ -2,6 +2,7 @@ import { MutableRefObject } from "react";
 import { isUpperCase } from "../isuppercase";
 import { withinbounds } from "../withinbounds";
 import { IsRookCapture } from "../IsRookCapture";
+
 export function isvalidrookmove(
   srcRow: number,
   srcCol: number,
@@ -166,4 +167,83 @@ export function isRookCheck(
     break;
   }
   return false;
+}
+export function allRookMoves(
+  board: string[][],
+  color: string,
+  row: number,
+  col: number,
+  piece: string
+) {
+  const ogPos = piece + row + col;
+  let moves: string[] = [];
+
+  //up-bottom
+  outer: for (let i = row + 1; i < 8; i++) {
+    if (withinbounds(i, col)) {
+      if (board[i][col] === "1") {
+        moves.push(ogPos + i + col);
+        continue;
+      } else {
+        if (isUpperCase(board[row][col]) === isUpperCase(board[i][col])) {
+          break outer;
+        } else {
+          moves.push(ogPos + i + col);
+          break outer;
+        }
+      }
+    }
+  }
+
+  //bottom-up
+  outer: for (let i = row - 1; i >= 0; i--) {
+    if (withinbounds(i, col)) {
+      if (board[i][col] === "1") {
+        moves.push(ogPos + i + col);
+        continue;
+      } else {
+        if (isUpperCase(board[row][col]) === isUpperCase(board[i][col])) {
+          break outer;
+        } else {
+          moves.push(ogPos + i + col);
+          break outer;
+        }
+      }
+    }
+  }
+
+  //left to right
+  outer: for (let i = col + 1; i < 8; i++) {
+    if (withinbounds(row, i)) {
+      if (board[row][i] === "1") {
+        moves.push(ogPos + row + i);
+        continue;
+      } else {
+        if (isUpperCase(board[row][col]) === isUpperCase(board[row][i])) {
+          break outer;
+        } else {
+          moves.push(ogPos + row + i);
+          break outer;
+        }
+      }
+    }
+  }
+  
+  //right to left
+  outer: for (let i = col - 1; i >= 0; i--) {
+    if (withinbounds(row, i)) {
+      if (board[row][i] === "1") {
+        moves.push(ogPos + row + i);
+        continue;
+      } else {
+        if (isUpperCase(board[row][col]) === isUpperCase(board[row][i])) {
+          break outer;
+        } else {
+          moves.push(ogPos + row + i);
+          break outer;
+        }
+      }
+    }
+  }
+  return moves;
 }

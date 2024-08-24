@@ -168,3 +168,92 @@ export function isBishopCheck(
   }
   return false;
 }
+
+export function allBishopMove(
+  board: string[][],
+  color: string,
+  row: number,
+  col: number,
+  piece: string
+) {
+  const ogPos = piece + row + col;
+  let moves: string[] = [];
+
+  //first quadrant
+  outer: for (let i = 1; i < 8; i++) {
+    if (withinbounds(row - i, col + i)) {
+      if (board[row - i][col + i] === "1") {
+        moves.push(ogPos + (row - i) + (col + i));
+        continue;
+      } else {
+        if (
+          isUpperCase(board[row][col]) === isUpperCase(board[row - i][col + i])
+        ) {
+          break outer;
+        } else {
+          moves.push(ogPos + (row - 1) + (col + 1));
+          break outer;
+        }
+      }
+    }
+  }
+
+  //second qudrant
+  outer: for (let i = 1; i < 8; i++) {
+    if (withinbounds(row - i, col - i)) {
+      if (board[row - i][col - i] === "1") {
+        moves.push(ogPos + (row - i) + (col - i));
+        continue;
+      } else {
+        if (
+          isUpperCase(board[row][col]) === isUpperCase(board[row - i][col - i])
+        ) {
+          break outer;
+        } else {
+          moves.push(ogPos + (row - i) + (col - i));
+          break outer;
+        }
+      }
+    }
+  }
+
+  //third quadrant
+  outer: for (let i = 1; i < 8; i++) {
+    if (withinbounds(row + i, col - i)) {
+      if (board[row + i][col - i] === "1") {
+        moves.push(ogPos + (row + i) + (col - i));
+        continue;
+      } else {
+        if (
+          isUpperCase(board[row][col]) === isUpperCase(board[row + i][col - i])
+        ) {
+          break outer;
+        } else {
+          moves.push(ogPos + (row + i) + (col - i));
+          break outer;
+        }
+      }
+    }
+  }
+
+  //fourth quadrant
+  outer: for (let i = 1; i < 8; i++) {
+    if (withinbounds(row + i, col + i)) {
+      if (board[row + i][col + i] === "1") {
+        moves.push(ogPos + (row + i) + (col + i));
+        continue;
+      } else {
+        if (
+          isUpperCase(board[row][col]) === isUpperCase(board[row + i][col + i])
+        ) {
+          break outer;
+        } else {
+          moves.push(ogPos + (row + 1) + (col + 1));
+          break outer;
+        }
+      }
+    }
+  }
+
+  return moves;
+}

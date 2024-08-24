@@ -62,5 +62,32 @@ export function isKnightCheck(
       return true;
     }
   }
-  return false
+  return false;
+}
+
+export function allKnightMoves(
+  board: string[][],
+  color: string,
+  row: number,
+  col: number,
+  piece: string
+) {
+  const ogPos = piece + row + col;
+  let moves: string[] = [];
+  let destRow, destCol;
+  const rowArr = [2, 1, -1, -2, -2, -1, 1, 2];
+  const colArr = [1, 2, 2, 1, -1, -2, -2, -1];
+  for (let i = 0; i < 8; i++) {
+    destRow = Number(row) + rowArr[i];
+    destCol = Number(col) + colArr[i];
+    if (
+      withinbounds(destRow, destCol) &&
+      (board[destRow][destCol] === "1" ||
+        isUpperCase(piece) !== isUpperCase(board[destRow][destCol]))
+    ) {
+      moves.push(ogPos + destRow + destCol);
+    }
+  }
+  console.log(moves);
+  return moves;
 }

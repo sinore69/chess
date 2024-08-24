@@ -359,3 +359,28 @@ export function iscastle(
   }
   return board;
 }
+
+export function allKingMove(
+  board: string[][],
+  color: string,
+  row: number,
+  col: number,
+  piece: string
+) {
+  const ogPos = piece + row + col;
+  let moves: string[] = [];
+  const rowArr = [-1, -1, 0, 1, 1, 1, 0, -1, -1];
+  const colArr = [0, 1, 1, 1, 0, -1, -1, -1];
+  for (let i = 0; i < 8; i++) {
+    const destRow = Number(row) + rowArr[i];
+    const destCol = Number(col) + colArr[i];
+    if (
+      withinbounds(destRow, destCol) &&
+      (board[destRow][destCol] === "1" ||
+        isUpperCase(piece) !== isUpperCase(board[destRow][destCol]))
+    ) {
+      moves.push(ogPos + row + col);
+    }
+  }
+  return moves;
+}

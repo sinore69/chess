@@ -3,6 +3,7 @@ import { checkKingSafety } from "./undercheck";
 import { isvalidmove } from "./validator/isvalidmove";
 import { iscastle, isvalidkingmove } from "./validator/king";
 import { EnPassantMove } from "./validator/pawn";
+import AllValidMove from "./AllValidMove";
 
 export function updateposition(
   board: string[][],
@@ -36,19 +37,23 @@ export function updateposition(
       newboard[i][j] = board[i][j];
     }
   }
-  if (
-    (piece === "p" || piece === "P") &&
-    enPassant.current !== "" &&
-    EnPassantMove(destRow, destCol, color, enPassant)
-  ) {
-    newboard[srcRow][srcCol] = "1";
-    newboard[destRow][destCol] = piece;
-    newboard[Number(7 - parseInt(enPassant.current.charAt(1)) + 1)][
-      Number(7 - parseInt(enPassant.current.charAt(2)))
-    ] = "1";
-    enPassant.current = "";
-    kingSafety = checkKingSafety(newboard, color, wKingPos, bKingPos);
-  }
+  let allValidMove = new Set<string>();
+  AllValidMove(board, color, allValidMove);
+  console.log(allValidMove)
+
+  // if (
+  //   (piece === "p" || piece === "P") &&
+  //   enPassant.current !== "" &&
+  //   EnPassantMove(destRow, destCol, color, enPassant)
+  // ) {
+  //   newboard[srcRow][srcCol] = "1";
+  //   newboard[destRow][destCol] = piece;
+  //   newboard[Number(7 - parseInt(enPassant.current.charAt(1)) + 1)][
+  //     Number(7 - parseInt(enPassant.current.charAt(2)))
+  //   ] = "1";
+  //   enPassant.current = "";
+  //   kingSafety = checkKingSafety(newboard, color, wKingPos, bKingPos);
+  // }
   if (
     isvalidmove(
       srcRow,
@@ -64,7 +69,8 @@ export function updateposition(
       wKingPos,
       bKingPos,
       enPassant,
-      promotion
+      promotion,
+      allValidMove
     )
   ) {
     newboard[srcRow][srcCol] = "1";

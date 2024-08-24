@@ -14,6 +14,7 @@ import { promotionData } from "@/types/promotion";
 import PromotionPopUp from "./PromotionPopUp";
 import TimeControl from "./TimeControl";
 import { IsCheckMate } from "@/functions/IsCheckMate";
+import AllValidMove from "@/functions/AllValidMove";
 
 function SocketBoard(props: {
   movable: boolean;
@@ -40,7 +41,7 @@ function SocketBoard(props: {
     position: "",
   });
   const ref = useRef<HTMLDivElement | null>(null);
-
+  let firstmove = 1;
   useEffect(() => {
     if (ref.current) {
       ref.current.focus();
@@ -76,7 +77,7 @@ function SocketBoard(props: {
         colorToMove.current = updateTurn(data.fen);
         isCheck.current = false;
         isUnderCheck.current = IsUnderCheck(data.lastMove);
-          IsCheckMate(newposition,wKingPos,bKingPos,color)
+        IsCheckMate(newposition, wKingPos, bKingPos, color, data.lastMove);
       }
     };
   }, [props.playAs, props.socket]);
