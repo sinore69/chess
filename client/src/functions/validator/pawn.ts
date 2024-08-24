@@ -31,7 +31,7 @@ export function isValidPawnmove(
       board[destRow][destCol] === "1"
     ) {
       //normal move
-      if (isPawnCheck(board, destRow, destCol, -1, piece)) {
+      if (isPawnCheck(board, destRow, destCol, -1, piece, isCheck)) {
         isCheck.current = true;
       }
       if (destRow === 0) {
@@ -48,7 +48,7 @@ export function isValidPawnmove(
         board[Number(destRow)][destCol] == "1" &&
         board[Number(destRow) + 1][destCol] == "1"
       ) {
-        if (isPawnCheck(board, destRow, destCol, -2, piece)) {
+        if (isPawnCheck(board, destRow, destCol, -2, piece, isCheck)) {
           isCheck.current = true;
         }
         ifEnpassant(enPassant, destRow, destCol, board, "p", color);
@@ -62,7 +62,7 @@ export function isValidPawnmove(
       !isUpperCase(board[destRow][destCol])
     ) {
       //diagonal move
-      if (isPawnCheck(board, destRow, destCol, -1, piece)) {
+      if (isPawnCheck(board, destRow, destCol, -1, piece, isCheck)) {
         isCheck.current = true;
       }
       if (destRow === 0) {
@@ -81,7 +81,7 @@ export function isValidPawnmove(
       board[destRow][destCol] === "1"
     ) {
       //normal move
-      if (isPawnCheck(board, destRow, destCol, 1, piece)) {
+      if (isPawnCheck(board, destRow, destCol, 1, piece, isCheck)) {
         isCheck.current = true;
       }
       return true;
@@ -93,7 +93,7 @@ export function isValidPawnmove(
         board[Number(destRow) - 1][destCol] == "1" &&
         board[Number(destRow)][destCol] == "1"
       ) {
-        if (isPawnCheck(board, destRow, destCol, 2, piece)) {
+        if (isPawnCheck(board, destRow, destCol, 2, piece, isCheck)) {
           isCheck.current = true;
         }
         return true;
@@ -106,7 +106,7 @@ export function isValidPawnmove(
       isUpperCase(board[destRow][destCol])
     ) {
       //diagonal move
-      if (isPawnCheck(board, destRow, destCol, 1, piece)) {
+      if (isPawnCheck(board, destRow, destCol, 1, piece, isCheck)) {
         isCheck.current = true;
       }
       IsRookCapture(board, destRow, destCol, wCastle, bCastle, color);
@@ -120,7 +120,7 @@ export function isValidPawnmove(
       srcCol == destCol &&
       board[destRow][destCol] === "1"
     ) {
-      if (isPawnCheck(board, destRow, destCol, -1, piece)) {
+      if (isPawnCheck(board, destRow, destCol, -1, piece, isCheck)) {
         isCheck.current = true;
       }
       if (destRow === 0) {
@@ -138,7 +138,7 @@ export function isValidPawnmove(
         board[Number(destRow) + 1][destCol] == "1" &&
         board[Number(destRow)][destCol] == "1"
       ) {
-        if (isPawnCheck(board, destRow, destCol, -2, piece)) {
+        if (isPawnCheck(board, destRow, destCol, -2, piece, isCheck)) {
           isCheck.current = true;
         }
         ifEnpassant(enPassant, destRow, destCol, board, "P", color);
@@ -152,7 +152,7 @@ export function isValidPawnmove(
       isUpperCase(board[destRow][destCol])
     ) {
       //diagonal move
-      if (isPawnCheck(board, destRow, destCol, -1, piece)) {
+      if (isPawnCheck(board, destRow, destCol, -1, piece, isCheck)) {
         isCheck.current = true;
       }
       if (destRow === 0) {
@@ -171,7 +171,7 @@ export function isValidPawnmove(
       board[destRow][destCol] === "1"
     ) {
       //normal move
-      if (isPawnCheck(board, destRow, destCol, 1, piece)) {
+      if (isPawnCheck(board, destRow, destCol, 1, piece, isCheck)) {
         isCheck.current = true;
       }
       return true;
@@ -183,7 +183,7 @@ export function isValidPawnmove(
         board[Number(destRow) - 1][destCol] == "1" &&
         board[Number(destRow)][destCol] == "1"
       ) {
-        if (isPawnCheck(board, destRow, destCol, 2, piece)) {
+        if (isPawnCheck(board, destRow, destCol, 2, piece, isCheck)) {
           isCheck.current = true;
         }
         return true;
@@ -196,7 +196,7 @@ export function isValidPawnmove(
       !isUpperCase(board[destRow][destCol])
     ) {
       //diagonal move
-      if (isPawnCheck(board, destRow, destCol, 1, piece)) {
+      if (isPawnCheck(board, destRow, destCol, 1, piece, isCheck)) {
         isCheck.current = true;
       }
       IsRookCapture(board, destRow, destCol, wCastle, bCastle, color);
@@ -210,7 +210,8 @@ export function isPawnCheck(
   row: number,
   col: number,
   offset: number,
-  piece: string
+  piece: string,
+  isCheck: MutableRefObject<boolean>
 ) {
   if (withinbounds(Number(row) + offset, Number(col) + 1)) {
     if (
@@ -219,6 +220,7 @@ export function isPawnCheck(
       isUpperCase(board[Number(row) + offset][Number(col) + 1]) !==
         isUpperCase(piece)
     ) {
+      isCheck.current = true;
       return true;
     }
   }
@@ -229,6 +231,7 @@ export function isPawnCheck(
       isUpperCase(board[Number(row) + offset][Number(col) - 1]) !==
         isUpperCase(piece)
     ) {
+      isCheck.current = true;
       return true;
     }
   }

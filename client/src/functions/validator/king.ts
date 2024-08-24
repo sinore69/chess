@@ -371,15 +371,17 @@ export function allKingMove(
   let moves: string[] = [];
   const rowArr = [-1, -1, 0, 1, 1, 1, 0, -1, -1];
   const colArr = [0, 1, 1, 1, 0, -1, -1, -1];
+  //normal king moves
   for (let i = 0; i < 8; i++) {
-    const destRow = Number(row) + rowArr[i];
-    const destCol = Number(col) + colArr[i];
+    let destRow = Number(row) + rowArr[i];
+    let destCol = Number(col) + colArr[i];
     if (
       withinbounds(destRow, destCol) &&
       (board[destRow][destCol] === "1" ||
-        isUpperCase(piece) !== isUpperCase(board[destRow][destCol]))
+        isUpperCase(piece) !== isUpperCase(board[destRow][destCol])) &&
+      isKingSafe(board, destRow, destCol, piece, color)
     ) {
-      moves.push(ogPos + row + col);
+      moves.push(ogPos + destRow + destCol);
     }
   }
   return moves;

@@ -88,28 +88,6 @@ export function updateposition(
       wCastle,
       bCastle
     );
-    if (
-      isvalidkingmove(
-        srcRow,
-        srcCol,
-        destRow,
-        destCol,
-        piece,
-        color,
-        board,
-        wCastle,
-        bCastle
-      )
-    ) {
-      newboard[srcRow][srcCol] = "1";
-      newboard[destRow][destCol] = piece;
-      if (color === "w") {
-        wCastle.current = "";
-      }
-      if (color === "b") {
-        bCastle.current = "";
-      }
-    }
   }
   return kingSafety ? [...newboard] : [...board];
 }

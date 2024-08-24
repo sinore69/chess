@@ -2,7 +2,7 @@ import { promotionData } from "@/types/promotion";
 import { checkKingSafety } from "../undercheck";
 import { isBishopCheck, isvalidbishopmove } from "./bishop";
 import { isKnightCheck, isvalidknightmove } from "./knight";
-import { isValidPawnmove } from "./pawn";
+import { isPawnCheck, isValidPawnmove } from "./pawn";
 import { isQueenCheck, isvalidqueenmove } from "./queen";
 import { isRookCheck, isvalidrookmove, updateCastleString } from "./rook";
 import { IsRookCapture } from "../IsRookCapture";
@@ -27,6 +27,11 @@ export function isvalidmove(
   const moveMade = piece + srcRow + srcCol + destRow + destCol;
   if (allPossibleMove.has(moveMade)) {
     switch (piece) {
+      case "p":
+      case "P":
+        IsRookCapture(board, destRow, destCol, wCastle, bCastle, color);
+        isPawnCheck(board, destRow, destCol, -1, piece, isCheck);
+        break;
       case "r":
       case "R":
         updateCastleString(piece, srcRow, srcCol, wCastle, bCastle);
@@ -36,7 +41,7 @@ export function isvalidmove(
       case "n":
       case "N":
         IsRookCapture(board, destRow, destCol, wCastle, bCastle, color);
-        isKnightCheck(board,destRow,destCol,piece,isCheck)
+        isKnightCheck(board, destRow, destCol, piece, isCheck);
         break;
       case "b":
       case "B":
@@ -47,6 +52,17 @@ export function isvalidmove(
       case "Q":
         isQueenCheck(board, destRow, destCol, piece, isCheck);
         IsRookCapture(board, destRow, destCol, wCastle, bCastle, color);
+        break;
+      case "k":
+        IsRookCapture(board, destRow, destCol, wCastle, bCastle, color);
+        bCastle.current = "";
+        break;
+      case "K":
+        IsRookCapture(board, destRow, destCol, wCastle, bCastle, color);
+        wCastle.current = "";
+        break;
+      default:
+        console.log("something wrong happened");
         break;
     }
     return true;
