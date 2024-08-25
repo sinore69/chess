@@ -13,6 +13,9 @@ export function checkKingSafety(
   wKingPos: React.MutableRefObject<string>,
   bKingPos: React.MutableRefObject<string>
 ) {
+  if (wKingPos === undefined || bKingPos === undefined) {
+    return true;
+  }
   if (color === "w") {
     if (
       isKingSafe(
@@ -43,5 +46,5 @@ export function checkKingSafety(
       return false;
     }
   }
-  return false
+  return false;
 }

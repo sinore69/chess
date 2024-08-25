@@ -38,8 +38,7 @@ export function updateposition(
     }
   }
   let allValidMove = new Set<string>();
-  AllValidMove(board, color, allValidMove);
-  console.log(allValidMove)
+  AllValidMove(board, color, allValidMove,wKingPos,bKingPos);
 
   // if (
   //   (piece === "p" || piece === "P") &&
@@ -83,7 +82,7 @@ export function updateposition(
       srcCol,
       destRow,
       destCol,
-      board,
+      newboard,
       color,
       wCastle,
       bCastle

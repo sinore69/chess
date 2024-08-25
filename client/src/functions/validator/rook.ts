@@ -2,6 +2,7 @@ import { MutableRefObject } from "react";
 import { isUpperCase } from "../isuppercase";
 import { withinbounds } from "../withinbounds";
 import { IsRookCapture } from "../IsRookCapture";
+import { checkKingSafety } from "../undercheck";
 
 export function isvalidrookmove(
   srcRow: number,
@@ -178,7 +179,9 @@ export function allRookMoves(
   color: string,
   row: number,
   col: number,
-  piece: string
+  piece: string,
+  wKingPos: MutableRefObject<string>,
+  bKingPos: MutableRefObject<string>
 ) {
   const ogPos = piece + row + col;
   let moves: string[] = [];
@@ -187,6 +190,16 @@ export function allRookMoves(
   outer: for (let i = row + 1; i < 8; i++) {
     if (withinbounds(i, col)) {
       if (board[i][col] === "1") {
+        //pinning situation
+        board[i][col] = piece;
+        board[row][col] = "1";
+        if (!checkKingSafety(board, color, wKingPos, bKingPos)) {
+          board[i][col] = "1";
+          board[row][col] = piece;
+          break outer;
+        }
+        board[i][col] = "1";
+        board[row][col] = piece;
         moves.push(ogPos + i + col);
         continue;
       } else {
@@ -204,6 +217,16 @@ export function allRookMoves(
   outer: for (let i = row - 1; i >= 0; i--) {
     if (withinbounds(i, col)) {
       if (board[i][col] === "1") {
+        //pinning situation
+        board[i][col] = piece;
+        board[row][col] = "1";
+        if (!checkKingSafety(board, color, wKingPos, bKingPos)) {
+          board[i][col] = "1";
+          board[row][col] = piece;
+          break outer;
+        }
+        board[i][col] = "1";
+        board[row][col] = piece;
         moves.push(ogPos + i + col);
         continue;
       } else {
@@ -221,6 +244,16 @@ export function allRookMoves(
   outer: for (let i = col + 1; i < 8; i++) {
     if (withinbounds(row, i)) {
       if (board[row][i] === "1") {
+        //pinning situation
+        board[row][i] = piece;
+        board[row][col] = "1";
+        if (!checkKingSafety(board, color, wKingPos, bKingPos)) {
+          board[row][i] = "1";
+          board[row][col] = piece;
+          break outer;
+        }
+        board[row][i] = "1";
+        board[row][col] = piece;
         moves.push(ogPos + row + i);
         continue;
       } else {
@@ -233,11 +266,21 @@ export function allRookMoves(
       }
     }
   }
-  
+
   //right to left
   outer: for (let i = col - 1; i >= 0; i--) {
     if (withinbounds(row, i)) {
       if (board[row][i] === "1") {
+        //pinning situation
+        board[row][i] = piece;
+        board[row][col] = "1";
+        if (!checkKingSafety(board, color, wKingPos, bKingPos)) {
+          board[row][i] = "1";
+          board[row][col] = piece;
+          break outer;
+        }
+        board[row][i] = "1";
+        board[row][col] = piece;
         moves.push(ogPos + row + i);
         continue;
       } else {

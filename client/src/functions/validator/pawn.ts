@@ -3,6 +3,8 @@ import { withinbounds } from "../withinbounds";
 import { isUpperCase } from "../isuppercase";
 import { promotionData } from "@/types/promotion";
 import { IsRookCapture } from "../IsRookCapture";
+import { isKingSafe } from "./king";
+import { checkKingSafety } from "../undercheck";
 
 export function isValidPawnmove(
   srcRow: number,
@@ -295,17 +297,25 @@ export function allPawnMove(
   color: string,
   row: number,
   col: number,
-  piece: string
+  piece: string,
+  wKingPos: MutableRefObject<string>,
+  bKingPos: MutableRefObject<string>
 ) {
   const ogPos = piece + row + col;
   let moves: string[] = [];
-  //first move advantage
+  board[row][col] = "1";
+  if (!checkKingSafety(board, color, wKingPos, bKingPos)) {
+    board[row][col] = piece;
+    return moves;
+  }
+  board[row][col] = piece;
   if (row === 6 && board[row - 1][col] === "1" && board[row - 2][col] === "1") {
+    //first move advantage
     moves.push(ogPos + (row - 1) + col);
     moves.push(ogPos + (row - 2) + col);
   }
   //normal move
-  if (board[row - 1][col] === "1") {
+  else if (board[row - 1][col] === "1") {
     moves.push(ogPos + (row - 1) + col);
   }
   //diagonal capture

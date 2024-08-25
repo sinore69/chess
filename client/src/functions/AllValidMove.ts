@@ -1,3 +1,4 @@
+import { MutableRefObject } from "react";
 import { isUpperCase } from "./isuppercase";
 import { allBishopMove } from "./validator/bishop";
 import { allKingMove } from "./validator/king";
@@ -6,7 +7,13 @@ import { allPawnMove } from "./validator/pawn";
 import { allQueenMoves } from "./validator/queen";
 import { allRookMoves } from "./validator/rook";
 
-function AllValidMove(board: string[][], color: string, set: Set<string>) {
+function AllValidMove(
+  board: string[][],
+  color: string,
+  set: Set<string>,
+  wKingPos: MutableRefObject<string>,
+  bKingPos: MutableRefObject<string>
+) {
   let pawn = "p",
     rook = "r",
     knight = "n",
@@ -32,7 +39,9 @@ function AllValidMove(board: string[][], color: string, set: Set<string>) {
             color,
             row,
             col,
-            board[row][col]
+            board[row][col],
+            wKingPos,
+            bKingPos
           );
           addToSet(set, pawnMoves);
           break;
@@ -42,7 +51,9 @@ function AllValidMove(board: string[][], color: string, set: Set<string>) {
             color,
             row,
             col,
-            board[row][col]
+            board[row][col],
+            wKingPos,
+            bKingPos
           );
           addToSet(set, rookMoves);
           break;

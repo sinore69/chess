@@ -90,6 +90,5 @@ export function allKnightMoves(
       moves.push(ogPos + destRow + destCol);
     }
   }
-  console.log(moves);
   return moves;
 }
