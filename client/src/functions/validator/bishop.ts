@@ -2,6 +2,7 @@ import { MutableRefObject } from "react";
 import { isUpperCase } from "../isuppercase";
 import { withinbounds } from "../withinbounds";
 import { IsRookCapture } from "../IsRookCapture";
+import { checkKingSafety } from "../undercheck";
 export function isvalidbishopmove(
   srcRow: number,
   srcCol: number,
@@ -179,7 +180,9 @@ export function allBishopMove(
   color: string,
   row: number,
   col: number,
-  piece: string
+  piece: string,
+  wKingPos: MutableRefObject<string>,
+  bKingPos: MutableRefObject<string>
 ) {
   const ogPos = piece + row + col;
   let moves: string[] = [];
@@ -188,6 +191,15 @@ export function allBishopMove(
   outer: for (let i = 1; i < 8; i++) {
     if (withinbounds(row - i, col + i)) {
       if (board[row - i][col + i] === "1") {
+        board[row - i][col + i] = piece;
+        board[row][col] = "1";
+        if (!checkKingSafety(board, color, wKingPos, bKingPos)) {
+          board[row - i][col + i] = "1";
+          board[row][col] = piece;
+          continue;
+        }
+        board[row - i][col + i] = "1";
+        board[row][col] = piece;
         moves.push(ogPos + (row - i) + (col + i));
         continue;
       } else {
@@ -207,6 +219,15 @@ export function allBishopMove(
   outer: for (let i = 1; i < 8; i++) {
     if (withinbounds(row - i, col - i)) {
       if (board[row - i][col - i] === "1") {
+        board[row - i][col - i] = piece;
+        board[row][col] = "1";
+        if (!checkKingSafety(board, color, wKingPos, bKingPos)) {
+          board[row - i][col - i] = "1";
+          board[row][col] = piece;
+          continue;
+        }
+        board[row - i][col - i] = "1";
+        board[row][col] = piece;
         moves.push(ogPos + (row - i) + (col - i));
         continue;
       } else {
@@ -226,6 +247,15 @@ export function allBishopMove(
   outer: for (let i = 1; i < 8; i++) {
     if (withinbounds(row + i, col - i)) {
       if (board[row + i][col - i] === "1") {
+        board[row + i][col - i] = piece;
+        board[row][col] = "1";
+        if (!checkKingSafety(board, color, wKingPos, bKingPos)) {
+          board[row + i][col - i] = "1";
+          board[row][col] = piece;
+          continue;
+        }
+        board[row + i][col - i] = "1";
+        board[row][col] = piece;
         moves.push(ogPos + (row + i) + (col - i));
         continue;
       } else {
@@ -245,6 +275,15 @@ export function allBishopMove(
   outer: for (let i = 1; i < 8; i++) {
     if (withinbounds(row + i, col + i)) {
       if (board[row + i][col + i] === "1") {
+        board[row + i][col + i] = piece;
+        board[row][col] = "1";
+        if (!checkKingSafety(board, color, wKingPos, bKingPos)) {
+          board[row + i][col + i] = "1";
+          board[row][col] = piece;
+          continue;
+        }
+        board[row + i][col + i] = "1";
+        board[row][col] = piece;
         moves.push(ogPos + (row + i) + (col + i));
         continue;
       } else {

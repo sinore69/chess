@@ -2,6 +2,8 @@ import { MutableRefObject } from "react";
 import { isUpperCase } from "../isuppercase";
 import { withinbounds } from "../withinbounds";
 import { IsRookCapture } from "../IsRookCapture";
+import { isKingSafe } from "./king";
+import { checkKingSafety } from "../undercheck";
 export function isvalidknightmove(
   srcRow: number,
   srcCol: number,
@@ -72,7 +74,9 @@ export function allKnightMoves(
   color: string,
   row: number,
   col: number,
-  piece: string
+  piece: string,
+  wKingPos: MutableRefObject<string>,
+  bKingPos: MutableRefObject<string>
 ) {
   const ogPos = piece + row + col;
   let moves: string[] = [];
@@ -87,6 +91,15 @@ export function allKnightMoves(
       (board[destRow][destCol] === "1" ||
         isUpperCase(piece) !== isUpperCase(board[destRow][destCol]))
     ) {
+      board[row][col] = "1";
+      board[destRow][destCol] = piece;
+      if (!checkKingSafety(board, color, wKingPos, bKingPos)) {
+        board[row][col] = piece;
+        board[destRow][destCol] = "1";
+        continue;
+      }
+      board[row][col] = piece;
+      board[destRow][destCol] = "1";
       moves.push(ogPos + destRow + destCol);
     }
   }

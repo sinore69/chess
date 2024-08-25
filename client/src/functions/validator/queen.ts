@@ -55,7 +55,7 @@ export function isQueenCheck(
     isRookCheck(board, destRow, destCol, piece, isCheck) ||
     isBishopCheck(destRow, destCol, board, piece, isCheck)
   ) {
-    isCheck.current=true
+    isCheck.current = true;
     return true;
   }
   return false;
@@ -66,16 +66,34 @@ export function allQueenMoves(
   color: string,
   row: number,
   col: number,
-  piece: string
+  piece: string,
+  wKingPos: MutableRefObject<string>,
+  bKingPos: MutableRefObject<string>
 ) {
   const ogPos = piece + row + col;
   let moves: string[] = [];
-  let rookMoves = allRookMoves(board, color, row, col, piece);
+  let rookMoves = allRookMoves(
+    board,
+    color,
+    row,
+    col,
+    piece,
+    wKingPos,
+    bKingPos
+  );
   rookMoves = rookMoves.map((move: string) =>
     move.charAt(0) === "R" ? move.replace("R", "Q") : move.replace("r", "q")
   );
   moves.push(...rookMoves);
-  let bishopMoves = allBishopMove(board, color, row, col, piece);
+  let bishopMoves = allBishopMove(
+    board,
+    color,
+    row,
+    col,
+    piece,
+    wKingPos,
+    bKingPos
+  );
   bishopMoves = bishopMoves.map((move: string) =>
     move.charAt(0) === "B" ? move.replace("B", "Q") : move.replace("b", "q")
   );

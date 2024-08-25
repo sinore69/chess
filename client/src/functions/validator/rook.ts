@@ -196,7 +196,7 @@ export function allRookMoves(
         if (!checkKingSafety(board, color, wKingPos, bKingPos)) {
           board[i][col] = "1";
           board[row][col] = piece;
-          break outer;
+          continue;
         }
         board[i][col] = "1";
         board[row][col] = piece;
@@ -223,7 +223,7 @@ export function allRookMoves(
         if (!checkKingSafety(board, color, wKingPos, bKingPos)) {
           board[i][col] = "1";
           board[row][col] = piece;
-          break outer;
+          continue;
         }
         board[i][col] = "1";
         board[row][col] = piece;
@@ -250,7 +250,7 @@ export function allRookMoves(
         if (!checkKingSafety(board, color, wKingPos, bKingPos)) {
           board[row][i] = "1";
           board[row][col] = piece;
-          break outer;
+          continue;
         }
         board[row][i] = "1";
         board[row][col] = piece;
@@ -277,7 +277,7 @@ export function allRookMoves(
         if (!checkKingSafety(board, color, wKingPos, bKingPos)) {
           board[row][i] = "1";
           board[row][col] = piece;
-          break outer;
+          continue;
         }
         board[row][i] = "1";
         board[row][col] = piece;

@@ -1,5 +1,4 @@
 import { MutableRefObject } from "react";
-import { isUpperCase } from "./isuppercase";
 import { allBishopMove } from "./validator/bishop";
 import { allKingMove } from "./validator/king";
 import { allKnightMoves } from "./validator/knight";
@@ -63,7 +62,9 @@ function AllValidMove(
             color,
             row,
             col,
-            board[row][col]
+            board[row][col],
+            wKingPos,
+            bKingPos
           );
           addToSet(set, knightMoves);
           break;
@@ -73,7 +74,9 @@ function AllValidMove(
             color,
             row,
             col,
-            board[row][col]
+            board[row][col],
+            wKingPos,
+            bKingPos
           );
           addToSet(set, bishopMoves);
           break;
@@ -83,7 +86,9 @@ function AllValidMove(
             color,
             row,
             col,
-            board[row][col]
+            board[row][col],
+            wKingPos,
+            bKingPos
           );
           addToSet(set, queenMoves);
           break;
