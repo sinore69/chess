@@ -207,14 +207,15 @@ export function allRookMoves(
           break outer;
         } else {
           //pinning situation
+          const dummyPiece = board[i][col];
           board[i][col] = piece;
           board[row][col] = "1";
           if (!checkKingSafety(board, color, wKingPos, bKingPos)) {
-            board[i][col] = "1";
+            board[i][col] = dummyPiece;
             board[row][col] = piece;
             continue;
           }
-          board[i][col] = "1";
+          board[i][col] = dummyPiece;
           board[row][col] = piece;
           moves.push(ogPos + i + col);
           break outer;
@@ -244,14 +245,15 @@ export function allRookMoves(
           break outer;
         } else {
           //pinning situation
+          const dummyPiece = board[i][col];
           board[i][col] = piece;
           board[row][col] = "1";
           if (!checkKingSafety(board, color, wKingPos, bKingPos)) {
-            board[i][col] = "1";
+            board[i][col] = dummyPiece;
             board[row][col] = piece;
             break outer;
           }
-          board[i][col] = "1";
+          board[i][col] = dummyPiece;
           board[row][col] = piece;
           moves.push(ogPos + i + col);
           break outer;
@@ -281,16 +283,16 @@ export function allRookMoves(
           break outer;
         } else {
           //pinning situation
+          const dummyPiece = board[row][i];
           board[row][i] = piece;
           board[row][col] = "1";
           if (!checkKingSafety(board, color, wKingPos, bKingPos)) {
-            board[row][i] = "1";
+            board[row][i] = dummyPiece;
             board[row][col] = piece;
             break outer;
           }
-          board[row][i] = "1";
+          board[row][i] = dummyPiece;
           board[row][col] = piece;
-          moves.push(ogPos + row + i);
           moves.push(ogPos + row + i);
           break outer;
         }
@@ -319,14 +321,15 @@ export function allRookMoves(
           break outer;
         } else {
           //pinning situation
+          const dummyPiece = board[row][i];
           board[row][i] = piece;
           board[row][col] = "1";
           if (!checkKingSafety(board, color, wKingPos, bKingPos)) {
-            board[row][i] = "1";
+            board[row][i] = dummyPiece;
             board[row][col] = piece;
             break outer;
           }
-          board[row][i] = "1";
+          board[row][i] = dummyPiece;
           board[row][col] = piece;
           moves.push(ogPos + row + i);
           break outer;

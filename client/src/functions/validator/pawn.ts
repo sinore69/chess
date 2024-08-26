@@ -321,27 +321,29 @@ export function allPawnMove(
   //diagonal capture
   if (withinbounds(row - 1, col - 1) && board[row - 1][col - 1] !== "1") {
     if (isUpperCase(board[row][col]) !== isUpperCase(board[row - 1][col - 1])) {
+      const dummyPiece = board[row - 1][col - 1];
       board[row][col] = "1";
       board[row - 1][col - 1] = piece;
       if (checkKingSafety(board, color, wKingPos, bKingPos)) {
-        board[row - 1][col - 1] = "1";
+        board[row - 1][col - 1] = dummyPiece;
         board[row][col] = piece;
         moves.push(ogPos + (row - 1) + (col - 1));
       }
-      board[row - 1][col - 1] = "1";
+      board[row - 1][col - 1] = dummyPiece;
       board[row][col] = piece;
     }
   }
   if (withinbounds(row - 1, col + 1) && board[row - 1][col + 1] !== "1") {
     if (isUpperCase(board[row][col]) !== isUpperCase(board[row - 1][col + 1])) {
+      const dummyPiece = board[row - 1][col + 1];
       board[row][col] = "1";
       board[row - 1][col + 1] = piece;
       if (checkKingSafety(board, color, wKingPos, bKingPos)) {
-        board[row - 1][col + 1] = "1";
+        board[row - 1][col + 1] = dummyPiece;
         board[row][col] = piece;
         moves.push(ogPos + (row - 1) + (col + 1));
       }
-      board[row - 1][col + 1] = "1";
+      board[row - 1][col + 1] = dummyPiece;
       board[row][col] = piece;
     }
   }

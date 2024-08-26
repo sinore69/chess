@@ -210,14 +210,15 @@ export function allBishopMove(
           break outer;
         } else {
           //pinning situation
+          const dummyPiece = board[row - i][col + 1];
           board[row - i][col + i] = piece;
           board[row][col] = "1";
           if (!checkKingSafety(board, color, wKingPos, bKingPos)) {
-            board[row - i][col + i] = "1";
+            board[row - i][col + i] = dummyPiece;
             board[row][col] = piece;
             break outer;
           }
-          board[row - i][col + i] = "1";
+          board[row - i][col + i] = dummyPiece;
           board[row][col] = piece;
           moves.push(ogPos + (row - i) + (col + i));
           break outer;
@@ -247,14 +248,15 @@ export function allBishopMove(
         ) {
           break outer;
         } else {
+          const dummyPiece = board[row - i][col - i];
           board[row - i][col - i] = piece;
           board[row][col] = "1";
           if (!checkKingSafety(board, color, wKingPos, bKingPos)) {
-            board[row - i][col - i] = "1";
+            board[row - i][col - i] = dummyPiece;
             board[row][col] = piece;
             break outer;
           }
-          board[row - i][col - i] = "1";
+          board[row - i][col - i] = dummyPiece;
           board[row][col] = piece;
           moves.push(ogPos + (row - i) + (col - i));
           break outer;
@@ -284,14 +286,15 @@ export function allBishopMove(
         ) {
           break outer;
         } else {
+          const dummyPiece = board[row + i][col - i];
           board[row + i][col - i] = piece;
           board[row][col] = "1";
           if (!checkKingSafety(board, color, wKingPos, bKingPos)) {
-            board[row + i][col - i] = "1";
+            board[row + i][col - i] = dummyPiece;
             board[row][col] = piece;
             break outer;
           }
-          board[row + i][col - i] = "1";
+          board[row + i][col - i] = dummyPiece;
           board[row][col] = piece;
           moves.push(ogPos + (row + i) + (col - i));
           break outer;
@@ -321,14 +324,15 @@ export function allBishopMove(
         ) {
           break outer;
         } else {
+          const dummyPiece = board[row + i][col + i];
           board[row + i][col + i] = piece;
           board[row][col] = "1";
           if (!checkKingSafety(board, color, wKingPos, bKingPos)) {
-            board[row + i][col + i] = "1";
+            board[row + i][col + i] = dummyPiece;
             board[row][col] = piece;
             break outer;
           }
-          board[row + i][col + i] = "1";
+          board[row + i][col + i] = dummyPiece;
           board[row][col] = piece;
           moves.push(ogPos + (row + i) + (col + i));
           break outer;

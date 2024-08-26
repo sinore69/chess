@@ -91,15 +91,16 @@ export function allKnightMoves(
       (board[destRow][destCol] === "1" ||
         isUpperCase(piece) !== isUpperCase(board[destRow][destCol]))
     ) {
+      const dummyPiece = board[destRow][destCol];
       board[row][col] = "1";
       board[destRow][destCol] = piece;
       if (!checkKingSafety(board, color, wKingPos, bKingPos)) {
         board[row][col] = piece;
-        board[destRow][destCol] = "1";
+        board[destRow][destCol] = dummyPiece;
         continue;
       }
       board[row][col] = piece;
-      board[destRow][destCol] = "1";
+      board[destRow][destCol] = dummyPiece;
       moves.push(ogPos + destRow + destCol);
     }
   }
