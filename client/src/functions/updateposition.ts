@@ -1,6 +1,6 @@
 import { promotionData } from "@/types/promotion";
 import { isvalidmove } from "./validator/isvalidmove";
-import { iscastle, } from "./validator/king";
+import { iscastle } from "./validator/king";
 import AllValidMove from "./AllValidMove";
 
 export function updateposition(
@@ -57,6 +57,11 @@ export function updateposition(
       allValidMove
     )
   ) {
+    if (piece === "p" || piece === "P") {
+      promotion.current.isPromotion = true;
+      promotion.current.color = color;
+      promotion.current.position = "" + srcRow + srcCol + destRow + destCol;
+    }
     newboard[srcRow][srcCol] = "1";
     newboard[destRow][destCol] = piece;
   }
