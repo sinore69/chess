@@ -191,6 +191,7 @@ export function allBishopMove(
   outer: for (let i = 1; i < 8; i++) {
     if (withinbounds(row - i, col + i)) {
       if (board[row - i][col + i] === "1") {
+        //pinning situation
         board[row - i][col + i] = piece;
         board[row][col] = "1";
         if (!checkKingSafety(board, color, wKingPos, bKingPos)) {
@@ -208,6 +209,16 @@ export function allBishopMove(
         ) {
           break outer;
         } else {
+          //pinning situation
+          board[row - i][col + i] = piece;
+          board[row][col] = "1";
+          if (!checkKingSafety(board, color, wKingPos, bKingPos)) {
+            board[row - i][col + i] = "1";
+            board[row][col] = piece;
+            break outer;
+          }
+          board[row - i][col + i] = "1";
+          board[row][col] = piece;
           moves.push(ogPos + (row - i) + (col + i));
           break outer;
         }
@@ -236,6 +247,15 @@ export function allBishopMove(
         ) {
           break outer;
         } else {
+          board[row - i][col - i] = piece;
+          board[row][col] = "1";
+          if (!checkKingSafety(board, color, wKingPos, bKingPos)) {
+            board[row - i][col - i] = "1";
+            board[row][col] = piece;
+            break outer;
+          }
+          board[row - i][col - i] = "1";
+          board[row][col] = piece;
           moves.push(ogPos + (row - i) + (col - i));
           break outer;
         }
@@ -264,6 +284,15 @@ export function allBishopMove(
         ) {
           break outer;
         } else {
+          board[row + i][col - i] = piece;
+          board[row][col] = "1";
+          if (!checkKingSafety(board, color, wKingPos, bKingPos)) {
+            board[row + i][col - i] = "1";
+            board[row][col] = piece;
+            break outer;
+          }
+          board[row + i][col - i] = "1";
+          board[row][col] = piece;
           moves.push(ogPos + (row + i) + (col - i));
           break outer;
         }
@@ -292,7 +321,16 @@ export function allBishopMove(
         ) {
           break outer;
         } else {
-          moves.push(ogPos + (row + 1) + (col + 1));
+          board[row + i][col + i] = piece;
+          board[row][col] = "1";
+          if (!checkKingSafety(board, color, wKingPos, bKingPos)) {
+            board[row + i][col + i] = "1";
+            board[row][col] = piece;
+            break outer;
+          }
+          board[row + i][col + i] = "1";
+          board[row][col] = piece;
+          moves.push(ogPos + (row + i) + (col + i));
           break outer;
         }
       }

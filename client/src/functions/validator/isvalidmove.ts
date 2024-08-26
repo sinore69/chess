@@ -27,6 +27,8 @@ export function isvalidmove(
   const moveMade = piece + srcRow + srcCol + destRow + destCol;
   if (allPossibleMove.has(moveMade)) {
     switch (piece) {
+      case "1":
+        break;
       case "p":
       case "P":
         IsRookCapture(board, destRow, destCol, wCastle, bCastle, color);

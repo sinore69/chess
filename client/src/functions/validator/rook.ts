@@ -206,6 +206,16 @@ export function allRookMoves(
         if (isUpperCase(board[row][col]) === isUpperCase(board[i][col])) {
           break outer;
         } else {
+          //pinning situation
+          board[i][col] = piece;
+          board[row][col] = "1";
+          if (!checkKingSafety(board, color, wKingPos, bKingPos)) {
+            board[i][col] = "1";
+            board[row][col] = piece;
+            continue;
+          }
+          board[i][col] = "1";
+          board[row][col] = piece;
           moves.push(ogPos + i + col);
           break outer;
         }
@@ -233,6 +243,16 @@ export function allRookMoves(
         if (isUpperCase(board[row][col]) === isUpperCase(board[i][col])) {
           break outer;
         } else {
+          //pinning situation
+          board[i][col] = piece;
+          board[row][col] = "1";
+          if (!checkKingSafety(board, color, wKingPos, bKingPos)) {
+            board[i][col] = "1";
+            board[row][col] = piece;
+            break outer;
+          }
+          board[i][col] = "1";
+          board[row][col] = piece;
           moves.push(ogPos + i + col);
           break outer;
         }
@@ -260,6 +280,17 @@ export function allRookMoves(
         if (isUpperCase(board[row][col]) === isUpperCase(board[row][i])) {
           break outer;
         } else {
+          //pinning situation
+          board[row][i] = piece;
+          board[row][col] = "1";
+          if (!checkKingSafety(board, color, wKingPos, bKingPos)) {
+            board[row][i] = "1";
+            board[row][col] = piece;
+            break outer;
+          }
+          board[row][i] = "1";
+          board[row][col] = piece;
+          moves.push(ogPos + row + i);
           moves.push(ogPos + row + i);
           break outer;
         }
@@ -287,6 +318,16 @@ export function allRookMoves(
         if (isUpperCase(board[row][col]) === isUpperCase(board[row][i])) {
           break outer;
         } else {
+          //pinning situation
+          board[row][i] = piece;
+          board[row][col] = "1";
+          if (!checkKingSafety(board, color, wKingPos, bKingPos)) {
+            board[row][i] = "1";
+            board[row][col] = piece;
+            break outer;
+          }
+          board[row][i] = "1";
+          board[row][col] = piece;
           moves.push(ogPos + row + i);
           break outer;
         }

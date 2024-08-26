@@ -38,8 +38,8 @@ export function updateposition(
     }
   }
   let allValidMove = new Set<string>();
-  AllValidMove(board, color, allValidMove,wKingPos,bKingPos);
-
+  AllValidMove(board, color, allValidMove, wKingPos, bKingPos);
+  console.log(allValidMove);
   // if (
   //   (piece === "p" || piece === "P") &&
   //   enPassant.current !== "" &&

@@ -22,7 +22,6 @@ export function sendData(
     enPassant: enPassant.current,
   };
   if (socket.readyState === 1) {
-    console.log(data);
     socket.send(JSON.stringify(data));
   }
 }
