@@ -1,74 +1,7 @@
 import { MutableRefObject } from "react";
 import { isUpperCase } from "../isuppercase";
 import { withinbounds } from "../withinbounds";
-import { IsRookCapture } from "../IsRookCapture";
 import { checkKingSafety } from "../undercheck";
-export function isvalidbishopmove(
-  srcRow: number,
-  srcCol: number,
-  destRow: number,
-  destCol: number,
-  piece: string,
-  board: string[][],
-  isCheck: React.MutableRefObject<boolean>,
-  wCastle: MutableRefObject<"" | "K" | "KQ" | "Q">,
-  bCastle: MutableRefObject<"" | "k" | "kq" | "q">,
-  color: string
-) {
-  if (srcRow == destRow && srcCol == destCol) {
-    return false;
-  }
-  if (withinbounds(destRow, destCol)) {
-    //prevent same color capture
-    if (
-      isUpperCase(piece) === isUpperCase(board[destRow][destCol]) &&
-      board[destRow][destCol] !== "1"
-    ) {
-      return false;
-    }
-    //is a diagonal move
-    if (Math.abs(srcRow - destRow) == Math.abs(srcCol - destCol)) {
-      //3rd quadrant-no block
-      if (destRow > Number(srcRow) && destCol > Number(srcCol))
-        for (let i = 1; i < destRow - Number(srcRow); i++) {
-          if (board[Number(srcRow) + i][Number(srcCol) + i] != "1") {
-            return false;
-          }
-        }
-      //1st quadrant-no block
-      if (destRow < Number(srcRow) && destCol < Number(srcCol))
-        for (let i = 1; i < Number(srcRow) - destRow; i++) {
-          if (board[Number(srcRow) - i][Number(srcCol) - i] != "1") {
-            return false;
-          }
-        }
-      //2nd quadrant-no block
-      if (destCol > Number(srcCol) && destRow < Number(srcRow))
-        for (let i = 1; i < Number(srcRow) - destRow; i++) {
-          if (board[Number(srcRow) - i][Number(srcCol) + i] != "1") {
-            return false;
-          }
-        }
-      //4th quadrant-no block
-      if (destCol < Number(srcCol) && destRow > Number(srcRow))
-        for (let i = 1; i < destRow - Number(srcRow); i++) {
-          if (board[Number(srcRow) + i][Number(srcCol) - i] != "1") {
-            return false;
-          }
-        }
-      if (
-        (piece === "b" || piece === "B") &&
-        isBishopCheck(destRow, destCol, board, piece, isCheck)
-      ) {
-        isCheck.current = true;
-      }
-      IsRookCapture(board, destRow, destCol, wCastle, bCastle, color);
-      return true;
-    }
-  }
-  return false;
-}
-
 export function isBishopCheck(
   destRow: number,
   destCol: number,

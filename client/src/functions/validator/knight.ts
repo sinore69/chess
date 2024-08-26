@@ -1,48 +1,8 @@
 import { MutableRefObject } from "react";
 import { isUpperCase } from "../isuppercase";
 import { withinbounds } from "../withinbounds";
-import { IsRookCapture } from "../IsRookCapture";
-import { isKingSafe } from "./king";
 import { checkKingSafety } from "../undercheck";
-export function isvalidknightmove(
-  srcRow: number,
-  srcCol: number,
-  destRow: number,
-  destCol: number,
-  piece: string,
-  board: string[][],
-  isCheck: MutableRefObject<boolean>,
-  wCastle: MutableRefObject<"" | "KQ" | "K" | "Q">,
-  bCastle: MutableRefObject<"" | "k" | "kq" | "q">,
-  color: string
-) {
-  if (srcRow == destRow && srcCol == destCol) {
-    return false;
-  }
-  //prevent same color capture
-  if (
-    isUpperCase(piece) === isUpperCase(board[destRow][destCol]) &&
-    board[destRow][destCol] !== "1"
-  ) {
-    return false;
-  }
-  const row = [2, 1, -1, -2, -2, -1, 1, 2];
-  const col = [1, 2, 2, 1, -1, -2, -2, -1];
-  for (let i = 0; i < 8; i++) {
-    if (
-      destRow == Number(srcRow) + row[i] &&
-      destCol == Number(srcCol) + col[i] &&
-      withinbounds(destRow, destCol)
-    ) {
-      if (isKnightCheck(board, destRow, destCol, piece, isCheck)) {
-        isCheck.current = true;
-      }
-      IsRookCapture(board, destRow, destCol, wCastle, bCastle, color);
-      return true;
-    }
-  }
-  return false;
-}
+
 export function isKnightCheck(
   board: string[][],
   destRow: number,

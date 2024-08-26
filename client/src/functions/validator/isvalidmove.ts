@@ -1,10 +1,9 @@
 import { promotionData } from "@/types/promotion";
-import { checkKingSafety } from "../undercheck";
-import { isBishopCheck, isvalidbishopmove } from "./bishop";
-import { isKnightCheck, isvalidknightmove } from "./knight";
-import { isPawnCheck, isValidPawnmove } from "./pawn";
-import { isQueenCheck, isvalidqueenmove } from "./queen";
-import { isRookCheck, isvalidrookmove, updateCastleString } from "./rook";
+import { isBishopCheck, } from "./bishop";
+import { isKnightCheck, } from "./knight";
+import { isPawnCheck, } from "./pawn";
+import { isQueenCheck, } from "./queen";
+import { isRookCheck, updateCastleString } from "./rook";
 import { IsRookCapture } from "../IsRookCapture";
 
 export function isvalidmove(

@@ -1,43 +1,6 @@
-import { MutableRefObject } from "react";
 import { isUpperCase } from "../isuppercase";
 import { withinbounds } from "../withinbounds";
-import { IsRookCapture } from "../IsRookCapture";
 
-export function isvalidkingmove(
-  srcRow: number,
-  srcCol: number,
-  destRow: number,
-  destCol: number,
-  piece: string,
-  color: string,
-  board: string[][],
-  wCastle: MutableRefObject<"" | "KQ" | "K" | "Q">,
-  bCastle: MutableRefObject<"" | "q" | "kq" | "k">
-) {
-  if (srcRow == destRow && srcCol == destCol) {
-    return false;
-  }
-  if (
-    isUpperCase(piece) === isUpperCase(board[destRow][destCol]) &&
-    board[destRow][destCol] !== "1"
-  ) {
-    return false;
-  }
-  const row = [-1, -1, 0, 1, 1, 1, 0, -1, -1];
-  const col = [0, 1, 1, 1, 0, -1, -1, -1];
-  for (let i = 0; i < 8; i++) {
-    if (
-      destRow == Number(srcRow) + row[i] &&
-      destCol == Number(srcCol) + col[i] &&
-      withinbounds(destRow, destCol) &&
-      isKingSafe(board, destRow, destCol, piece, color)
-    ) {
-      IsRookCapture(board, destRow, destCol, wCastle, bCastle, color);
-      return true;
-    }
-  }
-  return false;
-}
 export function isKingSafe(
   board: string[][],
   row: number,

@@ -1,8 +1,6 @@
 import { promotionData } from "@/types/promotion";
-import { checkKingSafety } from "./undercheck";
 import { isvalidmove } from "./validator/isvalidmove";
-import { iscastle, isvalidkingmove } from "./validator/king";
-import { EnPassantMove } from "./validator/pawn";
+import { iscastle, } from "./validator/king";
 import AllValidMove from "./AllValidMove";
 
 export function updateposition(
@@ -40,19 +38,6 @@ export function updateposition(
   let allValidMove = new Set<string>();
   AllValidMove(board, color, allValidMove, wKingPos, bKingPos);
   console.log(allValidMove);
-  // if (
-  //   (piece === "p" || piece === "P") &&
-  //   enPassant.current !== "" &&
-  //   EnPassantMove(destRow, destCol, color, enPassant)
-  // ) {
-  //   newboard[srcRow][srcCol] = "1";
-  //   newboard[destRow][destCol] = piece;
-  //   newboard[Number(7 - parseInt(enPassant.current.charAt(1)) + 1)][
-  //     Number(7 - parseInt(enPassant.current.charAt(2)))
-  //   ] = "1";
-  //   enPassant.current = "";
-  //   kingSafety = checkKingSafety(newboard, color, wKingPos, bKingPos);
-  // }
   if (
     isvalidmove(
       srcRow,
