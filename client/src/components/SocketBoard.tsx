@@ -15,6 +15,7 @@ import PromotionPopUp from "./PromotionPopUp";
 import TimeControl from "./TimeControl";
 import { IsCheckMate } from "@/functions/IsCheckMate";
 import AllValidMove from "@/functions/AllValidMove";
+import CheckMatePopUp from "./CheckMatePopUp";
 
 function SocketBoard(props: {
   movable: boolean;
@@ -43,6 +44,7 @@ function SocketBoard(props: {
   const ref = useRef<HTMLDivElement | null>(null);
   const isCHeckMate = useRef<boolean>(true);
   let allValidMove = new Set<string>();
+  const isCheckMate = useRef<boolean>(false);
   useEffect(() => {
     if (ref.current) {
       ref.current.focus();
@@ -154,7 +156,8 @@ function SocketBoard(props: {
         x,
         y,
         isCheck,
-        enPassant
+        enPassant,
+        isCHeckMate
       );
       enPassant.current = "";
     }
@@ -254,6 +257,11 @@ function SocketBoard(props: {
             </div>
           ) : (
             <></>
+          )}
+          {isCheckMate.current ? (
+            <CheckMatePopUp></CheckMatePopUp>
+          ) : (
+            <div></div>
           )}
         </div>
       </div>

@@ -1,5 +1,6 @@
 import { Fen } from "@/types/fen";
 import { calcLastMove, fromNumeric, toNumeric } from "./calcMove";
+import { MutableRefObject } from "react";
 
 export function sendData(
   fen: string,
@@ -9,7 +10,8 @@ export function sendData(
   destRow: number,
   destCol: number,
   isCheck: React.MutableRefObject<boolean>,
-  enPassant: React.MutableRefObject<string>
+  enPassant: React.MutableRefObject<string>,
+  isCheckMate: MutableRefObject<boolean>
 ) {
   const lastmove = calcLastMove(srcRow, srcCol, destRow, destCol, isCheck);
   const fromnumeric = fromNumeric(srcRow, srcCol);
@@ -20,6 +22,9 @@ export function sendData(
     fromNumeric: fromnumeric,
     toNumeric: tonumeric,
     enPassant: enPassant.current,
+    isGameOver: isCheckMate.current,
+    winner: "",
+    loser: "",
   };
   if (socket.readyState === 1) {
     socket.send(JSON.stringify(data));

@@ -26,6 +26,7 @@ function Board(props: { movable: boolean }) {
     position: "",
   });
   const enPassant = useRef<string>("");
+  const allValidMove = new Set<string>();
   useEffect(() => {
     if (ref.current) {
       ref.current.focus();
@@ -84,7 +85,8 @@ function Board(props: { movable: boolean }) {
       wKingPos,
       bKingPos,
       enPassant,
-      Promotion
+      Promotion,
+      allValidMove
     );
     setboard(newposition);
     const newfen = fengenerator(newposition, color, wCastle, bCastle);
