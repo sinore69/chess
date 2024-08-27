@@ -15,6 +15,7 @@ import PromotionPopUp from "./PromotionPopUp";
 import TimeControl from "./TimeControl";
 import { IsCheckMate } from "@/functions/IsCheckMate";
 import AllValidMove from "@/functions/AllValidMove";
+import CheckMatePopUp from "./CheckMatePopUp";
 
 function SocketBoard(props: {
   movable: boolean;
@@ -43,6 +44,7 @@ function SocketBoard(props: {
   const ref = useRef<HTMLDivElement | null>(null);
   let firstmove = useRef<number>(1);
   let allValidMove = new Set<string>();
+  const isCheckMate = useRef<boolean>(false);
   useEffect(() => {
     if (ref.current) {
       ref.current.focus();
@@ -80,18 +82,22 @@ function SocketBoard(props: {
         isUnderCheck.current = IsUnderCheck(data.lastMove);
         IsCheckMate(newposition, wKingPos, bKingPos, color, data.lastMove);
         if (color.current === colorToMove.current) {
-            allValidMove = AllValidMove(
-            board,
+          allValidMove = AllValidMove(
+            newposition,
             color.current,
             allValidMove,
             wKingPos,
             bKingPos
           );
-          console.log(allValidMove)
+          console.log(allValidMove,newposition);
+        }
+        if (allValidMove.size === 0) {
+          isCheckMate.current = true;
+          console.log(isCheck.current);
         }
       }
     };
-  }, [props.playAs, props.socket,allValidMove]);
+  }, [props.playAs, props.socket]);
 
   function onDragStart(
     e: any,
@@ -121,7 +127,7 @@ function SocketBoard(props: {
     if (!socketturn(colorToMove.current, color.current)) {
       return;
     }
-    if ( color.current === colorToMove.current) {
+    if (color.current === colorToMove.current) {
       allValidMove = AllValidMove(
         board,
         color.current,
@@ -129,7 +135,7 @@ function SocketBoard(props: {
         wKingPos,
         bKingPos
       );
-      console.log(allValidMove,firstmove.current)
+      console.log(allValidMove, firstmove.current);
     }
     const newposition = updateposition(
       board,
@@ -164,7 +170,8 @@ function SocketBoard(props: {
         x,
         y,
         isCheck,
-        enPassant
+        enPassant,
+        isCheckMate
       );
       enPassant.current = "";
     }
@@ -186,7 +193,12 @@ function SocketBoard(props: {
           <></>
         )}
         <div className="h-1"></div>
-        <div onDrop={onDrop} onDragOver={onDragOver} ref={ref}>
+        <div
+          className="relative"
+          onDrop={onDrop}
+          onDragOver={onDragOver}
+          ref={ref}
+        >
           {board.map((row: string[], rowindex: number) => (
             <div key={rowindex} className="flex flex-row ">
               {row.map((col: string, colindex) => (
@@ -250,6 +262,11 @@ function SocketBoard(props: {
             </div>
           ) : (
             <></>
+          )}
+          {isCheckMate.current ? (
+            <CheckMatePopUp></CheckMatePopUp>
+          ) : (
+            <div></div>
           )}
         </div>
       </div>
