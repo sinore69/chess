@@ -42,7 +42,6 @@ function SocketBoard(props: {
     position: "",
   });
   const ref = useRef<HTMLDivElement | null>(null);
-  const isCHeckMate = useRef<boolean>(true);
   let allValidMove = new Set<string>();
   const isCheckMate = useRef<boolean>(false);
   useEffect(() => {
@@ -157,7 +156,7 @@ function SocketBoard(props: {
         y,
         isCheck,
         enPassant,
-        isCHeckMate
+        isCheckMate
       );
       enPassant.current = "";
     }
@@ -176,7 +175,7 @@ function SocketBoard(props: {
       bKingPos
     );
     if (allValidMove.size === 0) {
-      isCHeckMate.current = true;
+      isCheckMate.current = true;
     }
     console.log(allValidMove);
   }
