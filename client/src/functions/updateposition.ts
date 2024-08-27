@@ -17,7 +17,8 @@ export function updateposition(
   wKingPos: React.MutableRefObject<string>,
   bKingPos: React.MutableRefObject<string>,
   enPassant: React.MutableRefObject<string>,
-  promotion: React.MutableRefObject<promotionData>
+  promotion: React.MutableRefObject<promotionData>,
+  allValidMove: Set<string>
 ) {
   let kingSafety: boolean = true;
   let newboard = [
@@ -35,9 +36,6 @@ export function updateposition(
       newboard[i][j] = board[i][j];
     }
   }
-  let allValidMove = new Set<string>();
-  AllValidMove(board, color, allValidMove, wKingPos, bKingPos);
-  console.log(allValidMove);
   if (
     isvalidmove(
       srcRow,
@@ -57,7 +55,7 @@ export function updateposition(
       allValidMove
     )
   ) {
-    if (piece === "p" || piece === "P") {
+    if (piece === "p" || (piece === "P" && destRow === 0)) {
       promotion.current.isPromotion = true;
       promotion.current.color = color;
       promotion.current.position = "" + srcRow + srcCol + destRow + destCol;

@@ -41,7 +41,8 @@ function SocketBoard(props: {
     position: "",
   });
   const ref = useRef<HTMLDivElement | null>(null);
-  let firstmove = 1;
+  let firstmove = useRef<number>(1);
+  let allValidMove = new Set<string>();
   useEffect(() => {
     if (ref.current) {
       ref.current.focus();
@@ -78,9 +79,19 @@ function SocketBoard(props: {
         isCheck.current = false;
         isUnderCheck.current = IsUnderCheck(data.lastMove);
         IsCheckMate(newposition, wKingPos, bKingPos, color, data.lastMove);
+        if (color.current === colorToMove.current) {
+            allValidMove = AllValidMove(
+            board,
+            color.current,
+            allValidMove,
+            wKingPos,
+            bKingPos
+          );
+          console.log(allValidMove)
+        }
       }
     };
-  }, [props.playAs, props.socket]);
+  }, [props.playAs, props.socket,allValidMove]);
 
   function onDragStart(
     e: any,
@@ -110,6 +121,16 @@ function SocketBoard(props: {
     if (!socketturn(colorToMove.current, color.current)) {
       return;
     }
+    if ( color.current === colorToMove.current) {
+      allValidMove = AllValidMove(
+        board,
+        color.current,
+        allValidMove,
+        wKingPos,
+        bKingPos
+      );
+      console.log(allValidMove,firstmove.current)
+    }
     const newposition = updateposition(
       board,
       rowindex,
@@ -124,7 +145,8 @@ function SocketBoard(props: {
       wKingPos,
       bKingPos,
       enPassant,
-      Promotion
+      Promotion,
+      allValidMove
     );
     setboard(newposition);
     const newfen = fengenerator(newposition, color.current, wCastle, bCastle);
