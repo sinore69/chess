@@ -41,7 +41,7 @@ function SocketBoard(props: {
     position: "",
   });
   const ref = useRef<HTMLDivElement | null>(null);
-  let firstmove = useRef<number>(1);
+  const isCHeckMate = useRef<boolean>(true);
   let allValidMove = new Set<string>();
   useEffect(() => {
     if (ref.current) {
@@ -79,19 +79,19 @@ function SocketBoard(props: {
         isCheck.current = false;
         isUnderCheck.current = IsUnderCheck(data.lastMove);
         IsCheckMate(newposition, wKingPos, bKingPos, color, data.lastMove);
-        if (color.current === colorToMove.current) {
-            allValidMove = AllValidMove(
-            board,
-            color.current,
-            allValidMove,
-            wKingPos,
-            bKingPos
-          );
-          console.log(allValidMove)
-        }
+        // if (color.current === colorToMove.current) {
+        //   allValidMove = AllValidMove(
+        //     board,
+        //     color.current,
+        //     allValidMove,
+        //     wKingPos,
+        //     bKingPos
+        //   );
+        //   console.log(allValidMove);
+        // }
       }
     };
-  }, [props.playAs, props.socket,allValidMove]);
+  }, [props.playAs, props.socket, allValidMove]);
 
   function onDragStart(
     e: any,
@@ -120,16 +120,6 @@ function SocketBoard(props: {
     }
     if (!socketturn(colorToMove.current, color.current)) {
       return;
-    }
-    if ( color.current === colorToMove.current) {
-      allValidMove = AllValidMove(
-        board,
-        color.current,
-        allValidMove,
-        wKingPos,
-        bKingPos
-      );
-      console.log(allValidMove,firstmove.current)
     }
     const newposition = updateposition(
       board,
@@ -172,6 +162,20 @@ function SocketBoard(props: {
 
   function onDragOver(e: any) {
     e.preventDefault();
+  }
+
+  if (color.current === colorToMove.current) {
+    allValidMove = AllValidMove(
+      board,
+      color.current,
+      allValidMove,
+      wKingPos,
+      bKingPos
+    );
+    if (allValidMove.size === 0) {
+      isCHeckMate.current = true;
+    }
+    console.log(allValidMove);
   }
 
   return (
