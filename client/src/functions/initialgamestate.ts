@@ -27,7 +27,5 @@ export function initialgamestate(color: string) {
       board[7][i] = pieces.charAt(i);
     }
   }
-  board[4][2]="B"
-  board[6][4]="1"
   return board;
 }
