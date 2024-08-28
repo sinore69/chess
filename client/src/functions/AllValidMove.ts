@@ -103,7 +103,7 @@ function AllValidMove(
           addToSet(set, kingMoves);
           break;
         default:
-          console.log("something unexpected happened");
+          // console.log("something unexpected happened");
           break;
       }
     }

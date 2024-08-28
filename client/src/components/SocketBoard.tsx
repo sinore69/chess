@@ -15,7 +15,7 @@ import PromotionPopUp from "./PromotionPopUp";
 import TimeControl from "./TimeControl";
 import { IsCheckMate } from "@/functions/IsCheckMate";
 import AllValidMove from "@/functions/AllValidMove";
-import CheckMatePopUp from "./CheckMatePopUp";
+import GameOverPopUp from "./GameOverPopUp";
 import { Fen } from "@/types/fen";
 
 function SocketBoard(props: {
@@ -44,6 +44,7 @@ function SocketBoard(props: {
     position: "",
   });
   const ref = useRef<HTMLDivElement | null>(null);
+  const loserColor = useRef<"b" | "w">();
   let allValidMove = new Set<string>();
   const isCheckMate = useRef<boolean>(false);
   useEffect(() => {
@@ -71,6 +72,7 @@ function SocketBoard(props: {
       if (GameStateValidator(data)) {
         if (data.isGameOver) {
           console.log(data);
+          loserColor.current = data.loser;
           setIsGameOver(true);
           return;
         }
@@ -89,7 +91,7 @@ function SocketBoard(props: {
         IsCheckMate(newposition, wKingPos, bKingPos, color, data.lastMove);
       }
     };
-  }, [props.playAs, props.socket,isGameOver]);
+  }, [props.playAs, props.socket, isGameOver]);
 
   function onDragStart(
     e: any,
@@ -179,10 +181,11 @@ function SocketBoard(props: {
         fromNumeric: "",
         isGameOver: true,
         lastMove: "",
-        loser: "",
+        loser: color.current,
         toNumeric: "",
         winner: "",
       };
+      loserColor.current = color.current;
       props.socket.send(JSON.stringify(data));
       setIsGameOver(true);
     }
@@ -268,7 +271,10 @@ function SocketBoard(props: {
             <></>
           )}
           {isCheckMate.current || isGameOver ? (
-            <CheckMatePopUp></CheckMatePopUp>
+            <GameOverPopUp
+              loserColor={loserColor.current!}
+              color={color.current}
+            ></GameOverPopUp>
           ) : (
             <div></div>
           )}
