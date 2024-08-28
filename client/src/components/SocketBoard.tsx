@@ -13,7 +13,6 @@ import { IsUnderCheck } from "@/functions/undercheck";
 import { promotionData } from "@/types/promotion";
 import PromotionPopUp from "./PromotionPopUp";
 import TimeControl from "./TimeControl";
-import { IsCheckMate } from "@/functions/IsCheckMate";
 import AllValidMove from "@/functions/AllValidMove";
 import GameOverPopUp from "./GameOverPopUp";
 import { Fen } from "@/types/fen";
@@ -88,7 +87,6 @@ function SocketBoard(props: {
         colorToMove.current = updateTurn(data.fen);
         isCheck.current = false;
         isUnderCheck.current = IsUnderCheck(data.lastMove);
-        IsCheckMate(newposition, wKingPos, bKingPos, color, data.lastMove);
       }
     };
   }, [props.playAs, props.socket, isGameOver]);

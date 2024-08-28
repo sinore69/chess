@@ -7,21 +7,22 @@ export function decodefen(
   wKingPos: React.MutableRefObject<string>,
   bKingPos: React.MutableRefObject<string>
 ) {
-  const rows = fen.split(" ")[0].split("/");
-  const color = fen.split(" ")[1];
-  const castleValue = fen.split(" ")[2];
-  let board = [];
+  let rows = fen.split(" ")[0].split("/");
+  let color = fen.split(" ")[1];
+  let castleValue = fen.split(" ")[2];
+  let board: string[][] = [];
   let r = 0,
     c = 0;
-  for (let row of rows) {
-    const boardRow = [];
+    console.log(rows)
+  rows.forEach((row) => {
+    let boardRow: string[] = []; // Initialize each row in the 2D array
     for (let char of row) {
-      if (isNaN(Number(char))) {
+      if (!isNaN(Number(char))) {
         if (char === "k") {
           if (color === "w") {
             bKingPos.current = "" + r + c;
           } else {
-            bKingPos.current = "" + (7 - r) + (7-c);
+            bKingPos.current = "" + (7 - r) + (7 - c);
           }
         }
         if (char === "K") {
@@ -31,19 +32,17 @@ export function decodefen(
             wKingPos.current = "" + (7 - r) + (7 - c);
           }
         }
-        boardRow.push(char);
-        c++
-      } else {
+        // If the character is a number, add that many empty squares
         for (let i = 0; i < parseInt(char); i++) {
-          boardRow.push("1");
-          c++
+          boardRow.push("1"); // Using null to represent empty squares
         }
+      } else {
+        // If the character is a piece, add it to the row
+        boardRow.push(char);
       }
     }
-    r++;
-    c = 0;
-    board.push(boardRow);
-  }
+    board.push(boardRow); // Add the row to the 2D array
+  });
   //check if rook is captured or not and update fen string accordingly
   let wcastlevalue = "";
   let bcastlevalue = "";
