@@ -15,7 +15,7 @@ export async function getMove(
   const data = {
     fen: fen,
   };
-  const res = await fetch("http://localhost:5000/bot", {
+  const res = await fetch(`http://${process.env.NEXT_PUBLIC_IP}:5000/bot`, {
     method: "POST",
     body: JSON.stringify(data),
   });
