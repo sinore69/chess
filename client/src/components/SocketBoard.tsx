@@ -16,6 +16,7 @@ import TimeControl from "./TimeControl";
 import { IsCheckMate } from "@/functions/IsCheckMate";
 import AllValidMove from "@/functions/AllValidMove";
 import CheckMatePopUp from "./CheckMatePopUp";
+import { Fen } from "@/types/fen";
 
 function SocketBoard(props: {
   movable: boolean;
@@ -28,6 +29,7 @@ function SocketBoard(props: {
   );
   const [timeControl, setTimeControl] = useState<number>(3);
   const [startTimer, setStartTimer] = useState<boolean>(false);
+  const [isGameOver, setIsGameOver] = useState<boolean>(false);
   const wCastle = useRef<"KQ" | "K" | "Q" | "">("KQ");
   const bCastle = useRef<"kq" | "k" | "q" | "">("kq");
   const wKingPos = useRef<string>("");
@@ -67,6 +69,11 @@ function SocketBoard(props: {
         setStartTimer(true);
       }
       if (GameStateValidator(data)) {
+        if (data.isGameOver) {
+          console.log(data);
+          setIsGameOver(true);
+          return;
+        }
         const newposition = decodefen(
           data.fen,
           wCastle,
@@ -80,19 +87,9 @@ function SocketBoard(props: {
         isCheck.current = false;
         isUnderCheck.current = IsUnderCheck(data.lastMove);
         IsCheckMate(newposition, wKingPos, bKingPos, color, data.lastMove);
-        // if (color.current === colorToMove.current) {
-        //   allValidMove = AllValidMove(
-        //     board,
-        //     color.current,
-        //     allValidMove,
-        //     wKingPos,
-        //     bKingPos
-        //   );
-        //   console.log(allValidMove);
-        // }
       }
     };
-  }, [props.playAs, props.socket, allValidMove]);
+  }, [props.playAs, props.socket,isGameOver]);
 
   function onDragStart(
     e: any,
@@ -166,7 +163,7 @@ function SocketBoard(props: {
     e.preventDefault();
   }
 
-  if (color.current === colorToMove.current) {
+  if (color.current === colorToMove.current && !isGameOver) {
     allValidMove = AllValidMove(
       board,
       color.current,
@@ -176,8 +173,20 @@ function SocketBoard(props: {
     );
     if (allValidMove.size === 0) {
       isCheckMate.current = true;
+      const data: Fen = {
+        fen: "",
+        enPassant: "",
+        fromNumeric: "",
+        isGameOver: true,
+        lastMove: "",
+        loser: "",
+        toNumeric: "",
+        winner: "",
+      };
+      props.socket.send(JSON.stringify(data));
+      setIsGameOver(true);
     }
-    console.log(allValidMove);
+    // console.log(allValidMove);
   }
 
   return (
@@ -258,7 +267,7 @@ function SocketBoard(props: {
           ) : (
             <></>
           )}
-          {isCheckMate.current ? (
+          {isCheckMate.current || isGameOver ? (
             <CheckMatePopUp></CheckMatePopUp>
           ) : (
             <div></div>
