@@ -3,7 +3,7 @@ import IsCheck from "@/functions/IsCheck";
 import { sendData } from "@/functions/senddata";
 import { promotionData } from "@/types/promotion";
 import Image from "next/image";
-import React from "react";
+import React, { MutableRefObject } from "react";
 
 function PromotionPopUp(props: {
   promotion: React.MutableRefObject<promotionData>;
@@ -15,6 +15,7 @@ function PromotionPopUp(props: {
   wCastle: React.MutableRefObject<"" | "KQ" | "K" | "Q">;
   bCastle: React.MutableRefObject<"" | "kq" | "k" | "q">;
   socket: WebSocket;
+  isCheckMate: MutableRefObject<boolean>;
 }) {
   function promote(color: string, piece: string, position: string) {
     const srcRow = parseInt(position.charAt(0));
@@ -51,7 +52,8 @@ function PromotionPopUp(props: {
       destRow,
       destCol,
       props.isCheck,
-      props.enPassant
+      props.enPassant,
+      props.isCheckMate
     );
     props.promotion.current.isPromotion = false;
     props.promotion.current.color = "";

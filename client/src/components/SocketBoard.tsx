@@ -252,6 +252,7 @@ function SocketBoard(props: {
                 wCastle={wCastle}
                 bCastle={bCastle}
                 socket={props.socket}
+                isCheckMate={isCheckMate}
               ></PromotionPopUp>
             </div>
           ) : (
