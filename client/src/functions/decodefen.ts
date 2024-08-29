@@ -13,7 +13,6 @@ export function decodefen(
   let board: string[][] = [];
   let r = 0,
     c = 0;
-    console.log(rows)
   rows.forEach((row) => {
     let boardRow: string[] = []; // Initialize each row in the 2D array
     for (let char of row) {

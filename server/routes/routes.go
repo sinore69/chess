@@ -120,7 +120,7 @@ outer:
 				g.GameRoom[1] = room
 			}
 		}
-		if g.GameRoom[1].Player != nil && result.Fen != "" {
+		if g.GameRoom[1].Player != nil && (result.Fen != "" || result.IsGameOver) {
 			log.Println(result)
 			g.GameRoom[1].Player.WriteJSON(result)
 		}

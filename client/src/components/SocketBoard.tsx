@@ -171,7 +171,7 @@ function SocketBoard(props: {
       wKingPos,
       bKingPos
     );
-    if (allValidMove.size === 0) {
+    if (allValidMove.size === 0 || isGameOver) {
       isCheckMate.current = true;
       const data: Fen = {
         fen: "",
@@ -197,6 +197,9 @@ function SocketBoard(props: {
           <TimeControl
             time={timeControl}
             isRunning={color.current !== colorToMove.current}
+            setIsGameOver={setIsGameOver}
+            loserColor={loserColor}
+            color={colorToMove.current}
           ></TimeControl>
         ) : (
           <></>
@@ -246,6 +249,9 @@ function SocketBoard(props: {
             <TimeControl
               time={timeControl}
               isRunning={color.current === colorToMove.current}
+              setIsGameOver={setIsGameOver}
+              loserColor={loserColor}
+              color={colorToMove.current}
             ></TimeControl>
           ) : (
             <></>
