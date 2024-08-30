@@ -44,8 +44,9 @@ function SocketBoard(props: {
   });
   const ref = useRef<HTMLDivElement | null>(null);
   const loserColor = useRef<"b" | "w">();
-  let allValidMove = new Set<string>();
   const isCheckMate = useRef<boolean>(false);
+  const reason = useRef<string>("");
+  let allValidMove = new Set<string>();
   useEffect(() => {
     if (ref.current) {
       ref.current.focus();
@@ -73,6 +74,7 @@ function SocketBoard(props: {
           console.log(data);
           loserColor.current = data.loser;
           setIsGameOver(true);
+          reason.current = data.reason;
           return;
         }
         const newposition = decodefen(
@@ -171,8 +173,9 @@ function SocketBoard(props: {
       wKingPos,
       bKingPos
     );
-    if (allValidMove.size === 0 || isGameOver) {
+    if (allValidMove.size === 0) {
       isCheckMate.current = true;
+      setIsGameOver(true);
       const data: Fen = {
         fen: "",
         enPassant: "",
@@ -182,12 +185,28 @@ function SocketBoard(props: {
         loser: color.current,
         toNumeric: "",
         winner: "",
+        reason: "checkmate",
       };
+      reason.current = "checkmate";
       loserColor.current = color.current;
       props.socket.send(JSON.stringify(data));
-      setIsGameOver(true);
     }
-    // console.log(allValidMove);
+    if (isGameOver) {
+      const data: Fen = {
+        fen: "",
+        enPassant: "",
+        fromNumeric: "",
+        isGameOver: true,
+        lastMove: "",
+        loser: color.current,
+        toNumeric: "",
+        winner: "",
+        reason: reason.current,
+      };
+      reason.current = "time out";
+      loserColor.current = color.current;
+      props.socket.send(JSON.stringify(data));
+    }
   }
 
   return (
@@ -200,6 +219,7 @@ function SocketBoard(props: {
             setIsGameOver={setIsGameOver}
             loserColor={loserColor}
             color={colorToMove.current}
+            reason={reason}
           ></TimeControl>
         ) : (
           <></>
@@ -252,6 +272,7 @@ function SocketBoard(props: {
               setIsGameOver={setIsGameOver}
               loserColor={loserColor}
               color={colorToMove.current}
+            reason={reason}
             ></TimeControl>
           ) : (
             <></>
@@ -278,6 +299,7 @@ function SocketBoard(props: {
             <GameOverPopUp
               loserColor={loserColor.current!}
               color={color.current}
+              reason={reason.current}
             ></GameOverPopUp>
           ) : (
             <div></div>

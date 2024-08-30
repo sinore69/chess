@@ -12,9 +12,11 @@ function TimeControl(props: {
   setIsGameOver: Dispatch<SetStateAction<boolean>>;
   loserColor: MutableRefObject<"b" | "w" | undefined>;
   color: string;
+  reason: MutableRefObject<string>;
 }) {
-  const [seconds, setSeconds] = useState<number>(0);
-  const [minutes, setMinutes] = useState<number>(props.time);
+  const [seconds, setSeconds] = useState<number>(3);
+  // const [minutes, setMinutes] = useState<number>(props.time);
+  const [minutes, setMinutes] = useState<number>(0);
   useEffect(() => {
     var timer: string | number | NodeJS.Timeout | undefined;
     if (props.isRunning) {
@@ -29,6 +31,7 @@ function TimeControl(props: {
           setSeconds(0);
           props.setIsGameOver(true);
           props.loserColor.current = props.color as "w" | "b";
+          props.reason.current = "time out";
           return;
         }
       }, 1000);

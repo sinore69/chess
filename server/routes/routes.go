@@ -110,7 +110,6 @@ outer:
 			log.Println(err)
 		}
 		if gametime.GameTime != "" {
-			log.Println(gametime.GameTime)
 			time, err := strconv.Atoi(gametime.GameTime)
 			room := g.GameRoom[1]
 			if err != nil {

@@ -9,4 +9,5 @@ type Fen struct {
 	IsGameOver  bool   `json:"isGameOver"`
 	Winner      string `json:"winner"`
 	Loser       string `json:"loser"`
+	Reason      string `json:"reason"`
 }

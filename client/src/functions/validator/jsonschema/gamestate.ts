@@ -13,8 +13,9 @@ const schema: JSONSchemaType<Fen> = {
     isGameOver: { type: "boolean" },
     winner: { type: "string" },
     loser: { type: "string" },
+    reason: { type: "string" },
   },
-  required: ["fen", "lastMove"],
+  required: ["fen", "lastMove","isGameOver"],
   additionalProperties: false,
 };
 

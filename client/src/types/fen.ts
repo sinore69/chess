@@ -7,4 +7,5 @@ export type Fen = {
   isGameOver: boolean;
   winner: string;
   loser: string;
+  reason: string;
 };

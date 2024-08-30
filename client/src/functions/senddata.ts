@@ -25,6 +25,7 @@ export function sendData(
     isGameOver: isCheckMate.current,
     winner: "",
     loser: "",
+    reason:""
   };
   if (socket.readyState === 1) {
     socket.send(JSON.stringify(data));
