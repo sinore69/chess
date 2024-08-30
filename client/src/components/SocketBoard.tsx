@@ -176,6 +176,7 @@ function SocketBoard(props: {
     if (allValidMove.size === 0) {
       isCheckMate.current = true;
       setIsGameOver(true);
+      reason.current = "checkmate";
       const data: Fen = {
         fen: "",
         enPassant: "",
@@ -185,9 +186,8 @@ function SocketBoard(props: {
         loser: color.current,
         toNumeric: "",
         winner: "",
-        reason: "checkmate",
+        reason: reason.current,
       };
-      reason.current = "checkmate";
       loserColor.current = color.current;
       props.socket.send(JSON.stringify(data));
     }
@@ -272,7 +272,7 @@ function SocketBoard(props: {
               setIsGameOver={setIsGameOver}
               loserColor={loserColor}
               color={colorToMove.current}
-            reason={reason}
+              reason={reason}
             ></TimeControl>
           ) : (
             <></>
