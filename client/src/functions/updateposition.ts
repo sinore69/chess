@@ -57,7 +57,7 @@ export function updateposition(
       allValidMove
     )
   ) {
-    if (piece === "p" || piece === "P") {
+    if ((piece === "p" || piece === "P") && destRow === 0) {
       promotion.current.isPromotion = true;
       promotion.current.color = color;
       promotion.current.position = "" + srcRow + srcCol + destRow + destCol;
