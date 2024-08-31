@@ -16,6 +16,7 @@ import TimeControl from "./TimeControl";
 import AllValidMove from "@/functions/AllValidMove";
 import GameOverPopUp from "./GameOverPopUp";
 import { Fen } from "@/types/fen";
+import { reverse } from "@/functions/decode2";
 
 function SocketBoard(props: {
   movable: boolean;
@@ -77,15 +78,20 @@ function SocketBoard(props: {
           reason.current = data.reason;
           return;
         }
-        const newposition = decodefen(
+        let newposition = decodefen(
           data.fen,
           wCastle,
           bCastle,
           wKingPos,
           bKingPos
         );
-        enPassant.current = data.enPassant;
+        console.log(color.current, colorToMove.current);
+        if (color.current === "b") {
+          newposition = reverse(newposition);
+          // console.log(newposition)
+        }
         setboard(newposition);
+        enPassant.current = data.enPassant;
         colorToMove.current = updateTurn(data.fen);
         isCheck.current = false;
         isUnderCheck.current = IsUnderCheck(data.lastMove);
