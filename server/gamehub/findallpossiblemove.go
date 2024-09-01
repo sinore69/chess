@@ -15,18 +15,47 @@ func AllPossibleMove(fen string) [8][8]string {
 	if color == "b" {
 		board = functions.Reverse(board)
 	}
-	for i := 0; i < 8; i++ {
-		for j := 0; j < 8; j++ {
-			switch board[i][j] {
+	for row := 0; row < 8; row++ {
+		for col := 0; col < 8; col++ {
+			switch board[row][col] {
 			case "1":
 			case "p":
 				fallthrough
 			case "P":
-				allpawnmoves := functions.AllPawnMove(board, color, i, j, board[i][j])
+				allpawnmoves := functions.AllPawnMove(board, color, row, col, board[row][col])
 				if len(allpawnmoves) > 0 {
 					allPossibleMove = allPossibleMove + allpawnmoves + " "
 				}
+			case "r":
+				fallthrough
+			case "R":
+				allrookmove := functions.AllRookMove(board, color, row, col, board[row][col])
+				if len(allrookmove) > 0 {
+					allPossibleMove = allPossibleMove + allrookmove + " "
+				}
+			case "n":
+				fallthrough
+			case "N":
+				allknightmove := functions.AllKnightMoves(board, color, row, col, board[row][col])
+				if len(allknightmove) > 0 {
+					allPossibleMove = allPossibleMove + allknightmove + " "
+				}
+			case "b":
+				fallthrough
+			case "B":
+				allbishopmove := functions.AllBishopMove(board, color, row, col, board[row][col])
+				if len(allbishopmove) > 0 {
+					allPossibleMove = allPossibleMove + allbishopmove + " "
+				}
+			case "q":
+				fallthrough
+			case "Q":
+				allqueenmovw := functions.AllBishopMove(board, color, row, col, board[row][col])
+				if len(allqueenmovw) > 0 {
+					allPossibleMove = allPossibleMove + allqueenmovw + " "
+				}
 			}
+
 		}
 	}
 	log.Println("**", allPossibleMove)
