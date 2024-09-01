@@ -49,6 +49,7 @@ func Decodefen(fen string) [8][8]string {
 			}
 		}
 	}
+	// log.Println(board)
 	return board
 }
 
@@ -213,4 +214,12 @@ func UpdateFen(data types.Fen) types.Fen {
 	}
 	data.Fen = strings.Join(fenarray, " ")
 	return data
+}
+
+func WithinBounds(row, col int) bool {
+	return row >= 0 && row < 8 && col >= 0 && col < 8
+}
+
+func IsUpperCase(s string) bool {
+	return strings.ToUpper(s) == s
 }
