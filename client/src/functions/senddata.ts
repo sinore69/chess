@@ -20,6 +20,11 @@ export function sendData(
     fromNumeric: fromnumeric,
     toNumeric: tonumeric,
     enPassant: enPassant.current,
+    isGameOver: false,
+    winner: "",
+    loser: "",
+    moves: "",
+    reason: "",
   };
   if (socket.readyState === 1) {
     socket.send(JSON.stringify(data));

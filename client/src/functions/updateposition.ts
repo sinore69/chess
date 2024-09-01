@@ -2,6 +2,7 @@ import { promotionData } from "@/types/promotion";
 import { isvalidmove } from "./validator/isvalidmove";
 import { iscastle } from "./validator/king";
 import AllValidMove from "./AllValidMove";
+import { MutableRefObject } from "react";
 
 export function updateposition(
   board: string[][],
@@ -17,7 +18,8 @@ export function updateposition(
   wKingPos: React.MutableRefObject<string>,
   bKingPos: React.MutableRefObject<string>,
   enPassant: React.MutableRefObject<string>,
-  promotion: React.MutableRefObject<promotionData>
+  promotion: React.MutableRefObject<promotionData>,
+  validMoves: MutableRefObject<string>
 ) {
   let kingSafety: boolean = true;
   let newboard = [
@@ -36,8 +38,8 @@ export function updateposition(
     }
   }
   let allValidMove = new Set<string>();
-  AllValidMove(board, color, allValidMove, wKingPos, bKingPos);
-  console.log(allValidMove);
+  // AllValidMove(board, color, allValidMove, wKingPos, bKingPos);
+  // console.log(allValidMove);
   if (
     isvalidmove(
       srcRow,
@@ -54,7 +56,7 @@ export function updateposition(
       bKingPos,
       enPassant,
       promotion,
-      allValidMove
+      validMoves
     )
   ) {
     if ((piece === "p" || piece === "P") && destRow === 0) {

@@ -1,10 +1,11 @@
 import { promotionData } from "@/types/promotion";
-import { isBishopCheck, } from "./bishop";
-import { isKnightCheck, } from "./knight";
-import { isPawnCheck, } from "./pawn";
-import { isQueenCheck, } from "./queen";
+import { isBishopCheck } from "./bishop";
+import { isKnightCheck } from "./knight";
+import { isPawnCheck } from "./pawn";
+import { isQueenCheck } from "./queen";
 import { isRookCheck, updateCastleString } from "./rook";
 import { IsRookCapture } from "../IsRookCapture";
+import { MutableRefObject } from "react";
 
 export function isvalidmove(
   srcRow: number,
@@ -21,10 +22,11 @@ export function isvalidmove(
   bKingPos: React.MutableRefObject<string>,
   enPassant: React.MutableRefObject<string>,
   promotion: React.MutableRefObject<promotionData>,
-  allPossibleMove: Set<string>
+  validMoves: MutableRefObject<string>
 ) {
   const moveMade = piece + srcRow + srcCol + destRow + destCol;
-  if (allPossibleMove.has(moveMade)) {
+  // if (allPossibleMove.has(moveMade)) {
+  if (validMoves.current.indexOf(moveMade) !== -1) {
     switch (piece) {
       case "1":
         break;

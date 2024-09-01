@@ -3,5 +3,10 @@ export type Fen = {
   lastMove: string;
   fromNumeric: string;
   toNumeric: string;
-  enPassant:string
+  enPassant: string;
+  winner: string;
+  loser: string;
+  moves: string;
+  isGameOver: boolean;
+  reason: string;
 };

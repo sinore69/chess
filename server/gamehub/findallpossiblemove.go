@@ -6,12 +6,12 @@ import (
 	"strings"
 )
 
-func AllPossibleMove(fen string) [8][8]string {
+func AllPossibleMove(fen string) string {
 	// log.Println(fen)
 	fenArray := strings.Split(fen, " ")
 	board := functions.Decodefen(fenArray[0])
 	color := fenArray[1]
-	var allPossibleMove string
+	allPossibleMove := " "
 	if color == "b" {
 		board = functions.Reverse(board)
 	}
@@ -50,14 +50,20 @@ func AllPossibleMove(fen string) [8][8]string {
 			case "q":
 				fallthrough
 			case "Q":
-				allqueenmovw := functions.AllBishopMove(board, color, row, col, board[row][col])
-				if len(allqueenmovw) > 0 {
-					allPossibleMove = allPossibleMove + allqueenmovw + " "
+				allqueenmove := functions.AllBishopMove(board, color, row, col, board[row][col])
+				if len(allqueenmove) > 0 {
+					allPossibleMove = allPossibleMove + allqueenmove + " "
+				}
+			case "k":
+				fallthrough
+			case "K":
+				allkingmove := functions.AllKingMove(board, color, row, col, board[row][col])
+				if len(allkingmove) > 0 {
+					allPossibleMove = allPossibleMove + allPossibleMove + " "
 				}
 			}
-
 		}
 	}
 	log.Println("**", allPossibleMove)
-	return board
+	return allPossibleMove
 }

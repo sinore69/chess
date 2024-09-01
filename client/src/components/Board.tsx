@@ -26,6 +26,7 @@ function Board(props: { movable: boolean }) {
     position: "",
   });
   const enPassant = useRef<string>("");
+  const validMoves = useRef<string>("");
   useEffect(() => {
     if (ref.current) {
       ref.current.focus();
@@ -71,6 +72,7 @@ function Board(props: { movable: boolean }) {
       return;
     }
     const newposition = updateposition(
+      //updating will not work as valid moves is empty add server logic to calculate moves
       board,
       rowindex,
       colindex,
@@ -84,7 +86,8 @@ function Board(props: { movable: boolean }) {
       wKingPos,
       bKingPos,
       enPassant,
-      Promotion
+      Promotion,
+      validMoves
     );
     setboard(newposition);
     const newfen = fengenerator(newposition, color, wCastle, bCastle);
