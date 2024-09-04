@@ -2,7 +2,6 @@ package functions
 
 import (
 	"fmt"
-	"log"
 	"server/types"
 	"strconv"
 	"strings"
@@ -10,8 +9,7 @@ import (
 
 func Newfen(fen string, evalmove string) (string, string) {
 	fenarray := strings.Split(fen, " ")
-	board := Decodefen(fenarray[0])
-	//log.Println(board)
+	board, _, _ := Decodefen(fenarray[0])
 	color := fenarray[1]
 	castleInfo := fenarray[2]
 	newboard, lastMove, castleValue := Updateposition(board, evalmove, color, castleInfo)
@@ -19,13 +17,14 @@ func Newfen(fen string, evalmove string) (string, string) {
 		panic("invalid last move generation")
 	}
 	newfen := Genfen(newboard, color, castleValue)
-	log.Println(newfen, lastMove)
 	return newfen, lastMove
 }
 
-func Decodefen(fen string) [8][8]string {
+func Decodefen(fen string) ([8][8]string, string, string) {
 	board := [8][8]string{}
 	index := 0
+	wKingPos := ""
+	bKingPos := ""
 	for i := 0; i < 8; i++ {
 		for j := 0; j < 8; j++ {
 			if index < len(fen) {
@@ -45,12 +44,17 @@ func Decodefen(fen string) [8][8]string {
 					continue
 				}
 				board[i][j] = string(fen[index])
+				if board[i][j] == "K" {
+					wKingPos = fmt.Sprintf("%d%d", i, j)
+				}
+				if board[i][j] == "k" {
+					bKingPos = fmt.Sprintf("%d%d", i, j)
+				}
 				index++
 			}
 		}
 	}
-	// log.Println(board)
-	return board
+	return board, wKingPos, bKingPos
 }
 
 func Updateposition(board [8][8]string, bestmove string, color string, castleInfo string) (*[8][8]string, string, string) {

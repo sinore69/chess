@@ -1,12 +1,38 @@
 package functions
 
 import (
+	"fmt"
 	"strconv"
 	"strings"
 )
 
 // isKingSafe checks if the king is safe in the given position
-func isKingSafe(board [8][8]string, row, col int, piece, color string) bool {
+func IsKingSafe(board [8][8]string, wKingPos, bKingPos, color string) bool {
+	var row, col int
+	var piece string
+	var err error
+	if color == "w" {
+		row, err = strconv.Atoi(string(wKingPos[0]))
+		if err != nil {
+			panic("conversion failed")
+		}
+		col, err = strconv.Atoi(string(wKingPos[1]))
+		if err != nil {
+			panic("conversion failed")
+		}
+		piece = "K"
+	}
+	if color == "b" {
+		row, err = strconv.Atoi(string(bKingPos[0]))
+		if err != nil {
+			panic("conversion failed")
+		}
+		col, err = strconv.Atoi(string(bKingPos[1]))
+		if err != nil {
+			panic("conversion failed")
+		}
+		piece = "k"
+	}
 	// downward
 	for i := 1; i <= 7; i++ {
 		if !WithinBounds(row+i, col) {
@@ -158,7 +184,7 @@ func isKingSafe(board [8][8]string, row, col int, piece, color string) bool {
 
 // Function to get all possible king moves
 func AllKingMove(board [8][8]string, color string, row, col int, piece string) string {
-	ogPos := piece + strconv.Itoa(row) + strconv.Itoa(col)
+	ogPos := fmt.Sprintf("%s%d%d", piece, row, col)
 	var moves []string
 	if color == "w" && !IsUpperCase(piece) {
 		return ""
@@ -177,9 +203,8 @@ func AllKingMove(board [8][8]string, color string, row, col int, piece string) s
 			(board[destRow][destCol] == "1" || IsUpperCase(piece) != IsUpperCase(board[destRow][destCol])) {
 			// && isKingSafe(board, destRow, destCol, piece, color
 			//  {
-			moves = append(moves, ogPos+strconv.Itoa(destRow)+strconv.Itoa(destCol))
+			moves = append(moves, fmt.Sprintf("%s%d%d", ogPos, destRow, destCol))
 		}
 	}
-
 	return strings.Join(moves, " ")
 }
