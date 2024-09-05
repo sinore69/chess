@@ -34,28 +34,13 @@ func AllQueenMoves(
 	color string,
 	row int,
 	col int,
-	piece string,
+	piece, wKingPos, bKingPos string,
 ) string {
-
-	rookMoves := AllRookMove(board, color, row, col, piece)
-	// for _, move := range rookMoves {
-	// 	if strings.HasPrefix(move, "R") {
-	// 		moves = append(moves, strings.Replace(move, "R", "Q", 1))
-	// 	} else {
-	// 		moves = append(moves, strings.Replace(move, "r", "q", 1))
-	// 	}
-	// }
+	rookMoves := AllRookMove(board, color, row, col, piece, wKingPos, bKingPos)
 	rookMoves = strings.ReplaceAll(rookMoves, "R", "Q")
 	rookMoves = strings.ReplaceAll(rookMoves, "r", "q")
-	// for _, move := range bishopMoves {
-	// 	if strings.HasPrefix(move, "B") {
-	// 		moves = append(moves, strings.Replace(move, "B", "Q", 1))
-	// 	} else {
-	// 		moves = append(moves, strings.Replace(move, "b", "q", 1))
-	// 	}
-	// }
-	bishopMoves := AllBishopMove(board, color, row, col, piece)
-	bishopMoves = strings.ReplaceAll(rookMoves, "B", "Q")
-	bishopMoves = strings.ReplaceAll(rookMoves, "b", "q")
+	bishopMoves := AllBishopMove(board, color, row, col, piece, wKingPos, bKingPos)
+	bishopMoves = strings.ReplaceAll(bishopMoves, "B", "Q")
+	bishopMoves = strings.ReplaceAll(bishopMoves, "b", "q")
 	return rookMoves + " " + bishopMoves
 }
