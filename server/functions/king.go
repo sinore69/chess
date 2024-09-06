@@ -27,6 +27,12 @@ func AllKingMove(board [8][8]string, color string, row, col int, piece, wKingPos
 				dummyPiece := board[destRow][destCol]
 				board[row][col] = "1"
 				board[destRow][destCol] = piece
+				if color == "w" {
+					wKingPos = fmt.Sprintf("%d%d", destRow, destCol)
+				}
+				if color == "b" {
+					bKingPos = fmt.Sprintf("%d%d", destRow, destCol)
+				}
 				if IsKingSafe(board, wKingPos, bKingPos, color) {
 					moves = append(moves, fmt.Sprintf("%s%d%d", ogPos, destRow, destCol))
 				}
