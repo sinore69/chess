@@ -7,7 +7,7 @@ import (
 
 func SendInitialGameState(room types.Room) {
 	// fen := "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
-	fen := "rnbqkbnr/8/8/8/8/8/R6R/R3K2R w KQkq d3 0 1"
+	fen := "rnbqkbnr/8/8/8/8/8/8/RNBQKBNR w KQkq d3 0 1"
 	moves := AllPossibleMove(fen)
 	initialMoves := types.Fen{
 		Fen:         fen,

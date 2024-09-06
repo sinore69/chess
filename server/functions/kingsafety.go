@@ -1,6 +1,7 @@
 package functions
 
 import (
+	"fmt"
 	"strconv"
 )
 
@@ -56,7 +57,7 @@ func IsKingSafe(board [8][8]string, wKingPos, bKingPos, color string) bool {
 		if board[row-i][col] == "1" {
 			continue
 		}
-		if board[row-i][col] == "R" || board[row-i][col] == "r" {
+		if board[row-i][col] == "R" || board[row-i][col] == "r" || board[row-i][col] == "Q" || board[row-i][col] == "q" {
 			if IsUpperCase(piece) != IsUpperCase(board[row-i][col]) {
 				// fmt.Println("check up", piece, board[row-i][col])
 				return false
@@ -73,7 +74,7 @@ func IsKingSafe(board [8][8]string, wKingPos, bKingPos, color string) bool {
 		if board[row][col+i] == "1" {
 			continue
 		}
-		if (board[row][col+i] == "R" || board[row][col+i] == "r") &&
+		if (board[row][col+i] == "R" || board[row][col+i] == "r" || board[row][col+i] == "Q" || board[row][col+i] == "q") &&
 			IsUpperCase(piece) != IsUpperCase(board[row][col+i]) {
 			// fmt.Println("check left-right", piece, board[row][col+i])
 			return false
@@ -89,7 +90,7 @@ func IsKingSafe(board [8][8]string, wKingPos, bKingPos, color string) bool {
 		if board[row][col-i] == "1" {
 			continue
 		}
-		if (board[row][col-i] == "R" || board[row][col-i] == "r") &&
+		if (board[row][col-i] == "R" || board[row][col-i] == "r" || board[row][col-i] == "Q" || board[row][col-i] == "q") &&
 			IsUpperCase(piece) != IsUpperCase(board[row][col-i]) {
 			// fmt.Println("check right-left", piece, board[row][col-i])
 			return false
@@ -98,64 +99,68 @@ func IsKingSafe(board [8][8]string, wKingPos, bKingPos, color string) bool {
 	}
 
 	// // diagonal 1st quadrant
-	// for i := 1; i <= 7; i++ {
-	// 	if !WithinBounds(row-i, col-i) {
-	// 		break
-	// 	}
-	// 	if board[row-i][col-i] == "1" || board[row-i][col-i] == piece {
-	// 		continue
-	// 	}
-	// 	if (board[row-i][col-i] == "B" || board[row-i][col-i] == "b" || board[row-i][col-i] == "Q" || board[row-i][col-i] == "q") &&
-	// 		IsUpperCase(piece) != IsUpperCase(board[row-i][col-i]) {
-	// 		return false
-	// 	}
-	// 	break
-	// }
+	for i := 1; i <= 7; i++ {
+		if !WithinBounds(row-i, col-i) {
+			break
+		}
+		if board[row-i][col-i] == "1" || board[row-i][col-i] == piece {
+			continue
+		}
+		if (board[row-i][col-i] == "B" || board[row-i][col-i] == "b" || board[row-i][col-i] == "Q" || board[row-i][col-i] == "q") &&
+			IsUpperCase(piece) != IsUpperCase(board[row-i][col-i]) {
+			fmt.Println("check 1st")
+			return false
+		}
+		break
+	}
 
 	// // diagonal 2nd quadrant
-	// for i := 1; i <= 7; i++ {
-	// 	if !WithinBounds(row-i, col+i) {
-	// 		break
-	// 	}
-	// 	if board[row-i][col+i] == "1" || board[row-i][col+i] == piece {
-	// 		continue
-	// 	}
-	// 	if (board[row-i][col+i] == "B" || board[row-i][col+i] == "b" || board[row-i][col+i] == "Q" || board[row-i][col+i] == "q") &&
-	// 		IsUpperCase(piece) != IsUpperCase(board[row-i][col+i]) {
-	// 		return false
-	// 	}
-	// 	break
-	// }
+	for i := 1; i <= 7; i++ {
+		if !WithinBounds(row-i, col+i) {
+			break
+		}
+		if board[row-i][col+i] == "1" || board[row-i][col+i] == piece {
+			continue
+		}
+		if (board[row-i][col+i] == "B" || board[row-i][col+i] == "b" || board[row-i][col+i] == "Q" || board[row-i][col+i] == "q") &&
+			IsUpperCase(piece) != IsUpperCase(board[row-i][col+i]) {
+			fmt.Println("check 2nd")
+			return false
+		}
+		break
+	}
 
 	// // diagonal 3rd quadrant
-	// for i := 1; i <= 7; i++ {
-	// 	if !WithinBounds(row+i, col+i) {
-	// 		break
-	// 	}
-	// 	if board[row+i][col+i] == "1" || board[row+i][col+i] == piece {
-	// 		continue
-	// 	}
-	// 	if (board[row+i][col+i] == "B" || board[row+i][col+i] == "b" || board[row+i][col+i] == "Q" || board[row+i][col+i] == "q") &&
-	// 		IsUpperCase(piece) != IsUpperCase(board[row+i][col+i]) {
-	// 		return false
-	// 	}
-	// 	break
-	// }
+	for i := 1; i <= 7; i++ {
+		if !WithinBounds(row+i, col+i) {
+			break
+		}
+		if board[row+i][col+i] == "1" || board[row+i][col+i] == piece {
+			continue
+		}
+		if (board[row+i][col+i] == "B" || board[row+i][col+i] == "b" || board[row+i][col+i] == "Q" || board[row+i][col+i] == "q") &&
+			IsUpperCase(piece) != IsUpperCase(board[row+i][col+i]) {
+			fmt.Println("check 3rd")
+			return false
+		}
+		break
+	}
 
 	// // diagonal 4th quadrant
-	// for i := 1; i <= 7; i++ {
-	// 	if !WithinBounds(row+i, col-i) {
-	// 		break
-	// 	}
-	// 	if board[row+i][col-i] == "1" || board[row+i][col-i] == piece {
-	// 		continue
-	// 	}
-	// 	if (board[row+i][col-i] == "B" || board[row+i][col-i] == "b" || board[row+i][col-i] == "Q" || board[row+i][col-i] == "q") &&
-	// 		IsUpperCase(piece) != IsUpperCase(board[row+i][col-i]) {
-	// 		return false
-	// 	}
-	// 	break
-	// }
+	for i := 1; i <= 7; i++ {
+		if !WithinBounds(row+i, col-i) {
+			break
+		}
+		if board[row+i][col-i] == "1" || board[row+i][col-i] == piece {
+			continue
+		}
+		if (board[row+i][col-i] == "B" || board[row+i][col-i] == "b" || board[row+i][col-i] == "Q" || board[row+i][col-i] == "q") &&
+			IsUpperCase(piece) != IsUpperCase(board[row+i][col-i]) {
+			fmt.Println("check 4th")
+			return false
+		}
+		break
+	}
 
 	// // knight
 	// r := []int{2, 1, -1, -2, -2, -1, 1, 2}

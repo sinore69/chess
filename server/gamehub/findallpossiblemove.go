@@ -39,7 +39,7 @@ func AllPossibleMove(fen string) string {
 			case "n":
 				fallthrough
 			case "N":
-				allknightmove := functions.AllKnightMoves(board, color, row, col, board[row][col])
+				allknightmove := functions.AllKnightMoves(board, color, row, col, board[row][col],wKingPos,bKingPos)
 				if len(allknightmove) > 0 {
 					allPossibleMove = allPossibleMove + allknightmove + " "
 				}
@@ -50,17 +50,17 @@ func AllPossibleMove(fen string) string {
 				if len(allbishopmove) > 0 {
 					allPossibleMove = allPossibleMove + allbishopmove + " "
 				}
-			// case "q":
-			// 	fallthrough
-			// case "Q":
-			// 	allqueenmove := functions.AllQueenMoves(board, color, row, col, board[row][col], wKingPos, bKingPos)
-			// 	if len(allqueenmove) > 0 {
-			// 		allPossibleMove = allPossibleMove + allqueenmove + " "
-			// 	}
+			case "q":
+				fallthrough
+			case "Q":
+				allqueenmove := functions.AllQueenMoves(board, color, row, col, board[row][col], wKingPos, bKingPos)
+				if len(allqueenmove) > 0 {
+					allPossibleMove = allPossibleMove + allqueenmove + " "
+				}
 			case "k":
 				fallthrough
 			case "K":
-				allkingmove := functions.AllKingMove(board, color, row, col, board[row][col])
+				allkingmove := functions.AllKingMove(board, color, row, col, board[row][col],wKingPos,bKingPos)
 				if len(allkingmove) > 0 {
 					allPossibleMove = allPossibleMove + allkingmove + " "
 				}
