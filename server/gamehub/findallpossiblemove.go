@@ -18,9 +18,6 @@ func AllPossibleMove(fen string) string {
 		}
 		return string(runes)
 	}(fenArray[0], color))
-	// if color == "b" {
-	// 	board = functions.Reverse(board)
-	// }
 	for row := 0; row < 8; row++ {
 		for col := 0; col < 8; col++ {
 			switch board[row][col] {
@@ -35,7 +32,7 @@ func AllPossibleMove(fen string) string {
 			case "r":
 				fallthrough
 			case "R":
-				allrookmove := functions.AllRookMove(board, color, row, col, board[row][col])
+				allrookmove := functions.AllRookMove(board, color, row, col, board[row][col], wKingPos, bKingPos)
 				if len(allrookmove) > 0 {
 					allPossibleMove = allPossibleMove + allrookmove + " "
 				}
@@ -49,17 +46,17 @@ func AllPossibleMove(fen string) string {
 			case "b":
 				fallthrough
 			case "B":
-				allbishopmove := functions.AllBishopMove(board, color, row, col, board[row][col])
+				allbishopmove := functions.AllBishopMove(board, color, row, col, board[row][col], wKingPos, bKingPos)
 				if len(allbishopmove) > 0 {
 					allPossibleMove = allPossibleMove + allbishopmove + " "
 				}
-			case "q":
-				fallthrough
-			case "Q":
-				allqueenmove := functions.AllBishopMove(board, color, row, col, board[row][col])
-				if len(allqueenmove) > 0 {
-					allPossibleMove = allPossibleMove + allqueenmove + " "
-				}
+			// case "q":
+			// 	fallthrough
+			// case "Q":
+			// 	allqueenmove := functions.AllQueenMoves(board, color, row, col, board[row][col], wKingPos, bKingPos)
+			// 	if len(allqueenmove) > 0 {
+			// 		allPossibleMove = allPossibleMove + allqueenmove + " "
+			// 	}
 			case "k":
 				fallthrough
 			case "K":
@@ -67,6 +64,7 @@ func AllPossibleMove(fen string) string {
 				if len(allkingmove) > 0 {
 					allPossibleMove = allPossibleMove + allkingmove + " "
 				}
+			default:
 			}
 		}
 	}

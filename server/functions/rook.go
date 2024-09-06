@@ -1,8 +1,11 @@
 package functions
 
-import "strings"
+import (
+	"log"
+	"strings"
+)
 
-func isRookCheck(board [][]string, row, col int, piece string, isCheck *bool) bool {
+func IsRookCheck(board [][]string, row, col int, piece string, isCheck *bool) bool {
 	// Top to bottom
 	for i := row + 1; i <= 7; i++ {
 		if !WithinBounds(i, col) {
@@ -70,7 +73,7 @@ func isRookCheck(board [][]string, row, col int, piece string, isCheck *bool) bo
 	return false
 }
 
-func AllRookMove(board [8][8]string, color string, row int, col int, piece string) string {
+func AllRookMove(board [8][8]string, color string, row int, col int, piece, wKingPos, bKingPos string) string {
 	ogPos := piece + string(rune(row+'0')) + string(rune(col+'0'))
 	var moves []string
 	if color == "w" && !IsUpperCase(piece) {
@@ -84,33 +87,29 @@ func AllRookMove(board [8][8]string, color string, row int, col int, piece strin
 		if WithinBounds(i, col) {
 			if board[i][col] == "1" {
 				// Pinning situation
-				// board[i][col] = piece
-				// board[row][col] = "1"
-				// if !checkKingSafety(board, color, wKingPos, bKingPos) {
-				// 	board[i][col] = "1"
-				// 	board[row][col] = piece
-				// 	continue
-				// }
-				// board[i][col] = "1"
-				// board[row][col] = piece
-				moves = append(moves, ogPos+string(rune(i+'0'))+string(rune(col+'0')))
+				board[i][col] = piece
+				board[row][col] = "1"
+				if IsKingSafe(board, wKingPos, bKingPos, color) {
+					// log.Println("safe", i, col)
+					moves = append(moves, ogPos+string(rune(i+'0'))+string(rune(col+'0')))
+				}
+				board[i][col] = "1"
+				board[row][col] = piece
 				continue
 			} else {
 				if IsUpperCase(board[row][col]) == IsUpperCase(board[i][col]) {
 					break
 				} else {
 					// Pinning situation
-					// dummyPiece := board[i][col]
-					// board[i][col] = piece
-					// board[row][col] = "1"
-					// if !checkKingSafety(board, color, wKingPos, bKingPos) {
-					// 	board[i][col] = dummyPiece
-					// 	board[row][col] = piece
-					// 	continue
-					// }
-					// board[i][col] = dummyPiece
-					// board[row][col] = piece
-					moves = append(moves, ogPos+string(rune(i+'0'))+string(rune(col+'0')))
+					dummyPiece := board[i][col]
+					board[i][col] = piece
+					board[row][col] = "1"
+					if IsKingSafe(board, wKingPos, bKingPos, color) {
+						// log.Println("safe", i, col)
+						moves = append(moves, ogPos+string(rune(i+'0'))+string(rune(col+'0')))
+					}
+					board[i][col] = dummyPiece
+					board[row][col] = piece
 					break
 				}
 			}
@@ -122,33 +121,29 @@ func AllRookMove(board [8][8]string, color string, row int, col int, piece strin
 		if WithinBounds(i, col) {
 			if board[i][col] == "1" {
 				// Pinning situation
-				// board[i][col] = piece
-				// board[row][col] = "1"
-				// if !checkKingSafety(board, color, wKingPos, bKingPos) {
-				// 	board[i][col] = "1"
-				// 	board[row][col] = piece
-				// 	continue
-				// }
-				// board[i][col] = "1"
-				// board[row][col] = piece
-				moves = append(moves, ogPos+string(rune(i+'0'))+string(rune(col+'0')))
+				board[i][col] = piece
+				board[row][col] = "1"
+				if IsKingSafe(board, wKingPos, bKingPos, color) {
+					// log.Println("safe", i, col)
+					moves = append(moves, ogPos+string(rune(i+'0'))+string(rune(col+'0')))
+				}
+				board[i][col] = "1"
+				board[row][col] = piece
 				continue
 			} else {
 				if IsUpperCase(board[row][col]) == IsUpperCase(board[i][col]) {
 					break
 				} else {
 					// Pinning situation
-					// dummyPiece := board[i][col]
-					// board[i][col] = piece
-					// board[row][col] = "1"
-					// if !checkKingSafety(board, color, wKingPos, bKingPos) {
-					// 	board[i][col] = dummyPiece
-					// 	board[row][col] = piece
-					// 	break
-					// }
-					// board[i][col] = dummyPiece
-					// board[row][col] = piece
-					moves = append(moves, ogPos+string(rune(i+'0'))+string(rune(col+'0')))
+					dummyPiece := board[i][col]
+					board[i][col] = piece
+					board[row][col] = "1"
+					if IsKingSafe(board, wKingPos, bKingPos, color) {
+						// log.Println("safe", i, col)
+						moves = append(moves, ogPos+string(rune(i+'0'))+string(rune(col+'0')))
+					}
+					board[i][col] = dummyPiece
+					board[row][col] = piece
 					break
 				}
 			}
@@ -160,33 +155,29 @@ func AllRookMove(board [8][8]string, color string, row int, col int, piece strin
 		if WithinBounds(row, i) {
 			if board[row][i] == "1" {
 				// Pinning situation
-				// board[row][i] = piece
-				// board[row][col] = "1"
-				// if !checkKingSafety(board, color, wKingPos, bKingPos) {
-				// 	board[row][i] = "1"
-				// 	board[row][col] = piece
-				// 	continue
-				// }
-				// board[row][i] = "1"
-				// board[row][col] = piece
-				moves = append(moves, ogPos+string(rune(row+'0'))+string(rune(i+'0')))
+				board[row][i] = piece
+				board[row][col] = "1"
+				if IsKingSafe(board, wKingPos, bKingPos, color) {
+					log.Println("safe", row, i)
+					moves = append(moves, ogPos+string(rune(row+'0'))+string(rune(i+'0')))
+				}
+				board[row][i] = "1"
+				board[row][col] = piece
 				continue
 			} else {
 				if IsUpperCase(board[row][col]) == IsUpperCase(board[row][i]) {
 					break
 				} else {
 					// Pinning situation
-					// dummyPiece := board[row][i]
-					// board[row][i] = piece
-					// board[row][col] = "1"
-					// if !checkKingSafety(board, color, wKingPos, bKingPos) {
-					// 	board[row][i] = dummyPiece
-					// 	board[row][col] = piece
-					// 	break
-					// }
-					// board[row][i] = dummyPiece
-					// board[row][col] = piece
-					moves = append(moves, ogPos+string(rune(row+'0'))+string(rune(i+'0')))
+					dummyPiece := board[row][i]
+					board[row][i] = piece
+					board[row][col] = "1"
+					if IsKingSafe(board, wKingPos, bKingPos, color) {
+						// log.Println("safe", row, i)
+						moves = append(moves, ogPos+string(rune(row+'0'))+string(rune(i+'0')))
+					}
+					board[row][i] = dummyPiece
+					board[row][col] = piece
 					break
 				}
 			}
@@ -198,33 +189,29 @@ func AllRookMove(board [8][8]string, color string, row int, col int, piece strin
 		if WithinBounds(row, i) {
 			if board[row][i] == "1" {
 				// Pinning situation
-				// board[row][i] = piece
-				// board[row][col] = "1"
-				// if !checkKingSafety(board, color, wKingPos, bKingPos) {
-				// 	board[row][i] = "1"
-				// 	board[row][col] = piece
-				// 	continue
-				// }
-				// board[row][i] = "1"
-				// board[row][col] = piece
-				moves = append(moves, ogPos+string(rune(row+'0'))+string(rune(i+'0')))
+				board[row][i] = piece
+				board[row][col] = "1"
+				if IsKingSafe(board, wKingPos, bKingPos, color) {
+					// log.Println("safe", row, i)
+					moves = append(moves, ogPos+string(rune(row+'0'))+string(rune(i+'0')))
+				}
+				board[row][i] = "1"
+				board[row][col] = piece
 				continue
 			} else {
 				if IsUpperCase(board[row][col]) == IsUpperCase(board[row][i]) {
 					break
 				} else {
 					// Pinning situation
-					// dummyPiece := board[row][i]
-					// board[row][i] = piece
-					// board[row][col] = "1"
-					// if !checkKingSafety(board, color, wKingPos, bKingPos) {
-					// 	board[row][i] = dummyPiece
-					// 	board[row][col] = piece
-					// 	break
-					// }
-					// board[row][i] = dummyPiece
-					// board[row][col] = piece
-					moves = append(moves, ogPos+string(rune(row+'0'))+string(rune(i+'0')))
+					dummyPiece := board[row][i]
+					board[row][i] = piece
+					board[row][col] = "1"
+					if IsKingSafe(board, color, wKingPos, bKingPos) {
+						// log.Println("safe", row, i)
+						moves = append(moves, ogPos+string(rune(row+'0'))+string(rune(i+'0')))
+					}
+					board[row][i] = dummyPiece
+					board[row][col] = piece
 					break
 				}
 			}
