@@ -1,7 +1,6 @@
 package functions
 
 import (
-	"fmt"
 	"strconv"
 )
 
@@ -42,7 +41,6 @@ func IsKingSafe(board [8][8]string, wKingPos, bKingPos, color string) bool {
 		}
 		if board[row+i][col] == "R" || board[row+i][col] == "r" {
 			if IsUpperCase(piece) != IsUpperCase(board[row+i][col]) {
-				// fmt.Println("check down", piece, board[row+i][col])
 				return false
 			}
 		}
@@ -59,7 +57,6 @@ func IsKingSafe(board [8][8]string, wKingPos, bKingPos, color string) bool {
 		}
 		if board[row-i][col] == "R" || board[row-i][col] == "r" || board[row-i][col] == "Q" || board[row-i][col] == "q" {
 			if IsUpperCase(piece) != IsUpperCase(board[row-i][col]) {
-				// fmt.Println("check up", piece, board[row-i][col])
 				return false
 			}
 		}
@@ -76,7 +73,6 @@ func IsKingSafe(board [8][8]string, wKingPos, bKingPos, color string) bool {
 		}
 		if (board[row][col+i] == "R" || board[row][col+i] == "r" || board[row][col+i] == "Q" || board[row][col+i] == "q") &&
 			IsUpperCase(piece) != IsUpperCase(board[row][col+i]) {
-			// fmt.Println("check left-right", piece, board[row][col+i])
 			return false
 		}
 		break
@@ -92,7 +88,6 @@ func IsKingSafe(board [8][8]string, wKingPos, bKingPos, color string) bool {
 		}
 		if (board[row][col-i] == "R" || board[row][col-i] == "r" || board[row][col-i] == "Q" || board[row][col-i] == "q") &&
 			IsUpperCase(piece) != IsUpperCase(board[row][col-i]) {
-			// fmt.Println("check right-left", piece, board[row][col-i])
 			return false
 		}
 		break
@@ -108,7 +103,6 @@ func IsKingSafe(board [8][8]string, wKingPos, bKingPos, color string) bool {
 		}
 		if (board[row-i][col-i] == "B" || board[row-i][col-i] == "b" || board[row-i][col-i] == "Q" || board[row-i][col-i] == "q") &&
 			IsUpperCase(piece) != IsUpperCase(board[row-i][col-i]) {
-			fmt.Println("check 1st")
 			return false
 		}
 		break
@@ -124,7 +118,6 @@ func IsKingSafe(board [8][8]string, wKingPos, bKingPos, color string) bool {
 		}
 		if (board[row-i][col+i] == "B" || board[row-i][col+i] == "b" || board[row-i][col+i] == "Q" || board[row-i][col+i] == "q") &&
 			IsUpperCase(piece) != IsUpperCase(board[row-i][col+i]) {
-			fmt.Println("check 2nd")
 			return false
 		}
 		break
@@ -140,7 +133,6 @@ func IsKingSafe(board [8][8]string, wKingPos, bKingPos, color string) bool {
 		}
 		if (board[row+i][col+i] == "B" || board[row+i][col+i] == "b" || board[row+i][col+i] == "Q" || board[row+i][col+i] == "q") &&
 			IsUpperCase(piece) != IsUpperCase(board[row+i][col+i]) {
-			fmt.Println("check 3rd")
 			return false
 		}
 		break
@@ -156,36 +148,35 @@ func IsKingSafe(board [8][8]string, wKingPos, bKingPos, color string) bool {
 		}
 		if (board[row+i][col-i] == "B" || board[row+i][col-i] == "b" || board[row+i][col-i] == "Q" || board[row+i][col-i] == "q") &&
 			IsUpperCase(piece) != IsUpperCase(board[row+i][col-i]) {
-			fmt.Println("check 4th")
 			return false
 		}
 		break
 	}
 
-	// // knight
-	// r := []int{2, 1, -1, -2, -2, -1, 1, 2}
-	// c := []int{1, 2, 2, 1, -1, -2, -2, -1}
-	// for i := 0; i < 8; i++ {
-	// 	rowOffset := row + r[i]
-	// 	colOffset := col + c[i]
-	// 	if WithinBounds(rowOffset, colOffset) &&
-	// 		(board[rowOffset][colOffset] == "N" || board[rowOffset][colOffset] == "n") &&
-	// 		IsUpperCase(piece) != IsUpperCase(board[rowOffset][colOffset]) {
-	// 		return false
-	// 	}
-	// }
+	// knight
+	r := []int{2, 1, -1, -2, -2, -1, 1, 2}
+	c := []int{1, 2, 2, 1, -1, -2, -2, -1}
+	for i := 0; i < 8; i++ {
+		rowOffset := row + r[i]
+		colOffset := col + c[i]
+		if WithinBounds(rowOffset, colOffset) &&
+			(board[rowOffset][colOffset] == "N" || board[rowOffset][colOffset] == "n") &&
+			IsUpperCase(piece) != IsUpperCase(board[rowOffset][colOffset]) {
+			return false
+		}
+	}
 
-	// // pawn
-	// if color == "w" {
-	// 	if (WithinBounds(row-1, col-1) && board[row-1][col-1] == "p") ||
-	// 		(WithinBounds(row-1, col+1) && board[row-1][col+1] == "p") {
-	// 		return false
-	// 	}
-	// } else if color == "b" {
-	// 	if (WithinBounds(row-1, col-1) && board[row-1][col-1] == "P") ||
-	// 		(WithinBounds(row-1, col+1) && board[row-1][col+1] == "P") {
-	// 		return false
-	// 	}
-	// }
+	// pawn
+	if color == "w" {
+		if (WithinBounds(row-1, col-1) && board[row-1][col-1] == "p") ||
+			(WithinBounds(row-1, col+1) && board[row-1][col+1] == "p") {
+			return false
+		}
+	} else if color == "b" {
+		if (WithinBounds(row-1, col-1) && board[row-1][col-1] == "P") ||
+			(WithinBounds(row-1, col+1) && board[row-1][col+1] == "P") {
+			return false
+		}
+	}
 	return true
 }
