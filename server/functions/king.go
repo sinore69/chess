@@ -41,5 +41,8 @@ func AllKingMove(board [8][8]string, color string, row, col int, piece, wKingPos
 			}
 		}
 	}
+	if len(moves)==0{
+		return ""
+	}
 	return strings.Join(moves, " ")
 }

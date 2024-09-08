@@ -122,9 +122,11 @@ outer:
 		}
 		if g.GameRoom[1].Player != nil && result.Fen != "" {
 			log.Println(result)
-			allPossibleMove := gamehub.AllPossibleMove(result.Fen)
-			result.Moves = allPossibleMove
-			log.Println("**", allPossibleMove)
+			if !result.IsGameOver {
+				allPossibleMove := gamehub.AllPossibleMove(result.Fen)
+				result.Moves = allPossibleMove
+				log.Println(allPossibleMove)
+			}
 			g.GameRoom[1].Player.WriteJSON(result)
 		}
 	}
@@ -151,9 +153,11 @@ outer:
 		}
 		if g.GameRoom[1].Creator != nil {
 			log.Println(data)
-			allPossibleMove := gamehub.AllPossibleMove(data.Fen)
-			data.Moves = allPossibleMove
-			log.Println("**", allPossibleMove)
+			if !data.IsGameOver {
+				allPossibleMove := gamehub.AllPossibleMove(data.Fen)
+				data.Moves = allPossibleMove
+				log.Println(allPossibleMove)
+			}
 			g.GameRoom[1].Creator.WriteJSON(data)
 		}
 	}

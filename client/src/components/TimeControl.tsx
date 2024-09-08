@@ -1,10 +1,24 @@
-import React, {useEffect, useState } from "react";
+import React, {
+  Dispatch,
+  MutableRefObject,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 
-function TimeControl(props: { time: number; isRunning:boolean}) {
+function TimeControl(props: {
+  time: number;
+  isRunning: boolean;
+  setIsGameOver: Dispatch<SetStateAction<boolean>>;
+  loserColor: MutableRefObject<"b" | "w" | "">;
+  color: string;
+  reason: MutableRefObject<string>;
+}) {
   const [seconds, setSeconds] = useState<number>(0);
   const [minutes, setMinutes] = useState<number>(props.time);
+  // const [minutes, setMinutes] = useState<number>(0);
   useEffect(() => {
-  var timer: string | number | NodeJS.Timeout | undefined;
+    var timer: string | number | NodeJS.Timeout | undefined;
     if (props.isRunning) {
       timer = setInterval(() => {
         setSeconds(seconds - 1);
@@ -15,6 +29,9 @@ function TimeControl(props: { time: number; isRunning:boolean}) {
         if (minutes === 0 && seconds === 0) {
           setMinutes(0);
           setSeconds(0);
+          props.setIsGameOver(true);
+          props.loserColor.current = props.color as "w" | "b";
+          props.reason.current = "time out";
           return;
         }
       }, 1000);

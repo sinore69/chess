@@ -1,7 +1,6 @@
 package functions
 
 import (
-	"log"
 	"strings"
 )
 
@@ -90,7 +89,6 @@ func AllRookMove(board [8][8]string, color string, row int, col int, piece, wKin
 				board[i][col] = piece
 				board[row][col] = "1"
 				if IsKingSafe(board, wKingPos, bKingPos, color) {
-					// log.Println("safe", i, col)
 					moves = append(moves, ogPos+string(rune(i+'0'))+string(rune(col+'0')))
 				}
 				board[i][col] = "1"
@@ -105,7 +103,6 @@ func AllRookMove(board [8][8]string, color string, row int, col int, piece, wKin
 					board[i][col] = piece
 					board[row][col] = "1"
 					if IsKingSafe(board, wKingPos, bKingPos, color) {
-						// log.Println("safe", i, col)
 						moves = append(moves, ogPos+string(rune(i+'0'))+string(rune(col+'0')))
 					}
 					board[i][col] = dummyPiece
@@ -124,7 +121,6 @@ func AllRookMove(board [8][8]string, color string, row int, col int, piece, wKin
 				board[i][col] = piece
 				board[row][col] = "1"
 				if IsKingSafe(board, wKingPos, bKingPos, color) {
-					// log.Println("safe", i, col)
 					moves = append(moves, ogPos+string(rune(i+'0'))+string(rune(col+'0')))
 				}
 				board[i][col] = "1"
@@ -139,7 +135,6 @@ func AllRookMove(board [8][8]string, color string, row int, col int, piece, wKin
 					board[i][col] = piece
 					board[row][col] = "1"
 					if IsKingSafe(board, wKingPos, bKingPos, color) {
-						// log.Println("safe", i, col)
 						moves = append(moves, ogPos+string(rune(i+'0'))+string(rune(col+'0')))
 					}
 					board[i][col] = dummyPiece
@@ -158,7 +153,6 @@ func AllRookMove(board [8][8]string, color string, row int, col int, piece, wKin
 				board[row][i] = piece
 				board[row][col] = "1"
 				if IsKingSafe(board, wKingPos, bKingPos, color) {
-					log.Println("safe", row, i)
 					moves = append(moves, ogPos+string(rune(row+'0'))+string(rune(i+'0')))
 				}
 				board[row][i] = "1"
@@ -173,7 +167,6 @@ func AllRookMove(board [8][8]string, color string, row int, col int, piece, wKin
 					board[row][i] = piece
 					board[row][col] = "1"
 					if IsKingSafe(board, wKingPos, bKingPos, color) {
-						// log.Println("safe", row, i)
 						moves = append(moves, ogPos+string(rune(row+'0'))+string(rune(i+'0')))
 					}
 					board[row][i] = dummyPiece
@@ -192,7 +185,6 @@ func AllRookMove(board [8][8]string, color string, row int, col int, piece, wKin
 				board[row][i] = piece
 				board[row][col] = "1"
 				if IsKingSafe(board, wKingPos, bKingPos, color) {
-					// log.Println("safe", row, i)
 					moves = append(moves, ogPos+string(rune(row+'0'))+string(rune(i+'0')))
 				}
 				board[row][i] = "1"
@@ -207,7 +199,6 @@ func AllRookMove(board [8][8]string, color string, row int, col int, piece, wKin
 					board[row][i] = piece
 					board[row][col] = "1"
 					if IsKingSafe(board, color, wKingPos, bKingPos) {
-						// log.Println("safe", row, i)
 						moves = append(moves, ogPos+string(rune(row+'0'))+string(rune(i+'0')))
 					}
 					board[row][i] = dummyPiece
@@ -217,6 +208,8 @@ func AllRookMove(board [8][8]string, color string, row int, col int, piece, wKin
 			}
 		}
 	}
-
+	if len(moves) == 0 {
+		return ""
+	}
 	return strings.Join(moves, " ")
 }

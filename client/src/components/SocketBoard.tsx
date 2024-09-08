@@ -13,6 +13,8 @@ import { IsUnderCheck } from "@/functions/undercheck";
 import { promotionData } from "@/types/promotion";
 import PromotionPopUp from "./PromotionPopUp";
 import TimeControl from "./TimeControl";
+import GameOverPopUp from "./GameOverPopUp";
+import { Fen } from "@/types/fen";
 
 function SocketBoard(props: {
   movable: boolean;
@@ -25,6 +27,7 @@ function SocketBoard(props: {
   );
   const [timeControl, setTimeControl] = useState<number>(3);
   const [startTimer, setStartTimer] = useState<boolean>(false);
+  const [isGameOver, setIsGameOver] = useState<boolean>(false);
   const wCastle = useRef<"KQ" | "K" | "Q" | "">("KQ");
   const bCastle = useRef<"kq" | "k" | "q" | "">("kq");
   const wKingPos = useRef<string>("");
@@ -40,6 +43,9 @@ function SocketBoard(props: {
   });
   const ref = useRef<HTMLDivElement | null>(null);
   const validMoves = useRef<string>("");
+  const loserColor = useRef<"b" | "w" | "">("");
+  const reason = useRef<string>("");
+
   useEffect(() => {
     if (ref.current) {
       ref.current.focus();
@@ -64,7 +70,31 @@ function SocketBoard(props: {
       }
       if (GameStateValidator(data)) {
         console.log(data);
+        if (data.isGameOver) {
+          setIsGameOver(true);
+          loserColor.current = data.loser;
+          reason.current = data.reason;
+          return;
+        }
         validMoves.current = data.moves;
+        if (validMoves.current.length === 1) {
+          setIsGameOver(true);
+          reason.current = "checkmate";
+          loserColor.current = color.current;
+          const endGame: Fen = {
+            fen: "#",
+            enPassant: "",
+            fromNumeric: "",
+            isGameOver: true,
+            lastMove: "",
+            loser: color.current,
+            toNumeric: "",
+            winner: color.current === "w" ? "b" : "w",
+            reason: reason.current,
+            moves: "",
+          };
+          props.socket.send(JSON.stringify(endGame));
+        }
         const newposition = decodefen(
           data.fen,
           wCastle,
@@ -151,7 +181,6 @@ function SocketBoard(props: {
   function onDragOver(e: any) {
     e.preventDefault();
   }
-
   return (
     <div className="relative justify-start flex-col min-h-screen box-border max-h-full inline-block">
       <div className="bg-blue-200">
@@ -159,6 +188,10 @@ function SocketBoard(props: {
           <TimeControl
             time={timeControl}
             isRunning={color.current !== colorToMove.current}
+            setIsGameOver={setIsGameOver}
+            loserColor={loserColor}
+            color={colorToMove.current}
+            reason={reason}
           ></TimeControl>
         ) : (
           <></>
@@ -208,6 +241,10 @@ function SocketBoard(props: {
             <TimeControl
               time={timeControl}
               isRunning={color.current === colorToMove.current}
+              setIsGameOver={setIsGameOver}
+              loserColor={loserColor}
+              color={colorToMove.current}
+              reason={reason}
             ></TimeControl>
           ) : (
             <></>
@@ -226,6 +263,15 @@ function SocketBoard(props: {
                 socket={props.socket}
               ></PromotionPopUp>
             </div>
+          ) : (
+            <></>
+          )}
+          {isGameOver ? (
+            <GameOverPopUp
+              loserColor={loserColor.current}
+              color={color.current}
+              reason={reason.current}
+            ></GameOverPopUp>
           ) : (
             <></>
           )}

@@ -42,5 +42,8 @@ func AllQueenMoves(
 	bishopMoves := AllBishopMove(board, color, row, col, piece, wKingPos, bKingPos)
 	bishopMoves = strings.ReplaceAll(bishopMoves, "B", "Q")
 	bishopMoves = strings.ReplaceAll(bishopMoves, "b", "q")
+	if rookMoves == "" && bishopMoves == "" {
+		return ""
+	}
 	return rookMoves + " " + bishopMoves
 }

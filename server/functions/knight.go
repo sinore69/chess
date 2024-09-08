@@ -60,6 +60,8 @@ func AllKnightMoves(board [8][8]string, color string, row int, col int, piece, w
 			moves = append(moves, move)
 		}
 	}
-
+	if len(moves) == 0 {
+		return ""
+	}
 	return strings.Join(moves, " ")
 }

@@ -62,5 +62,8 @@ func AllPawnMove(board [8][8]string, color string, row int, col int, piece strin
 			board[row][col] = piece
 		}
 	}
+	if len(moves)==0{
+		return ""
+	}
 	return strings.Join(moves, " ")
 }

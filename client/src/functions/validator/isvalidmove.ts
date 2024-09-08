@@ -25,7 +25,6 @@ export function isvalidmove(
   validMoves: MutableRefObject<string>
 ) {
   const moveMade = piece + srcRow + srcCol + destRow + destCol;
-  // if (allPossibleMove.has(moveMade)) {
   if (validMoves.current.indexOf(moveMade) !== -1) {
     switch (piece) {
       case "1":
@@ -70,102 +69,5 @@ export function isvalidmove(
     }
     return true;
   }
-  // if (
-  //   (piece === "p" || piece === "P") &&
-  //   isValidPawnmove(
-  //     srcRow,
-  //     srcCol,
-  //     destRow,
-  //     destCol,
-  //     piece,
-  //     board,
-  //     color,
-  //     isCheck,
-  //     enPassant,
-  //     promotion,
-  //     wCastle,
-  //     bCastle
-  //   )
-  // ) {
-  //   board[srcRow][srcCol] = "1";
-  //   board[destRow][destCol] = piece;
-  //   return checkKingSafety(board, color, wKingPos, bKingPos);
-  // }
-  // if (
-  //   (piece === "r" || piece === "R") &&
-  //   isvalidrookmove(
-  //     srcRow,
-  //     srcCol,
-  //     destRow,
-  //     destCol,
-  //     piece,
-  //     board,
-  //     wCastle,
-  //     bCastle,
-  //     color,
-  //     isCheck
-  //   )
-  // ) {
-  //   board[srcRow][srcCol] = "1";
-  //   board[destRow][destCol] = piece;
-  //   return checkKingSafety(board, color, wKingPos, bKingPos);
-  // }
-  // if (
-  //   (piece === "b" || piece === "B") &&
-  //   isvalidbishopmove(
-  //     srcRow,
-  //     srcCol,
-  //     destRow,
-  //     destCol,
-  //     piece,
-  //     board,
-  //     isCheck,
-  //     wCastle,
-  //     bCastle,
-  //     color
-  //   )
-  // ) {
-  //   board[srcRow][srcCol] = "1";
-  //   board[destRow][destCol] = piece;
-  //   return checkKingSafety(board, color, wKingPos, bKingPos);
-  // }
-  // if (
-  //   (piece === "q" || piece === "Q") &&
-  //   isvalidqueenmove(
-  //     srcRow,
-  //     srcCol,
-  //     destRow,
-  //     destCol,
-  //     piece,
-  //     board,
-  //     wCastle,
-  //     bCastle,
-  //     color,
-  //     isCheck
-  //   )
-  // ) {
-  //   board[srcRow][srcCol] = "1";
-  //   board[destRow][destCol] = piece;
-  //   return checkKingSafety(board, color, wKingPos, bKingPos);
-  // }
-  // if (
-  //   (piece === "n" || piece === "N") &&
-  //   isvalidknightmove(
-  //     srcRow,
-  //     srcCol,
-  //     destRow,
-  //     destCol,
-  //     piece,
-  //     board,
-  //     isCheck,
-  //     wCastle,
-  //     bCastle,
-  //     color
-  //   )
-  // ) {
-  //   board[srcRow][srcCol] = "1";
-  //   board[destRow][destCol] = piece;
-  //   return checkKingSafety(board, color, wKingPos, bKingPos);
-  // }
   return false;
 }
