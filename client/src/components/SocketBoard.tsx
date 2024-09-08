@@ -221,8 +221,8 @@ function SocketBoard(props: {
                         draggable={props.movable}
                         src={
                           col === col.toUpperCase()
-                            ? `/w${col}.png`
-                            : `/b${col}.png`
+                            ? `/w${col.toLowerCase()}.png`
+                            : `/b${col.toLowerCase()}.png`
                         }
                         alt=""
                         height={80}
