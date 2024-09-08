@@ -1,7 +1,6 @@
 import { promotionData } from "@/types/promotion";
 import { isvalidmove } from "./validator/isvalidmove";
 import { iscastle } from "./validator/king";
-import AllValidMove from "./AllValidMove";
 import { MutableRefObject } from "react";
 
 export function updateposition(
@@ -37,9 +36,6 @@ export function updateposition(
       newboard[i][j] = board[i][j];
     }
   }
-  let allValidMove = new Set<string>();
-  // AllValidMove(board, color, allValidMove, wKingPos, bKingPos);
-  // console.log(allValidMove);
   if (
     isvalidmove(
       srcRow,

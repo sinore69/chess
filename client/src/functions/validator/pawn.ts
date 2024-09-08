@@ -65,29 +65,6 @@ export function EnPassantMove(
   return false;
 }
 
-function ifEnpassant(
-  enPassant: React.MutableRefObject<string>,
-  destRow: number,
-  destCol: number,
-  board: string[][],
-  counterPiece: string,
-  color: string
-) {
-  if (
-    withinbounds(destRow, Number(destCol) + 1) &&
-    board[destRow][Number(destCol) + 1] === counterPiece
-  ) {
-    enPassant.current = color + (Number(destRow) + 1) + destCol;
-  } else if (
-    withinbounds(destRow, Number(destCol) - 1) &&
-    board[destRow][Number(destCol) - 1] === counterPiece
-  ) {
-    enPassant.current = color + (Number(destRow) + 1) + destCol;
-  } else {
-    enPassant.current = "";
-  }
-}
-
 export function allPawnMove(
   board: string[][],
   color: string,

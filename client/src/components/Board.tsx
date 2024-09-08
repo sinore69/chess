@@ -16,7 +16,6 @@ function Board(props: { movable: boolean }) {
   const bCastle = useRef<"kq" | "k" | "q" | "">("kq");
   const colorToMove = useRef<"b" | "w">("w");
   const isCheck = useRef<true | false>(false);
-  const isUnderCheck = useRef<true | false>(false);
   const wKingPos = useRef<string>("");
   const bKingPos = useRef<string>("");
   const ref = useRef<HTMLDivElement | null>(null);
@@ -48,17 +47,16 @@ function Board(props: { movable: boolean }) {
     e.target.style.display = "block";
   }
   if (movecount === 1 && color === "b" && props.movable) {
-    // console.log(movecount);
     setmovecount(movecount + 1);
     getMove(
       fengenerator(board, color, wCastle, bCastle),
       setboard,
       wCastle,
       bCastle,
-      isCheck,
       colorToMove,
       wKingPos,
-      bKingPos
+      bKingPos,
+      validMoves
     );
   }
 
@@ -71,6 +69,7 @@ function Board(props: { movable: boolean }) {
     if (!turn(colorToMove.current, piece)) {
       return;
     }
+    console.log(validMoves.current,"**")
     const newposition = updateposition(
       //updating will not work as valid moves is empty add server logic to calculate moves
       board,
@@ -98,10 +97,10 @@ function Board(props: { movable: boolean }) {
         setboard,
         wCastle,
         bCastle,
-        isCheck,
         colorToMove,
         wKingPos,
-        bKingPos
+        bKingPos,
+        validMoves
       );
     }
   }

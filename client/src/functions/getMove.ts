@@ -7,10 +7,10 @@ export async function getMove(
   setboard: React.Dispatch<React.SetStateAction<string[][]>>,
   wCastle: React.MutableRefObject<"" | "KQ" | "K" | "Q">,
   bCastle: React.MutableRefObject<"" | "kq" | "k" | "q">,
-  isCheck: React.MutableRefObject<boolean>,
   colorToMove: React.MutableRefObject<"w" | "b">,
-  wKingPos:React.MutableRefObject<string>,
-  bKingPos:React.MutableRefObject<string>
+  wKingPos: React.MutableRefObject<string>,
+  bKingPos: React.MutableRefObject<string>,
+  validMoves: React.MutableRefObject<string>
 ) {
   const data = {
     fen: fen,
@@ -20,13 +20,9 @@ export async function getMove(
     body: JSON.stringify(data),
   });
   const resp = (await res.json()) as Fen;
-  const newPosition = decodefen(
-    resp.fen,
-    wCastle,
-    bCastle,
-    wKingPos,
-    bKingPos
-  );
+  const newPosition = decodefen(resp.fen, wCastle, bCastle, wKingPos, bKingPos);
   setboard(newPosition);
   colorToMove.current = updateTurn(resp.fen);
+  validMoves.current = resp.moves;
+  // console.log(validMoves.current);
 }

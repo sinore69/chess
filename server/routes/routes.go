@@ -60,12 +60,14 @@ func Bot(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 	log.Println(eval)
-	//log.Println(eval.Fen)
 	bestmove := eval.From + eval.To
 	newFen, lastMove := functions.Newfen(eval.Fen, bestmove)
+	allPossibleMove := gamehub.AllPossibleMove(newFen)
+	// log.Println(allPossibleMove)
 	newfen := types.Fen{
 		Fen:      newFen,
 		LastMove: lastMove,
+		Moves:    allPossibleMove,
 	}
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
