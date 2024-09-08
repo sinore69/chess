@@ -39,7 +39,7 @@ func IsKingSafe(board [8][8]string, wKingPos, bKingPos, color string) bool {
 		if board[row+i][col] == "1" {
 			continue
 		}
-		if board[row+i][col] == "R" || board[row+i][col] == "r" {
+		if board[row+i][col] == "R" || board[row+i][col] == "r" || board[row+i][col] == "Q" || board[row+i][col] == "q" {
 			if IsUpperCase(piece) != IsUpperCase(board[row+i][col]) {
 				return false
 			}
