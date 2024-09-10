@@ -6,10 +6,11 @@ import { fengenerator } from "../functions/fengenerator";
 import { calcCoordinates } from "../functions/calccoordinates";
 import Image from "next/image";
 import { turn } from "../functions/turn";
-import { getMove } from "@/functions/getMove";
+import { getFirstMove, getMove } from "@/functions/getMove";
 import { promotionData } from "@/types/promotion";
-function Board(props: { movable: boolean }) {
-  const [color, setcolor] = useState<"b" | "w">("b");
+
+function Board(props: { movable: boolean; color: "w" | "b" }) {
+  const [color, setcolor] = useState<"b" | "w">("w");
   const [board, setboard] = useState<string[][]>(initialgamestate(color));
   const [movecount, setmovecount] = useState<number>(1);
   const wCastle = useRef<"KQ" | "K" | "Q" | "">("KQ");
@@ -46,6 +47,7 @@ function Board(props: { movable: boolean }) {
   function onDragEnd(e: any) {
     e.target.style.display = "block";
   }
+  
   if (movecount === 1 && color === "b" && props.movable) {
     setmovecount(movecount + 1);
     getMove(
@@ -60,6 +62,11 @@ function Board(props: { movable: boolean }) {
     );
   }
 
+  if (movecount === 1 && color === "w") {
+    setmovecount(movecount + 1);
+    getFirstMove(validMoves)
+  }
+
   function onDrop(e: any) {
     const oldfen = fengenerator(board, color, wCastle, bCastle);
     const { x, y } = calcCoordinates(e, ref);
@@ -69,7 +76,7 @@ function Board(props: { movable: boolean }) {
     if (!turn(colorToMove.current, piece)) {
       return;
     }
-    console.log(validMoves.current,"**")
+    console.log(validMoves.current, "**");
     const newposition = updateposition(
       //updating will not work as valid moves is empty add server logic to calculate moves
       board,
@@ -138,8 +145,8 @@ function Board(props: { movable: boolean }) {
                       draggable={props.movable}
                       src={
                         col === col.toUpperCase()
-                          ? `/w${col}.png`
-                          : `/b${col}.png`
+                          ? `/w${col.toLowerCase()}.png`
+                          : `/b${col.toLowerCase()}.png`
                       }
                       alt=""
                       height={90}
@@ -148,27 +155,6 @@ function Board(props: { movable: boolean }) {
                   ) : (
                     ""
                   )}
-                  {/* {color === "w" ? (
-                    <div
-                      className={`${calStyle(
-                        color,
-                        rowindex,
-                        colindex
-                      )}`}
-                    >
-                      {calCell(color, rowindex, colindex)}
-                    </div>
-                  ) : (
-                    <div
-                      className={`${calStyle(
-                        color,
-                        rowindex,
-                        colindex
-                      )}`}
-                    >
-                      {calCell(color, rowindex, colindex)}
-                    </div>
-                  )} */}
                 </div>
               </div>
             ))}

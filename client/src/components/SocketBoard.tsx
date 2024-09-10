@@ -79,7 +79,7 @@ function SocketBoard(props: {
         validMoves.current = data.moves;
         if (validMoves.current.length === 1) {
           setIsGameOver(true);
-          reason.current = "checkmate";
+          reason.current = "Check Mate";
           loserColor.current = color.current;
           const endGame: Fen = {
             fen: "#",
@@ -183,10 +183,11 @@ function SocketBoard(props: {
   }
   return (
     <div className="relative justify-start flex-col min-h-screen box-border max-h-full inline-block">
-      <div className="bg-blue-200">
+      <div className="bg-black">
         {startTimer ? (
           <TimeControl
             time={timeControl}
+            isGameOver={isGameOver}
             isRunning={color.current !== colorToMove.current}
             setIsGameOver={setIsGameOver}
             loserColor={loserColor}
@@ -240,6 +241,7 @@ function SocketBoard(props: {
           {startTimer ? (
             <TimeControl
               time={timeControl}
+              isGameOver={isGameOver}
               isRunning={color.current === colorToMove.current}
               setIsGameOver={setIsGameOver}
               loserColor={loserColor}

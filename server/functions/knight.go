@@ -3,27 +3,6 @@ package functions
 import (
 	"strings"
 )
-
-// Function to check if a knight move puts the king in check.
-func IsKnightCheck(board [][]string, destRow, destCol int, piece string, isCheck *bool) bool {
-	rowOffsets := []int{2, 1, -1, -2, -2, -1, 1, 2}
-	colOffsets := []int{1, 2, 2, 1, -1, -2, -2, -1}
-
-	for i := 0; i < 8; i++ {
-		newRow := destRow + rowOffsets[i]
-		newCol := destCol + colOffsets[i]
-
-		if WithinBounds(newRow, newCol) && (board[newRow][newCol] == "K" || board[newRow][newCol] == "k") &&
-			IsUpperCase(piece) != IsUpperCase(board[newRow][newCol]) {
-			*isCheck = true
-			return true
-		}
-	}
-
-	*isCheck = false
-	return false
-}
-
 // Function to get all valid knight moves.
 func AllKnightMoves(board [8][8]string, color string, row int, col int, piece, wKingPos, bKingPos string) string {
 	ogPos := piece + string(rune(row+'0')) + string(rune(col+'0'))

@@ -3,67 +3,6 @@ package functions
 import (
 	"strings"
 )
-
-// func isBishopCheck(destRow, destCol int, board [][]string, piece string, isCheck *bool) bool {
-// 	// 3rd quadrant
-// 	for i := 1; i <= 7; i++ {
-// 		if destRow+i > 7 || destCol+i > 7 || destRow+i < 0 || destCol+i < 0 {
-// 			break
-// 		}
-// 		if board[destRow+i][destCol+i] == "1" {
-// 			continue
-// 		}
-// 		if (board[destRow+i][destCol+i] == "K" || board[destRow+i][destCol+i] == "k") && IsUpperCase(piece) != IsUpperCase(board[destRow+i][destCol+i]) {
-// 			*isCheck = true
-// 			return true
-// 		}
-// 		break
-// 	}
-// 	// 1st quadrant
-// 	for i := 1; i <= 7; i++ {
-// 		if destRow-i > 7 || destCol-i > 7 || destRow-i < 0 || destCol-i < 0 {
-// 			break
-// 		}
-// 		if board[destRow-i][destCol-i] == "1" {
-// 			continue
-// 		}
-// 		if (board[destRow-i][destCol-i] == "K" || board[destRow-i][destCol-i] == "k") && IsUpperCase(piece) != IsUpperCase(board[destRow-i][destCol-i]) {
-// 			*isCheck = true
-// 			return true
-// 		}
-// 		break
-// 	}
-// 	// 2nd quadrant
-// 	for i := 1; i <= 7; i++ {
-// 		if destRow-i > 7 || destCol+i > 7 || destRow-i < 0 || destCol+i < 0 {
-// 			break
-// 		}
-// 		if board[destRow-i][destCol+i] == "1" {
-// 			continue
-// 		}
-// 		if (board[destRow-i][destCol+i] == "K" || board[destRow-i][destCol+i] == "k") && IsUpperCase(piece) != IsUpperCase(board[destRow-i][destCol+i]) {
-// 			*isCheck = true
-// 			return true
-// 		}
-// 		break
-// 	}
-// 	// 4th quadrant
-// 	for i := 1; i <= 7; i++ {
-// 		if destRow+i > 7 || destCol-i > 7 || destRow+i < 0 || destCol-i < 0 {
-// 			break
-// 		}
-// 		if board[destRow+i][destCol-i] == "1" {
-// 			continue
-// 		}
-// 		if (board[destRow+i][destCol-i] == "K" || board[destRow+i][destCol-i] == "k") && IsUpperCase(piece) != IsUpperCase(board[destRow+i][destCol-i]) {
-// 			*isCheck = true
-// 			return true
-// 		}
-// 		break
-// 	}
-// 	return false
-// }
-
 func AllBishopMove(board [8][8]string, color string, row int, col int, piece, wKingPos, bKingPos string) string {
 	ogPos := piece + string(rune(row+'0')) + string(rune(col+'0'))
 	var moves []string

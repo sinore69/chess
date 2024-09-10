@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+
 function GameControl() {
   const [showTimeControl, setShowTimeControl] = useState<boolean>(true);
   const [chooseColor, setChooseColor] = useState<boolean>(false);
   const [gameTime, setGameTime] = useState<3 | 5 | 10>(3);
+  const [color, setColor] = useState<"w" | "b">("w");
   const router = useRouter();
+
   function ShowTimeControl() {
     setShowTimeControl(true);
     setChooseColor(false);
@@ -18,33 +21,37 @@ function GameControl() {
       router.push("/create");
       sessionStorage.setItem("gameTime", "" + gameTime);
     } else {
-      router.push("/bot");
+      router.push(`/bot/${color}`);
     }
   }
   function handler(e: any) {
     e.preventDefault();
     router.push("/join");
-    // const data = {
-    //   id: Number(e.target.roomId.value),
-    // };
-    // console.log(data)
   }
   function changeTimeControl(time: number) {
     if (time === 3 || time === 5 || time === 10) {
       setGameTime(time);
     }
   }
+  function changeColorToBlack() {
+    setColor("b");
+  }
+  function changeColorToWhite() {
+    setColor("w");
+  }
+
   return (
     <div className="">
-      <div className="pl-10 pt-2 lg:h-[720px] lg:w-[460px] bg-slate-400 flex flex-col">
-        <div className="p-8 pl-36 bg-blue-100 text-2xl font-bold">
+      <div className="h-[20px]"></div>
+      <div className="p-3 pt-2 lg:h-[100%] lg:w-[100%] bg-gray-900 flex flex-col text-white">
+        <div className="p-6 pl-28 text-3xl font-bold border-b-2 border-white">
           Play Against
         </div>
-        <div className="flex flex-row bg-blue-300 p-8 pl-14">
+        <div className="flex flex-row p-6 pl-14">
           <button
             className={`border-${
               showTimeControl ? "" : "2"
-            } border-black pt-2 pb-2 pl-6 pr-6 rounded-md font-bold text-lg`}
+            } border-white pt-2 pb-2 pl-6 pr-6 rounded-md font-bold text-lg`}
             onClick={HideTimeControl}
           >
             Computer
@@ -55,7 +62,7 @@ function GameControl() {
           <button
             className={`border-${
               showTimeControl ? "2" : ""
-            } border-black pt-2 pb-2 pl-10 pr-10 rounded-md font-bold text-lg`}
+            } border-white pt-2 pb-2 pl-10 pr-10 rounded-md font-bold text-lg`}
             onClick={ShowTimeControl}
           >
             Friend
@@ -63,12 +70,12 @@ function GameControl() {
         </div>
         {showTimeControl ? (
           <div>
-            <div className="bg-blue-500 pl-32 pt-2 pb-2 text-2xl font-bold">
+            <div className="pl-32 pt-2 text-2xl font-bold border-b-2 border-white pb-4">
               Time Control
             </div>
-            <div className="bg-blue-300 p-10 pl-28">
+            <div className="p-6 pl-28">
               <button
-                className={`rounded-md border-black p-2 pl-4 pr-4 ${
+                className={`rounded-md border-white p-2 pl-4 pr-4 ${
                   gameTime === 3 ? `border-[3px]` : `border-2`
                 }`}
                 onClick={() => changeTimeControl(3)}
@@ -79,7 +86,7 @@ function GameControl() {
                 |
               </button>
               <button
-                className={`rounded-md border-black p-2 pl-4 pr-4 ${
+                className={`rounded-md border-white p-2 pl-4 pr-4 ${
                   gameTime === 5 ? `border-[3px]` : `border-2`
                 }`}
                 onClick={() => changeTimeControl(5)}
@@ -90,7 +97,7 @@ function GameControl() {
                 |
               </button>
               <button
-                className={`rounded-md border-black p-2 pl-4 pr-4 ${
+                className={`rounded-md border-white p-2 pl-4 pr-4 ${
                   gameTime === 10 ? `border-[3px]` : `border-2`
                 }`}
                 onClick={() => changeTimeControl(10)}
@@ -103,18 +110,28 @@ function GameControl() {
           <></>
         )}
         {chooseColor ? (
-          <div>
-            <div className="bg-blue-500 pl-32 pt-2 pb-2 text-2xl font-bold">
+          <div className="">
+            <div className="pl-32 pt-2 text-2xl font-bold border-b-2 border-white pb-4">
               Choose Color
             </div>
-            <div className="bg-blue-300 p-10 pl-28">
-              <button className="border-2 rounded-md border-black p-2 pl-4 pr-4 focus:border-[3px]">
+            <div className="p-6 pl-28">
+              <button
+                className={` rounded-md border-white p-2 pl-4 pr-4 ${
+                  color === "w" ? "border-[3px]" : "border-[1px]"
+                }`}
+                onClick={changeColorToWhite}
+              >
                 White
               </button>
               <button className="p-3" disabled={true}>
                 |
               </button>
-              <button className="border-2 rounded-md border-black pt-2 pb-2 pl-4 pr-4 focus:border-[3px]">
+              <button
+                className={`border-[1px] rounded-md border-white p-2 pl-4 pr-4 ${
+                  color === "b" ? "focus:border-[3px]" : "border-[1px]"
+                }`}
+                onClick={changeColorToBlack}
+              >
                 Black
               </button>
             </div>
@@ -122,15 +139,15 @@ function GameControl() {
         ) : (
           <></>
         )}
-        <div className="bg-blue-200 flex p-10 pl-24">
+        <div className="flex p-4 pl-24 border-b-2 border-white pb-8">
           <button
-            className="border-2 rounded-md border-black p-4 pl-20 pr-20 text-2xl font-semibold"
+            className="border-2 rounded-md border-white p-4 pl-20 pr-20 text-2xl font-semibold"
             onClick={startGame}
           >
             Play
           </button>
         </div>
-        <div className="bg-blue-300 p-12">
+        <div className="pl-12 p-12">
           <form onSubmit={handler}>
             <input
               className="p-1"

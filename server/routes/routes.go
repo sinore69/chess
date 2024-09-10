@@ -45,7 +45,6 @@ func Bot(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	reqbody := strings.NewReader(string(body))
 	url := "https://chess-api.com/v1"
-	//log.Println(reqbody)
 	res, err := http.Post(url, "application/json", reqbody)
 	if err != nil {
 		panic(err)
@@ -63,12 +62,32 @@ func Bot(w http.ResponseWriter, r *http.Request) {
 	bestmove := eval.From + eval.To
 	newFen, lastMove := functions.Newfen(eval.Fen, bestmove)
 	allPossibleMove := gamehub.AllPossibleMove(newFen)
-	// log.Println(allPossibleMove)
 	newfen := types.Fen{
 		Fen:      newFen,
 		LastMove: lastMove,
 		Moves:    allPossibleMove,
 	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(newfen)
+}
+
+func GetFirstMove(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	if r.Method != http.MethodGet {
+		log.Println("error")
+		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
+		return
+	}
+	allPossibleMove := gamehub.AllPossibleMove("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1")
+	newfen := types.Fen{
+		Fen:      "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+		LastMove: "",
+		Moves:    allPossibleMove,
+	}
+	// log.Println(newfen,"##")
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(newfen)

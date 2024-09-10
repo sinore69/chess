@@ -6,11 +6,11 @@ function GameOverPopUp(props: {
   reason: string;
 }) {
   return (
-    <div className="absolute top-[275px] left-[255px] h-40 w-52 bg-red-200 rounded-lg">
+    <div className="absolute top-[275px] left-[255px] h-40 w-52 bg-white border-2 border-black rounded-lg">
       {props.color === props.loserColor ? (
-        <div className="p-2">{props.reason} you lost</div>
+        <div className="pt-14 flex justify-center font-bold">{props.reason} You Lost</div>
       ) : (
-        <div className="p-2">{props.reason} you won</div>
+        <div className="pt-14 flex justify-center font-bold">{props.reason} You Won</div>
       )}
     </div>
   );

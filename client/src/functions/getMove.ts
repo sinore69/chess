@@ -26,3 +26,12 @@ export async function getMove(
   validMoves.current = resp.moves;
   // console.log(validMoves.current);
 }
+
+export async function getFirstMove(validMoves: React.MutableRefObject<string>) {
+  const res = await fetch("http://localhost:5000/bot/getfirstmove",{
+    method:"GET"
+  });
+  const resp = await res.json() as Fen;
+  // console.log(resp.moves);
+  validMoves.current=resp.moves
+}
