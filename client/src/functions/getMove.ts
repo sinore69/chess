@@ -15,7 +15,7 @@ export async function getMove(
   const data = {
     fen: fen,
   };
-  const res = await fetch("https://localhost:5000/bot", {
+  const res = await fetch("http://localhost:5000/bot", {
     method: "POST",
     body: JSON.stringify(data),
   });
@@ -28,7 +28,7 @@ export async function getMove(
 }
 
 export async function getFirstMove(validMoves: React.MutableRefObject<string>) {
-  const res = await fetch("https://localhost:5000/bot/getfirstmove",{
+  const res = await fetch("http://localhost:5000/bot/getfirstmove",{
     method:"GET"
   });
   const resp = await res.json() as Fen;
