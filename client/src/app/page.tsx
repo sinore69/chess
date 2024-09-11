@@ -1,7 +1,6 @@
 "use client";
 import Board from "../components/Board";
 import Console from "../components/Console";
-export const runtime = "edge";
 export default function Home() {
   return (
     <>

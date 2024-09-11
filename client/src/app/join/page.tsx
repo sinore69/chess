@@ -3,7 +3,6 @@ import Console from "@/components/Console";
 import SocketBoard from "@/components/SocketBoard";
 import React, { useRef } from "react";
 
-export const runtime = "edge";
 let socket = new WebSocket(`wss://${process.env.NEXT_PUBLIC_IP}:5000/join`);
 function Page() {
   const connectionState = useRef<boolean>(false);
