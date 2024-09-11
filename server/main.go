@@ -13,8 +13,8 @@ func main() {
 	http.HandleFunc("/bot/getfirstmove", routes.GetFirstMove)
 	http.HandleFunc("/create", game.CreateGame)
 	http.HandleFunc("/join", game.JoinGame)
-	log.Println("server is running on port 5000")
-	err := http.ListenAndServe(":5000", nil)
+	log.Println("server is running on port 5443")
+	err := http.ListenAndServeTLS(":5443", "origin.pem", "key.pem", nil)
 	if err != nil {
 		panic(err)
 	}

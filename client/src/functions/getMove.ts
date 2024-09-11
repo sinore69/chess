@@ -15,7 +15,7 @@ export async function getMove(
   const data = {
     fen: fen,
   };
-  const res = await fetch("http://localhost:5000/bot", {
+  const res = await fetch(`https://${process.env.NEXT_PUBLIC_IP}:5443/bot`, {
     method: "POST",
     body: JSON.stringify(data),
   });
@@ -28,10 +28,13 @@ export async function getMove(
 }
 
 export async function getFirstMove(validMoves: React.MutableRefObject<string>) {
-  const res = await fetch("http://localhost:5000/bot/getfirstmove",{
-    method:"GET"
-  });
-  const resp = await res.json() as Fen;
+  const res = await fetch(
+    `https://${process.env.NEXT_PUBLIC_IP}:5443/bot/getfirstmove`,
+    {
+      method: "GET",
+    }
+  );
+  const resp = (await res.json()) as Fen;
   // console.log(resp.moves);
-  validMoves.current=resp.moves
+  validMoves.current = resp.moves;
 }
