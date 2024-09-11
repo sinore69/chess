@@ -2,6 +2,7 @@
 import Board from "@/components/Board";
 import React from "react";
 
+export const runtime = "edge";
 function page({ params }: { params: { color: "w" | "b" } }) {
   return (
     <>
