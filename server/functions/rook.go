@@ -130,7 +130,7 @@ func AllRookMove(board [8][8]string, color string, row int, col int, piece, wKin
 					dummyPiece := board[row][i]
 					board[row][i] = piece
 					board[row][col] = "1"
-					if IsKingSafe(board, color, wKingPos, bKingPos) {
+					if IsKingSafe(board, wKingPos, bKingPos, color) {
 						moves = append(moves, ogPos+string(rune(row+'0'))+string(rune(i+'0')))
 					}
 					board[row][i] = dummyPiece

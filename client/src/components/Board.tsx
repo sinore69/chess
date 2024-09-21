@@ -8,11 +8,13 @@ import Image from "next/image";
 import { turn } from "../functions/turn";
 import { getFirstMove, getMove } from "@/functions/getMove";
 import { promotionData } from "@/types/promotion";
+import GameOverPopUp from "./GameOverPopUp";
 
 function Board(props: { movable: boolean; color: "w" | "b" }) {
-  const [color, setcolor] = useState<"b" | "w">("w");
+  const [color, setcolor] = useState<"b" | "w">(props.color);
   const [board, setboard] = useState<string[][]>(initialgamestate(color));
   const [movecount, setmovecount] = useState<number>(1);
+  const [isGameOver, setIsGameOver] = useState<boolean>(false);
   const wCastle = useRef<"KQ" | "K" | "Q" | "">("KQ");
   const bCastle = useRef<"kq" | "k" | "q" | "">("kq");
   const colorToMove = useRef<"b" | "w">("w");
@@ -27,6 +29,8 @@ function Board(props: { movable: boolean; color: "w" | "b" }) {
   });
   const enPassant = useRef<string>("");
   const validMoves = useRef<string>("");
+  const reason = useRef<string>("");
+  const loserColor = useRef<"w" | "b" | "">("");
   useEffect(() => {
     if (ref.current) {
       ref.current.focus();
@@ -47,7 +51,7 @@ function Board(props: { movable: boolean; color: "w" | "b" }) {
   function onDragEnd(e: any) {
     e.target.style.display = "block";
   }
-  
+
   if (movecount === 1 && color === "b" && props.movable) {
     setmovecount(movecount + 1);
     getMove(
@@ -58,13 +62,17 @@ function Board(props: { movable: boolean; color: "w" | "b" }) {
       colorToMove,
       wKingPos,
       bKingPos,
-      validMoves
+      validMoves,
+      setIsGameOver,
+      reason,
+      color,
+      loserColor
     );
   }
 
   if (movecount === 1 && color === "w") {
     setmovecount(movecount + 1);
-    getFirstMove(validMoves)
+    getFirstMove(validMoves);
   }
 
   function onDrop(e: any) {
@@ -76,7 +84,7 @@ function Board(props: { movable: boolean; color: "w" | "b" }) {
     if (!turn(colorToMove.current, piece)) {
       return;
     }
-    console.log(validMoves.current, "**");
+    // console.log(validMoves.current, "**");
     const newposition = updateposition(
       //updating will not work as valid moves is empty add server logic to calculate moves
       board,
@@ -107,17 +115,22 @@ function Board(props: { movable: boolean; color: "w" | "b" }) {
         colorToMove,
         wKingPos,
         bKingPos,
-        validMoves
+        validMoves,
+        setIsGameOver,
+        reason,
+        color,
+        loserColor
       );
     }
   }
   function onDragOver(e: any) {
     e.preventDefault();
   }
+
   return (
     <div>
       <div
-        className="flex justify-start flex-col h-screen box-border overflow-hidden"
+        className="flex justify-start flex-col h-full box-border"
         onDrop={onDrop}
         onDragOver={onDragOver}
         ref={ref}
@@ -127,7 +140,7 @@ function Board(props: { movable: boolean; color: "w" | "b" }) {
             {row.map((col: string, colindex) => (
               <div
                 key={colindex}
-                className={`h-16 w-16 sm:h-20 sm:w-20 lg:h-[90px] lg:w-[90px] border-black relative ${
+                className={`h-12 w-12 sm:h-20 sm:w-20 lg:h-[90px] lg:w-[90px] border-black relative ${
                   (colindex + rowindex + 1) % 2 === 0
                     ? "bg-slate-300"
                     : "bg-white"
@@ -160,6 +173,15 @@ function Board(props: { movable: boolean; color: "w" | "b" }) {
             ))}
           </div>
         ))}
+        {isGameOver ? (
+          <GameOverPopUp
+            loserColor={loserColor.current}
+            color={color}
+            reason={reason.current}
+          ></GameOverPopUp>
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );

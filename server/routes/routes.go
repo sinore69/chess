@@ -54,11 +54,28 @@ func Bot(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
+	log.Println(string(resBody))
+	var error types.Error
+	err = json.Unmarshal(resBody, &error)
+	if err != nil {
+		panic(err)
+	}
 	err = json.Unmarshal(resBody, &eval)
 	if err != nil {
 		panic(err)
 	}
-	log.Println(eval)
+	if error.Text == "extendMoveInfo: move must not be undefined" || error.Error == "INVALID_INPUT" {
+		newfen := types.Fen{
+			Fen:        string(body)[1:len(string(body))-1],
+			Moves:      "######",
+			IsGameOver: true,
+		}
+		log.Println(newfen)
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		json.NewEncoder(w).Encode(newfen)
+		return
+	}
 	bestmove := eval.From + eval.To
 	newFen, lastMove := functions.Newfen(eval.Fen, bestmove)
 	allPossibleMove := gamehub.AllPossibleMove(newFen)

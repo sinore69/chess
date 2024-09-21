@@ -69,7 +69,7 @@ function SocketBoard(props: {
         setStartTimer(true);
       }
       if (GameStateValidator(data)) {
-        console.log(data);
+        // console.log(data);
         if (data.isGameOver) {
           setIsGameOver(true);
           loserColor.current = data.loser;
@@ -181,6 +181,7 @@ function SocketBoard(props: {
   function onDragOver(e: any) {
     e.preventDefault();
   }
+
   return (
     <div className="relative justify-start flex-col min-h-screen box-border max-h-full inline-block">
       <div className="bg-black">
@@ -204,7 +205,7 @@ function SocketBoard(props: {
               {row.map((col: string, colindex) => (
                 <div
                   key={colindex}
-                  className={`h-16 w-16 sm:h-20 sm:w-20 lg:h-[80px] lg:w-[80px] border-black relative ${
+                  className={`h-12 w-12 sm:h-20 sm:w-20 lg:h-[80px] lg:w-[80px] border-black relative ${
                     (colindex + rowindex + 1) % 2 === 0
                       ? "bg-slate-300"
                       : "bg-white"

@@ -4,7 +4,7 @@ import Console from "../components/Console";
 export default function Home() {
   return (
     <>
-      <div className="flex gap-x-4 bg-black h-full">
+      <div className="flex bg-black h-full flex-col sm:flex-row">
         <Board movable={false} color={"w"}></Board>
         <Console mode={"bot"}></Console>
       </div>
