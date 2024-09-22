@@ -54,7 +54,7 @@ func Bot(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
-	log.Println(string(resBody))
+	// log.Println(string(resBody))
 	var error types.Error
 	err = json.Unmarshal(resBody, &error)
 	if err != nil {
@@ -70,7 +70,7 @@ func Bot(w http.ResponseWriter, r *http.Request) {
 			Moves:      "######",
 			IsGameOver: true,
 		}
-		log.Println(newfen)
+		// log.Println(newfen)
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
 		json.NewEncoder(w).Encode(newfen)
