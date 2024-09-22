@@ -127,6 +127,52 @@ function Board(props: { movable: boolean; color: "w" | "b" }) {
     e.preventDefault();
   }
 
+  // Touch Handlers
+  function onTouchStart(
+    e: any,
+    rowindex: number,
+    colindex: number,
+    piece: string
+  ) {
+    e.target.style.opacity = 0.5;
+    e.target.dataset.touch = `${rowindex}${colindex}${piece}`;
+  }
+
+  function onTouchMove(e: any) {
+    const touch = e.touches[0];
+    const element = e.target;
+    element.style.position = "absolute";
+    element.style.left = `${touch.clientX - element.clientWidth / 2}px`;
+    element.style.top = `${touch.clientY - element.clientHeight / 2}px`;
+  }
+
+  function onTouchEnd(e: any) {
+    e.target.style.opacity = 1;
+    const { x, y } = calcCoordinates(e, ref);
+    const [rowindex, colindex, piece] = e.target.dataset.touch.split("");
+    if (!turn(colorToMove.current, piece)) return;
+
+    const newposition = updateposition(
+      board,
+      rowindex,
+      colindex,
+      x,
+      y,
+      piece,
+      color,
+      wCastle,
+      bCastle,
+      isCheck,
+      wKingPos,
+      bKingPos,
+      enPassant,
+      Promotion,
+      validMoves
+    );
+    setboard(newposition);
+    e.target.style.position = "static";
+  }
+
   return (
     <div>
       <div
@@ -151,6 +197,9 @@ function Board(props: { movable: boolean; color: "w" | "b" }) {
                   draggable={props.movable}
                   onDragEnd={onDragEnd}
                   onDragStart={(e) => onDragStart(e, rowindex, colindex, col)}
+                  onTouchStart={(e) => onTouchStart(e, rowindex, colindex, col)}
+                  onTouchMove={onTouchMove}
+                  onTouchEnd={onTouchEnd}
                 >
                   {col !== "1" ? (
                     <Image
