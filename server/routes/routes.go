@@ -54,7 +54,7 @@ func Bot(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
-	// log.Println(string(resBody))
+	log.Println(string(resBody))
 	var error types.Error
 	err = json.Unmarshal(resBody, &error)
 	if err != nil {

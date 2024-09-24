@@ -15,6 +15,9 @@ import PromotionPopUp from "./PromotionPopUp";
 import TimeControl from "./TimeControl";
 import GameOverPopUp from "./GameOverPopUp";
 import { Fen } from "@/types/fen";
+import Disc from "./Disc";
+import { getPieceMove } from "@/functions/getPieceMove";
+import { isUpperCase } from "@/functions/isuppercase";
 
 function SocketBoard(props: {
   movable: boolean;
@@ -28,6 +31,9 @@ function SocketBoard(props: {
   const [timeControl, setTimeControl] = useState<number>(3);
   const [startTimer, setStartTimer] = useState<boolean>(false);
   const [isGameOver, setIsGameOver] = useState<boolean>(false);
+  const [toggleMove, setToggleMove] = useState<boolean>(false);
+  const [reRender, setReRender] = useState<boolean>(true);
+  const pieceMove = useRef<string>("");
   const wCastle = useRef<"KQ" | "K" | "Q" | "">("KQ");
   const bCastle = useRef<"kq" | "k" | "q" | "">("kq");
   const wKingPos = useRef<string>("");
@@ -45,7 +51,7 @@ function SocketBoard(props: {
   const validMoves = useRef<string>("");
   const loserColor = useRef<"b" | "w" | "">("");
   const reason = useRef<string>("");
-
+  const colorCase = color.current === "w" ? "C" : "c";
   useEffect(() => {
     if (ref.current) {
       ref.current.focus();
@@ -182,6 +188,14 @@ function SocketBoard(props: {
     e.preventDefault();
   }
 
+  function toggle(piece: string, rowIdx: number, colIdx: number) {
+    pieceMove.current = getPieceMove(validMoves.current, piece, rowIdx, colIdx);
+    // console.log(validMoves.current)
+    // console.log(pieceMove.current);
+    setToggleMove(true);
+    setReRender(!reRender);
+  }
+
   return (
     <div className="relative justify-start flex-col min-h-screen box-border max-h-full inline-block">
       <div className="bg-black">
@@ -212,13 +226,14 @@ function SocketBoard(props: {
                   }`}
                 >
                   <div
-                    className=""
+                    className="h-full w-full"
                     draggable={props.movable}
                     onDragEnd={onDragEnd}
                     onDragStart={(e) => onDragStart(e, rowindex, colindex, col)}
                   >
                     {col !== "1" ? (
                       <Image
+                        className="relative"
                         priority
                         draggable={props.movable}
                         src={
@@ -229,9 +244,27 @@ function SocketBoard(props: {
                         alt=""
                         height={80}
                         width={80}
+                        onClick={() =>
+                          toggle(board[rowindex][colindex], rowindex, colindex)
+                        }
                       ></Image>
                     ) : (
-                      ""
+                      <></>
+                    )}
+                    {toggleMove &&
+                    (board[rowindex][colindex] === "1" ||
+                      isUpperCase(colorCase) !==
+                        isUpperCase(board[rowindex][colindex])) ? (
+                      <div className="h-full w-full grid absolute top-0 left-0">
+                        <Disc
+                          pieceMove={pieceMove.current}
+                          piece={board[rowindex][colindex]}
+                          rowIdx={rowindex}
+                          colIdx={colindex}
+                        ></Disc>
+                      </div>
+                    ) : (
+                      <></>
                     )}
                   </div>
                 </div>

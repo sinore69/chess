@@ -8,7 +8,7 @@ import (
 func AllPossibleMove(fen string) string {
 	fenArray := strings.Split(fen, " ")
 	color := fenArray[1]
-	allPossibleMove := "*"
+	allPossibleMove := "* "
 	board, wKingPos, bKingPos := functions.Decodefen(func(fen string, color string) string {
 		runes := []rune(fen)
 		if color == "b" {

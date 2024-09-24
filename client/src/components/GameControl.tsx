@@ -2,8 +2,8 @@ import React, { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 
 function GameControl() {
-  const [showTimeControl, setShowTimeControl] = useState<boolean>(true);
-  const [chooseColor, setChooseColor] = useState<boolean>(false);
+  const [showTimeControl, setShowTimeControl] = useState<boolean>(false);
+  const [chooseColor, setChooseColor] = useState<boolean>(true);
   const [gameTime, setGameTime] = useState<3 | 5 | 10>(3);
   const [color, setColor] = useState<"w" | "b">("w");
   const router = useRouter();
@@ -50,7 +50,7 @@ function GameControl() {
         <div className="flex flex-row p-6 pl-14">
           <button
             className={`border-${
-              showTimeControl ? "" : "2"
+              showTimeControl ? "[1px]" : "[3px]"
             } border-white pt-2 pb-2 pl-6 pr-6 rounded-md font-bold text-lg`}
             onClick={HideTimeControl}
           >
@@ -61,7 +61,7 @@ function GameControl() {
           </button>
           <button
             className={`border-${
-              showTimeControl ? "2" : ""
+              showTimeControl ? "[3px]" : "[1px]"
             } border-white pt-2 pb-2 pl-10 pr-10 rounded-md font-bold text-lg`}
             onClick={ShowTimeControl}
           >
@@ -141,7 +141,7 @@ function GameControl() {
         )}
         <div className="flex p-4 pl-24 border-b-2 border-white pb-8">
           <button
-            className="border-2 rounded-md border-white p-4 pl-20 pr-20 text-2xl font-semibold"
+            className="border-2 rounded-md border-white p-4 pl-20 pr-20 text-2xl font-semibold hover:bg-gray-700"
             onClick={startGame}
           >
             Play

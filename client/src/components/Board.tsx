@@ -9,12 +9,18 @@ import { turn } from "../functions/turn";
 import { getFirstMove, getMove } from "@/functions/getMove";
 import { promotionData } from "@/types/promotion";
 import GameOverPopUp from "./GameOverPopUp";
+import Disc from "./Disc";
+import { getPieceMove } from "@/functions/getPieceMove";
+import { isUpperCase } from "@/functions/isuppercase";
 
 function Board(props: { movable: boolean; color: "w" | "b" }) {
   const [color, setcolor] = useState<"b" | "w">(props.color);
   const [board, setboard] = useState<string[][]>(initialgamestate(color));
   const [movecount, setmovecount] = useState<number>(1);
   const [isGameOver, setIsGameOver] = useState<boolean>(false);
+  const [toggleMove, setToggleMove] = useState<boolean>(false);
+  const [reRender, setReRender] = useState<boolean>(true);
+  const pieceMove = useRef<string>("");
   const wCastle = useRef<"KQ" | "K" | "Q" | "">("KQ");
   const bCastle = useRef<"kq" | "k" | "q" | "">("kq");
   const colorToMove = useRef<"b" | "w">("w");
@@ -31,11 +37,14 @@ function Board(props: { movable: boolean; color: "w" | "b" }) {
   const validMoves = useRef<string>("");
   const reason = useRef<string>("");
   const loserColor = useRef<"w" | "b" | "">("");
+  const colorCase = color === "w" ? "C" : "c";
+  
   useEffect(() => {
     if (ref.current) {
       ref.current.focus();
     }
   }, []);
+
   function onDragStart(
     e: any,
     rowindex: number,
@@ -48,6 +57,7 @@ function Board(props: { movable: boolean; color: "w" | "b" }) {
       e.target.style.display = "none";
     }, 0);
   }
+
   function onDragEnd(e: any) {
     e.target.style.display = "block";
   }
@@ -86,7 +96,6 @@ function Board(props: { movable: boolean; color: "w" | "b" }) {
     }
     // console.log(validMoves.current, "**");
     const newposition = updateposition(
-      //updating will not work as valid moves is empty add server logic to calculate moves
       board,
       rowindex,
       colindex,
@@ -123,8 +132,17 @@ function Board(props: { movable: boolean; color: "w" | "b" }) {
       );
     }
   }
+
   function onDragOver(e: any) {
     e.preventDefault();
+  }
+
+  function toggle(piece: string, rowIdx: number, colIdx: number) {
+    pieceMove.current = getPieceMove(validMoves.current, piece, rowIdx, colIdx);
+    // console.log(validMoves.current)
+    // console.log(pieceMove.current);
+    setToggleMove(true);
+    setReRender(!reRender);
   }
 
   return (
@@ -147,13 +165,14 @@ function Board(props: { movable: boolean; color: "w" | "b" }) {
                 }`}
               >
                 <div
-                  className=""
+                  className="h-full w-full"
                   draggable={props.movable}
                   onDragEnd={onDragEnd}
                   onDragStart={(e) => onDragStart(e, rowindex, colindex, col)}
                 >
                   {col !== "1" ? (
                     <Image
+                      className="h-full w-full"
                       priority
                       draggable={props.movable}
                       src={
@@ -164,9 +183,27 @@ function Board(props: { movable: boolean; color: "w" | "b" }) {
                       alt=""
                       height={90}
                       width={90}
+                      onClick={() =>
+                        toggle(board[rowindex][colindex], rowindex, colindex)
+                      }
                     ></Image>
                   ) : (
-                    ""
+                    <></>
+                  )}
+                  {toggleMove &&
+                  (board[rowindex][colindex] === "1" ||
+                    isUpperCase(colorCase) !==
+                      isUpperCase(board[rowindex][colindex])) ? (
+                    <div className="h-full w-full grid absolute top-0 left-0">
+                      <Disc
+                        pieceMove={pieceMove.current}
+                        piece={board[rowindex][colindex]}
+                        rowIdx={rowindex}
+                        colIdx={colindex}
+                      ></Disc>
+                    </div>
+                  ) : (
+                    <></>
                   )}
                 </div>
               </div>
