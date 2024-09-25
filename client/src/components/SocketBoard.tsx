@@ -1,11 +1,9 @@
 import { useRef, useEffect, useState } from "react";
-import { updateposition } from "../functions/updateposition";
 import { initialgamestate } from "../functions/initialgamestate";
 import { fengenerator } from "../functions/fengenerator";
 import { calcCoordinates } from "../functions/calccoordinates";
 import Image from "next/image";
-import { socketturn, turn, updateTurn } from "../functions/turn";
-import { sendData } from "@/functions/senddata";
+import { turn, updateTurn } from "../functions/turn";
 import { decodefen } from "@/functions/decodefen";
 import { InitialGameStateValidator } from "@/functions/validator/jsonschema/initialgamestate";
 import { GameStateValidator } from "@/functions/validator/jsonschema/gamestate";
@@ -15,9 +13,10 @@ import PromotionPopUp from "./PromotionPopUp";
 import TimeControl from "./TimeControl";
 import GameOverPopUp from "./GameOverPopUp";
 import { Fen } from "@/types/fen";
-import Disc from "./Disc";
 import { getPieceMove } from "@/functions/getPieceMove";
 import { isUpperCase } from "@/functions/isuppercase";
+import { MakeMove } from "@/functions/makeMove";
+import SocketDisc from "./SocketDisc";
 
 function SocketBoard(props: {
   movable: boolean;
@@ -142,17 +141,15 @@ function SocketBoard(props: {
     if (!turn(colorToMove.current, piece)) {
       return;
     }
-    if (!socketturn(colorToMove.current, color.current)) {
-      return;
-    }
-    const newposition = updateposition(
+    MakeMove(
       board,
       rowindex,
       colindex,
       x,
       y,
       piece,
-      color.current,
+      oldfen,
+      color,
       wCastle,
       bCastle,
       isCheck,
@@ -160,28 +157,11 @@ function SocketBoard(props: {
       bKingPos,
       enPassant,
       Promotion,
-      validMoves
+      validMoves,
+      colorToMove,
+      setboard,
+      props.socket
     );
-    setboard(newposition);
-    const newfen = fengenerator(newposition, color.current, wCastle, bCastle);
-    if (
-      oldfen !== newfen &&
-      color.current === colorToMove.current &&
-      Promotion.current.isPromotion === false
-    ) {
-      colorToMove.current = colorToMove.current === "w" ? "b" : "w";
-      sendData(
-        newfen,
-        props.socket,
-        rowindex,
-        colindex,
-        x,
-        y,
-        isCheck,
-        enPassant
-      );
-      enPassant.current = "";
-    }
   }
 
   function onDragOver(e: any) {
@@ -190,8 +170,6 @@ function SocketBoard(props: {
 
   function toggle(piece: string, rowIdx: number, colIdx: number) {
     pieceMove.current = getPieceMove(validMoves.current, piece, rowIdx, colIdx);
-    // console.log(validMoves.current)
-    // console.log(pieceMove.current);
     setToggleMove(true);
     setReRender(!reRender);
   }
@@ -256,12 +234,26 @@ function SocketBoard(props: {
                       isUpperCase(colorCase) !==
                         isUpperCase(board[rowindex][colindex])) ? (
                       <div className="h-full w-full grid absolute top-0 left-0">
-                        <Disc
+                        <SocketDisc
+                          board={board}
                           pieceMove={pieceMove.current}
                           piece={board[rowindex][colindex]}
-                          rowIdx={rowindex}
-                          colIdx={colindex}
-                        ></Disc>
+                          destRow={rowindex}
+                          destCol={colindex}
+                          color={color}
+                          wCastle={wCastle}
+                          bCastle={bCastle}
+                          isCheck={isCheck}
+                          wKingPos={wKingPos}
+                          bKingPos={bKingPos}
+                          enPassant={enPassant}
+                          Promotion={Promotion}
+                          validMoves={validMoves}
+                          colorToMove={colorToMove}
+                          setboard={setboard}
+                          setToggleMove={setToggleMove}
+                          socket={props.socket}
+                        ></SocketDisc>
                       </div>
                     ) : (
                       <></>

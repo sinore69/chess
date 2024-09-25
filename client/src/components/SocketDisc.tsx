@@ -1,14 +1,14 @@
-import { MakeBotMove } from "@/functions/botmove";
+import { MakeMove } from "@/functions/makeMove";
 import { promotionData } from "@/types/promotion";
 import React, { Dispatch, MutableRefObject, SetStateAction } from "react";
 
-function Disc(props: {
+function SocketDisc(props: {
   board: string[][];
   pieceMove: string;
   piece: string;
   destRow: number;
   destCol: number;
-  color: string;
+  color: MutableRefObject<"b" | "w">;
   wCastle: MutableRefObject<"" | "KQ" | "K" | "Q">;
   bCastle: MutableRefObject<"" | "kq" | "k" | "q">;
   isCheck: MutableRefObject<boolean>;
@@ -20,9 +20,7 @@ function Disc(props: {
   colorToMove: MutableRefObject<"b" | "w">;
   setboard: Dispatch<SetStateAction<string[][]>>;
   setToggleMove: Dispatch<SetStateAction<boolean>>;
-  setIsGameOver: React.Dispatch<React.SetStateAction<boolean>>;
-  reason: React.MutableRefObject<string>;
-  loserColor: React.MutableRefObject<"" | "b" | "w">;
+  socket: WebSocket;
 }) {
   const words = props.pieceMove.split(" ");
   let srcRow: number, srcCol: number, piece: string;
@@ -38,7 +36,7 @@ function Disc(props: {
     <div
       className="h-full w-full absolute grid"
       onClick={() => {
-        MakeBotMove(
+        MakeMove(
           props.board,
           srcRow,
           srcCol,
@@ -57,9 +55,7 @@ function Disc(props: {
           props.validMoves,
           props.colorToMove,
           props.setboard,
-          props.setIsGameOver,
-          props.reason,
-          props.loserColor
+          props.socket
         );
         props.setToggleMove(false);
       }}
@@ -71,4 +67,4 @@ function Disc(props: {
   );
 }
 
-export default Disc;
+export default SocketDisc;

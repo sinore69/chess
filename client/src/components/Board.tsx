@@ -12,6 +12,7 @@ import GameOverPopUp from "./GameOverPopUp";
 import Disc from "./Disc";
 import { getPieceMove } from "@/functions/getPieceMove";
 import { isUpperCase } from "@/functions/isuppercase";
+import { MakeBotMove } from "@/functions/botmove";
 
 function Board(props: { movable: boolean; color: "w" | "b" }) {
   const [color, setcolor] = useState<"b" | "w">(props.color);
@@ -38,7 +39,7 @@ function Board(props: { movable: boolean; color: "w" | "b" }) {
   const reason = useRef<string>("");
   const loserColor = useRef<"w" | "b" | "">("");
   const colorCase = color === "w" ? "C" : "c";
-  
+
   useEffect(() => {
     if (ref.current) {
       ref.current.focus();
@@ -94,14 +95,14 @@ function Board(props: { movable: boolean; color: "w" | "b" }) {
     if (!turn(colorToMove.current, piece)) {
       return;
     }
-    // console.log(validMoves.current, "**");
-    const newposition = updateposition(
+    MakeBotMove(
       board,
       rowindex,
       colindex,
       x,
       y,
       piece,
+      oldfen,
       color,
       wCastle,
       bCastle,
@@ -110,27 +111,13 @@ function Board(props: { movable: boolean; color: "w" | "b" }) {
       bKingPos,
       enPassant,
       Promotion,
-      validMoves
+      validMoves,
+      colorToMove,
+      setboard,
+      setIsGameOver,
+      reason,
+      loserColor
     );
-    setboard(newposition);
-    const newfen = fengenerator(newposition, color, wCastle, bCastle);
-    if (oldfen !== newfen) {
-      colorToMove.current = color === "w" ? "b" : "w";
-      getMove(
-        newfen,
-        setboard,
-        wCastle,
-        bCastle,
-        colorToMove,
-        wKingPos,
-        bKingPos,
-        validMoves,
-        setIsGameOver,
-        reason,
-        color,
-        loserColor
-      );
-    }
   }
 
   function onDragOver(e: any) {
@@ -196,10 +183,26 @@ function Board(props: { movable: boolean; color: "w" | "b" }) {
                       isUpperCase(board[rowindex][colindex])) ? (
                     <div className="h-full w-full grid absolute top-0 left-0">
                       <Disc
+                        board={board}
                         pieceMove={pieceMove.current}
                         piece={board[rowindex][colindex]}
-                        rowIdx={rowindex}
-                        colIdx={colindex}
+                        destRow={rowindex}
+                        destCol={colindex}
+                        color={color}
+                        wCastle={wCastle}
+                        bCastle={bCastle}
+                        isCheck={isCheck}
+                        wKingPos={wKingPos}
+                        bKingPos={bKingPos}
+                        enPassant={enPassant}
+                        Promotion={Promotion}
+                        validMoves={validMoves}
+                        colorToMove={colorToMove}
+                        setboard={setboard}
+                        setToggleMove={setToggleMove}
+                        setIsGameOver={setIsGameOver}
+                        reason={reason}
+                        loserColor={loserColor}
                       ></Disc>
                     </div>
                   ) : (

@@ -7,6 +7,5 @@ export function getPieceMove(
   const words = validMove.split(" ");
   const prefix = piece + "" + row + "" + col;
   const matchingWords = words.filter((word) => word.startsWith(prefix));
-  const lastTwoChars = matchingWords.map((word) => word.slice(-2));
-  return lastTwoChars.join(" ");
+  return matchingWords.join(" ");
 }
