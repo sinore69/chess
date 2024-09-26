@@ -6,7 +6,7 @@ import (
 )
 
 // Function to get all possible king moves
-func AllKingMove(board [8][8]string, color string, row, col int, piece, wKingPos, bKingPos string) string {
+func AllKingMove(board [8][8]string, color string, row, col int, piece, wKingPos, bKingPos, wCastle, bCastle string) string {
 	ogPos := fmt.Sprintf("%s%d%d", piece, row, col)
 	var moves []string
 	if color == "w" && !IsUpperCase(piece) {
@@ -41,7 +41,31 @@ func AllKingMove(board [8][8]string, color string, row, col int, piece, wKingPos
 			}
 		}
 	}
-	if len(moves)==0{
+	if color == "w" {
+		if strings.Contains(wCastle, "K") {
+			if board[7][5] == "1" && board[7][6] == "1" {
+				moves = append(moves, fmt.Sprintf("%s%d%d", ogPos, 7, 6))
+			}
+		}
+		if strings.Contains(wCastle, "Q") {
+			if board[7][1] == "1" && board[7][2] == "1" && board[7][3] == "1" {
+				moves = append(moves, fmt.Sprintf("%s%d%d", ogPos, 7, 2))
+			}
+		}
+	}
+	if color == "b" {
+		if strings.Contains(bCastle, "k") {
+			if board[7][1] == "1" && board[7][2] == "1" {
+				moves = append(moves, fmt.Sprintf("%s%d%d", ogPos, 7, 1))
+			}
+		}
+		if strings.Contains(bCastle, "q") {
+			if board[7][4] == "1" && board[7][5] == "1" && board[7][6] == "1" {
+				moves = append(moves, fmt.Sprintf("%s%d%d", ogPos, 7, 5))
+			}
+		}
+	}
+	if len(moves) == 0 {
 		return ""
 	}
 	return strings.Join(moves, " ")

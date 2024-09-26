@@ -36,6 +36,18 @@ export function updateposition(
       newboard[i][j] = board[i][j];
     }
   }
+  if (piece === "k" || piece === "K") {
+    newboard = iscastle(
+      srcRow,
+      srcCol,
+      destRow,
+      destCol,
+      newboard,
+      color,
+      wCastle,
+      bCastle
+    );
+  }
   if (
     isvalidmove(
       srcRow,
@@ -64,17 +76,5 @@ export function updateposition(
     newboard[destRow][destCol] = piece;
   }
 
-  if (piece === "k" || piece === "K") {
-    newboard = iscastle(
-      srcRow,
-      srcCol,
-      destRow,
-      destCol,
-      newboard,
-      color,
-      wCastle,
-      bCastle
-    );
-  }
-  return kingSafety ? [...newboard] : [...board];
+  return [...newboard];
 }

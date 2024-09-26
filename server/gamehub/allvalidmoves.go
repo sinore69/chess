@@ -18,6 +18,18 @@ func AllPossibleMove(fen string) string {
 		}
 		return string(runes)
 	}(fenArray[0], color))
+	wCastle := ""
+	bCastle := ""
+	for i := 0; i < len(fenArray[2]); i++ {
+		if string(fenArray[2][0]) == "-" {
+			break
+		}
+		if functions.IsUpperCase(string(fenArray[2][i])) {
+			wCastle = wCastle + string(fenArray[2][i])
+		} else {
+			bCastle = bCastle + string(fenArray[2][i])
+		}
+	}
 	for row := 0; row < 8; row++ {
 		for col := 0; col < 8; col++ {
 			switch board[row][col] {
@@ -39,7 +51,7 @@ func AllPossibleMove(fen string) string {
 			case "n":
 				fallthrough
 			case "N":
-				allknightmove := functions.AllKnightMoves(board, color, row, col, board[row][col],wKingPos,bKingPos)
+				allknightmove := functions.AllKnightMoves(board, color, row, col, board[row][col], wKingPos, bKingPos)
 				if len(allknightmove) > 0 {
 					allPossibleMove = allPossibleMove + allknightmove + " "
 				}
@@ -60,7 +72,7 @@ func AllPossibleMove(fen string) string {
 			case "k":
 				fallthrough
 			case "K":
-				allkingmove := functions.AllKingMove(board, color, row, col, board[row][col],wKingPos,bKingPos)
+				allkingmove := functions.AllKingMove(board, color, row, col, board[row][col], wKingPos, bKingPos, wCastle, bCastle)
 				if len(allkingmove) > 0 {
 					allPossibleMove = allPossibleMove + allkingmove + " "
 				}

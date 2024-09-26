@@ -1,7 +1,6 @@
 import { MutableRefObject } from "react";
 import { withinbounds } from "../withinbounds";
 import { isUpperCase } from "../isuppercase";
-import { checkKingSafety } from "../undercheck";
 
 export function isPawnCheck(
   board: string[][],

@@ -26,9 +26,6 @@ export function MakeMove(
   setboard: Dispatch<SetStateAction<string[][]>>,
   socket: WebSocket
 ) {
-  // console.log(
-  //   srcRow + " " + srcCol + " " + destRow + " " + destCol + " " + piece
-  // );
   if (!socketturn(colorToMove.current, color.current)) {
     return;
   }
