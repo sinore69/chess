@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 
 function GameControl() {
@@ -46,8 +46,8 @@ function GameControl() {
   return (
     <div className="">
       {loading ? (
-        <div className="fixed top-0 left-0 w-full h-1 bg-blue-500">
-          <div className="h-full w-1/4 bg-blue-700 animate-slide"></div>
+        <div className="fixed inset-0 flex items-center justify-center">
+          <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
         </div>
       ) : (
         <></>
