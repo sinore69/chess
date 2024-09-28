@@ -7,7 +7,7 @@ function GameControl() {
   const [gameTime, setGameTime] = useState<3 | 5 | 10>(3);
   const [color, setColor] = useState<"w" | "b">("w");
   const router = useRouter();
-
+  const [loading, setLoading] = useState<boolean>(false);
   function ShowTimeControl() {
     setShowTimeControl(true);
     setChooseColor(false);
@@ -18,14 +18,17 @@ function GameControl() {
   }
   function startGame() {
     if (showTimeControl) {
+      setLoading(true);
       router.push("/create");
       sessionStorage.setItem("gameTime", "" + gameTime);
     } else {
+      setLoading(true);
       router.push(`/bot/${color}`);
     }
   }
   function handler(e: any) {
     e.preventDefault();
+    setLoading(true);
     router.push("/join");
   }
   function changeTimeControl(time: number) {
@@ -42,6 +45,13 @@ function GameControl() {
 
   return (
     <div className="">
+      {loading ? (
+        <div className="fixed top-0 left-0 w-full h-1 bg-blue-500">
+          <div className="h-full w-1/4 bg-blue-700 animate-slide"></div>
+        </div>
+      ) : (
+        <></>
+      )}
       <div className="h-[20px]"></div>
       <div className="p-3 pt-2 lg:h-[100%] lg:w-[100%] bg-gray-900 flex flex-col text-white">
         <div className="p-6 pl-28 text-3xl font-bold border-b-2 border-white">

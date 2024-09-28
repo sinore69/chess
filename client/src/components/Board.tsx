@@ -126,8 +126,6 @@ function Board(props: { movable: boolean; color: "w" | "b" }) {
 
   function toggle(piece: string, rowIdx: number, colIdx: number) {
     pieceMove.current = getPieceMove(validMoves.current, piece, rowIdx, colIdx);
-    // console.log(validMoves.current)
-    // console.log(pieceMove.current);
     setToggleMove(true);
     setReRender(!reRender);
   }
