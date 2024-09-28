@@ -34,13 +34,16 @@ func AllKingMove(board [8][8]string, color string, row, col int, piece, wKingPos
 					bKingPos = fmt.Sprintf("%d%d", destRow, destCol)
 				}
 				if IsKingSafe(board, wKingPos, bKingPos, color) {
-					moves = append(moves, fmt.Sprintf("%s%d%d", ogPos, destRow, destCol))
+					if notKingAdjacent(board, destRow, destCol, piece) {
+						moves = append(moves, fmt.Sprintf("%s%d%d", ogPos, destRow, destCol))
+					}
 				}
 				board[row][col] = piece
 				board[destRow][destCol] = dummyPiece
 			}
 		}
 	}
+	//castle logic
 	if color == "w" {
 		if strings.Contains(wCastle, "K") {
 			if board[7][5] == "1" && board[7][6] == "1" {
@@ -69,4 +72,22 @@ func AllKingMove(board [8][8]string, color string, row, col int, piece, wKingPos
 		return ""
 	}
 	return strings.Join(moves, " ")
+}
+
+func notKingAdjacent(board [8][8]string, row int, col int, piece string) bool {
+	rowArr := []int{-1, -1, 0, 1, 1, 1, 0, -1}
+	colArr := []int{0, 1, 1, 1, 0, -1, -1, -1}
+
+	for i := 0; i < 8; i++ {
+		destRow := row + rowArr[i]
+		destCol := col + colArr[i]
+		if WithinBounds(destRow, destCol) {
+			if board[destRow][destCol] == "k" || board[destRow][destCol] == "K" {
+				if IsUpperCase(board[destRow][destCol]) != IsUpperCase(piece) {
+					return false
+				}
+			}
+		}
+	}
+	return true
 }
