@@ -7,8 +7,11 @@ import (
 	"strings"
 )
 
-func Newfen(fen string, evalmove string) (string, string) {
+func Newfen(fen string, evalmove string) (string, string, error) {
 	fenarray := strings.Split(fen, " ")
+	if len(fenarray) != 6 {
+		return "", "", fmt.Errorf("invalid fen")
+	}
 	board, _, _ := Decodefen(fenarray[0])
 	color := fenarray[1]
 	castleInfo := fenarray[2]
@@ -17,7 +20,7 @@ func Newfen(fen string, evalmove string) (string, string) {
 		panic("invalid last move generation")
 	}
 	newfen := Genfen(newboard, color, castleValue)
-	return newfen, lastMove
+	return newfen, lastMove, nil
 }
 
 func Decodefen(fen string) ([8][8]string, string, string) {

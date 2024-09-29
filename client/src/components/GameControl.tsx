@@ -61,7 +61,7 @@ function GameControl() {
           <button
             className={`border-${
               showTimeControl ? "[1px]" : "[3px]"
-            } border-white pt-2 pb-2 pl-6 pr-6 rounded-md font-bold text-lg`}
+            } border-white pt-2 pb-2 pl-6 pr-6 rounded-md font-bold text-lg hover:bg-gray-700`}
             onClick={HideTimeControl}
           >
             Computer
@@ -72,7 +72,7 @@ function GameControl() {
           <button
             className={`border-${
               showTimeControl ? "[3px]" : "[1px]"
-            } border-white pt-2 pb-2 pl-10 pr-10 rounded-md font-bold text-lg`}
+            } border-white pt-2 pb-2 pl-10 pr-10 rounded-md font-bold text-lg hover:bg-gray-700`}
             onClick={ShowTimeControl}
           >
             Friend
@@ -87,7 +87,7 @@ function GameControl() {
               <button
                 className={`rounded-md border-white p-2 pl-4 pr-4 ${
                   gameTime === 3 ? `border-[3px]` : `border-2`
-                }`}
+                } hover:bg-gray-700`}
                 onClick={() => changeTimeControl(3)}
               >
                 3
@@ -98,7 +98,7 @@ function GameControl() {
               <button
                 className={`rounded-md border-white p-2 pl-4 pr-4 ${
                   gameTime === 5 ? `border-[3px]` : `border-2`
-                }`}
+                } hover:bg-gray-700`}
                 onClick={() => changeTimeControl(5)}
               >
                 5
@@ -109,7 +109,7 @@ function GameControl() {
               <button
                 className={`rounded-md border-white p-2 pl-4 pr-4 ${
                   gameTime === 10 ? `border-[3px]` : `border-2`
-                }`}
+                } hover:bg-gray-700`}
                 onClick={() => changeTimeControl(10)}
               >
                 10
@@ -126,9 +126,9 @@ function GameControl() {
             </div>
             <div className="p-6 pl-28">
               <button
-                className={` rounded-md border-white p-2 pl-4 pr-4 ${
+                className={`rounded-md border-white p-2 pl-4 pr-4 ${
                   color === "w" ? "border-[3px]" : "border-[1px]"
-                }`}
+                } hover:bg-gray-700`}
                 onClick={changeColorToWhite}
               >
                 White
@@ -139,7 +139,7 @@ function GameControl() {
               <button
                 className={`border-[1px] rounded-md border-white p-2 pl-4 pr-4 ${
                   color === "b" ? "focus:border-[3px]" : "border-[1px]"
-                }`}
+                } hover:bg-gray-700`}
                 onClick={changeColorToBlack}
               >
                 Black

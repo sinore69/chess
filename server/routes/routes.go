@@ -66,7 +66,7 @@ func Bot(w http.ResponseWriter, r *http.Request) {
 	}
 	if error.Text == "extendMoveInfo: move must not be undefined" || error.Error == "INVALID_INPUT" {
 		newfen := types.Fen{
-			Fen:        string(body)[1:len(string(body))-1],
+			Fen:        string(body)[1 : len(string(body))-1],
 			Moves:      "######",
 			IsGameOver: true,
 		}
@@ -77,7 +77,10 @@ func Bot(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	bestmove := eval.From + eval.To
-	newFen, lastMove := functions.Newfen(eval.Fen, bestmove)
+	newFen, lastMove, err := functions.Newfen(eval.Fen, bestmove)
+	if err != nil {
+		log.Println(err)
+	}
 	allPossibleMove := gamehub.AllPossibleMove(newFen)
 	newfen := types.Fen{
 		Fen:      newFen,
@@ -142,10 +145,14 @@ outer:
 		err = json.Unmarshal(msg, &result)
 		if err != nil {
 			log.Println(err)
+			conn.Close()
+			break outer
 		}
 		err = json.Unmarshal(msg, &gametime)
 		if err != nil {
 			log.Println(err)
+			conn.Close()
+			break outer
 		}
 		if gametime.GameTime != "" {
 			log.Println(gametime.GameTime)
@@ -153,6 +160,8 @@ outer:
 			room := g.GameRoom[1]
 			if err != nil {
 				log.Println("Error:", err)
+				conn.Close()
+				break outer
 			} else {
 				room.Time = time
 				g.GameRoom[1] = room

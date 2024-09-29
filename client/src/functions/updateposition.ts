@@ -20,7 +20,6 @@ export function updateposition(
   promotion: React.MutableRefObject<promotionData>,
   validMoves: MutableRefObject<string>
 ) {
-  let kingSafety: boolean = true;
   let newboard = [
     ["1", "1", "1", "1", "1", "1", "1", "1"],
     ["1", "1", "1", "1", "1", "1", "1", "1"],
@@ -60,10 +59,6 @@ export function updateposition(
       wCastle,
       bCastle,
       isCheck,
-      wKingPos,
-      bKingPos,
-      enPassant,
-      promotion,
       validMoves
     )
   ) {
@@ -75,6 +70,5 @@ export function updateposition(
     newboard[srcRow][srcCol] = "1";
     newboard[destRow][destCol] = piece;
   }
-
   return [...newboard];
 }

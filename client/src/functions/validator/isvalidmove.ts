@@ -1,4 +1,3 @@
-import { promotionData } from "@/types/promotion";
 import { isBishopCheck } from "./bishop";
 import { isKnightCheck } from "./knight";
 import { isPawnCheck } from "./pawn";
@@ -18,10 +17,6 @@ export function isvalidmove(
   wCastle: React.MutableRefObject<"" | "KQ" | "K" | "Q">,
   bCastle: React.MutableRefObject<"" | "kq" | "k" | "q">,
   isCheck: React.MutableRefObject<boolean>,
-  wKingPos: React.MutableRefObject<string>,
-  bKingPos: React.MutableRefObject<string>,
-  enPassant: React.MutableRefObject<string>,
-  promotion: React.MutableRefObject<promotionData>,
   validMoves: MutableRefObject<string>
 ) {
   const moveMade = piece + srcRow + srcCol + destRow + destCol;
