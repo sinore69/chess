@@ -25,7 +25,8 @@ export function MakeBotMove(
   setboard: Dispatch<SetStateAction<string[][]>>,
   setIsGameOver: Dispatch<SetStateAction<boolean>>,
   reason: MutableRefObject<string>,
-  loserColor: MutableRefObject<"" | "w" | "b">
+  loserColor: MutableRefObject<"" | "w" | "b">,
+  setLastMove: React.Dispatch<React.SetStateAction<string>>
 ) {
   const newposition = updateposition(
     board,
@@ -45,6 +46,8 @@ export function MakeBotMove(
     validMoves
   );
   setboard(newposition);
+  const lastmove = "" + srcRow + srcCol + destRow + destCol;
+  setLastMove(lastmove);
   const newfen = fengenerator(newposition, color, wCastle, bCastle);
   if (oldfen !== newfen) {
     colorToMove.current = color === "w" ? "b" : "w";
@@ -60,7 +63,8 @@ export function MakeBotMove(
       setIsGameOver,
       reason,
       color,
-      loserColor
+      loserColor,
+      setLastMove
     );
   }
 }

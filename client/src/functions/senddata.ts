@@ -1,5 +1,6 @@
 import { Fen } from "@/types/fen";
 import { calcLastMove, fromNumeric, toNumeric } from "./calcMove";
+import { Dispatch, SetStateAction } from "react";
 
 export function sendData(
   fen: string,
@@ -9,7 +10,8 @@ export function sendData(
   destRow: number,
   destCol: number,
   isCheck: React.MutableRefObject<boolean>,
-  enPassant: React.MutableRefObject<string>
+  enPassant: React.MutableRefObject<string>,
+  setLastMove: Dispatch<SetStateAction<string>>
 ) {
   const lastmove = calcLastMove(srcRow, srcCol, destRow, destCol, isCheck);
   const fromnumeric = fromNumeric(srcRow, srcCol);
@@ -28,5 +30,6 @@ export function sendData(
   };
   if (socket.readyState === 1) {
     socket.send(JSON.stringify(data));
+    setLastMove(lastmove);
   }
 }

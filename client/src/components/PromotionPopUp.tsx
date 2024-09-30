@@ -3,12 +3,13 @@ import IsCheck from "@/functions/IsCheck";
 import { sendData } from "@/functions/senddata";
 import { promotionData } from "@/types/promotion";
 import Image from "next/image";
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 
 function PromotionPopUp(props: {
   promotion: React.MutableRefObject<promotionData>;
   board: string[][];
   setboard: React.Dispatch<React.SetStateAction<string[][]>>;
+  setLastMove: Dispatch<SetStateAction<string>>;
   isCheck: React.MutableRefObject<boolean>;
   colorToMove: React.MutableRefObject<"w" | "b">;
   enPassant: React.MutableRefObject<string>;
@@ -51,7 +52,8 @@ function PromotionPopUp(props: {
       destRow,
       destCol,
       props.isCheck,
-      props.enPassant
+      props.enPassant,
+      props.setLastMove
     );
     props.promotion.current.isPromotion = false;
     props.promotion.current.color = "";

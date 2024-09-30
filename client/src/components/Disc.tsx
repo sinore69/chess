@@ -21,6 +21,7 @@ function Disc(props: {
   setboard: Dispatch<SetStateAction<string[][]>>;
   setToggleMove: Dispatch<SetStateAction<boolean>>;
   setIsGameOver: React.Dispatch<React.SetStateAction<boolean>>;
+  setLastMove: React.Dispatch<React.SetStateAction<string>>;
   reason: React.MutableRefObject<string>;
   loserColor: React.MutableRefObject<"" | "b" | "w">;
 }) {
@@ -59,7 +60,8 @@ function Disc(props: {
           props.setboard,
           props.setIsGameOver,
           props.reason,
-          props.loserColor
+          props.loserColor,
+          props.setLastMove
         );
         props.setToggleMove(false);
       }}

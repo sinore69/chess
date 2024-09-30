@@ -1,6 +1,5 @@
 import { useRef, useEffect, useState } from "react";
 import React from "react";
-import { updateposition } from "../functions/updateposition";
 import { initialgamestate } from "../functions/initialgamestate";
 import { fengenerator } from "../functions/fengenerator";
 import { calcCoordinates } from "../functions/calccoordinates";
@@ -39,7 +38,7 @@ function Board(props: { movable: boolean; color: "w" | "b" }) {
   const reason = useRef<string>("");
   const loserColor = useRef<"w" | "b" | "">("");
   const colorCase = color === "w" ? "C" : "c";
-
+  const [lastMove, setLastMove] = useState<string>("");
   useEffect(() => {
     if (ref.current) {
       ref.current.focus();
@@ -77,7 +76,8 @@ function Board(props: { movable: boolean; color: "w" | "b" }) {
       setIsGameOver,
       reason,
       color,
-      loserColor
+      loserColor,
+      setLastMove
     );
   }
 
@@ -116,7 +116,8 @@ function Board(props: { movable: boolean; color: "w" | "b" }) {
       setboard,
       setIsGameOver,
       reason,
-      loserColor
+      loserColor,
+      setLastMove
     );
   }
 
@@ -144,7 +145,10 @@ function Board(props: { movable: boolean; color: "w" | "b" }) {
               <div
                 key={colindex}
                 className={`h-12 w-12 sm:h-20 sm:w-20 lg:h-[90px] lg:w-[90px] border-black relative ${
-                  (colindex + rowindex + 1) % 2 === 0
+                  "" + rowindex + colindex === lastMove.substring(0, 2) ||
+                  "" + rowindex + colindex === lastMove.substring(2, 4)
+                    ? "bg-blue-200"
+                    : (colindex + rowindex + 1) % 2 === 0
                     ? "bg-slate-300"
                     : "bg-white"
                 }`}
@@ -199,6 +203,7 @@ function Board(props: { movable: boolean; color: "w" | "b" }) {
                         setboard={setboard}
                         setToggleMove={setToggleMove}
                         setIsGameOver={setIsGameOver}
+                        setLastMove={setLastMove}
                         reason={reason}
                         loserColor={loserColor}
                       ></Disc>

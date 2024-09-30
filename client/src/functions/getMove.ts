@@ -14,7 +14,8 @@ export async function getMove(
   setIsGameOver: React.Dispatch<React.SetStateAction<boolean>>,
   reason: React.MutableRefObject<string>,
   color: string,
-  loserColor: React.MutableRefObject<"" | "w" | "b">
+  loserColor: React.MutableRefObject<"" | "w" | "b">,
+  setLastMove: React.Dispatch<React.SetStateAction<string>>
 ) {
   const data = {
     fen: fen,
@@ -24,6 +25,7 @@ export async function getMove(
     body: JSON.stringify(data),
   });
   const resp = (await res.json()) as Fen;
+  console.log(resp);
   //player win
   if (resp.isGameOver) {
     setIsGameOver(true);
@@ -35,6 +37,7 @@ export async function getMove(
   setboard(newPosition);
   colorToMove.current = updateTurn(resp.fen);
   validMoves.current = resp.moves;
+  setLastMove(resp.lastMove);
   //computer win
   if (validMoves.current.length < 5) {
     setIsGameOver(true);

@@ -51,6 +51,7 @@ function SocketBoard(props: {
   const loserColor = useRef<"b" | "w" | "">("");
   const reason = useRef<string>("");
   const colorCase = color.current === "w" ? "C" : "c";
+  const [lastMove, setLastMove] = useState<string>("");
   useEffect(() => {
     if (ref.current) {
       ref.current.focus();
@@ -112,6 +113,15 @@ function SocketBoard(props: {
         colorToMove.current = updateTurn(data.fen);
         isCheck.current = false;
         isUnderCheck.current = IsUnderCheck(data.lastMove);
+        if (data.lastMove.length >= 0) {
+          const lastmove: string = (data.lastMove as string).substring(0, 4);
+          setLastMove(
+            lastmove
+              .split("")
+              .map((digit) => 7 - parseInt(digit))
+              .join("")
+          );
+        }
       }
     };
   }, [props.playAs, props.socket]);
@@ -160,6 +170,7 @@ function SocketBoard(props: {
       validMoves,
       colorToMove,
       setboard,
+      setLastMove,
       props.socket
     );
   }
@@ -198,7 +209,10 @@ function SocketBoard(props: {
                 <div
                   key={colindex}
                   className={`h-12 w-12 sm:h-20 sm:w-20 lg:h-[80px] lg:w-[80px] border-black relative ${
-                    (colindex + rowindex + 1) % 2 === 0
+                    "" + rowindex + colindex === lastMove.substring(0, 2) ||
+                    "" + rowindex + colindex === lastMove.substring(2, 4)
+                      ? "bg-blue-200"
+                      : (colindex + rowindex + 1) % 2 === 0
                       ? "bg-slate-300"
                       : "bg-white"
                   }`}
@@ -252,6 +266,7 @@ function SocketBoard(props: {
                           colorToMove={colorToMove}
                           setboard={setboard}
                           setToggleMove={setToggleMove}
+                          setLastMove={setLastMove}
                           socket={props.socket}
                         ></SocketDisc>
                       </div>
@@ -283,6 +298,7 @@ function SocketBoard(props: {
                 promotion={Promotion}
                 board={board}
                 setboard={setboard}
+                setLastMove={setLastMove}
                 isCheck={isCheck}
                 colorToMove={colorToMove}
                 enPassant={enPassant}

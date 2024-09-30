@@ -24,6 +24,7 @@ export function MakeMove(
   validMoves: MutableRefObject<string>,
   colorToMove: MutableRefObject<"b" | "w">,
   setboard: Dispatch<SetStateAction<string[][]>>,
+  setLastMove: Dispatch<SetStateAction<string>>,
   socket: WebSocket
 ) {
   if (!socketturn(colorToMove.current, color.current)) {
@@ -62,7 +63,8 @@ export function MakeMove(
       destRow,
       destCol,
       isCheck,
-      enPassant
+      enPassant,
+      setLastMove
     );
     enPassant.current = "";
   }

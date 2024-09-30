@@ -20,6 +20,7 @@ function SocketDisc(props: {
   colorToMove: MutableRefObject<"b" | "w">;
   setboard: Dispatch<SetStateAction<string[][]>>;
   setToggleMove: Dispatch<SetStateAction<boolean>>;
+  setLastMove: Dispatch<SetStateAction<string>>;
   socket: WebSocket;
 }) {
   const words = props.pieceMove.split(" ");
@@ -55,6 +56,7 @@ function SocketDisc(props: {
           props.validMoves,
           props.colorToMove,
           props.setboard,
+          props.setLastMove,
           props.socket
         );
         props.setToggleMove(false);
