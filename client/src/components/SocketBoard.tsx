@@ -299,7 +299,7 @@ function SocketBoard(props: {
             <></>
           )}
           {Promotion.current.isPromotion ? (
-            <div className="absolute top-[37.5%] left-[13.5%] sm:top-[35.5%] sm:left-[23%] h-[15%] w-[54%]">
+            <div className="absolute top-[37.5%] left-[9.5%] sm:top-[35.5%] sm:left-[23%] h-[15%] w-[54%]">
               <PromotionPopUp
                 promotion={Promotion}
                 board={board}
