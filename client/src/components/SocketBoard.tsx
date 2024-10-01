@@ -208,7 +208,7 @@ function SocketBoard(props: {
               {row.map((col: string, colindex) => (
                 <div
                   key={colindex}
-                  className={`h-[30%] w-[30%] border-black relative ${
+                  className={`h-12 w-12 sm:h-20 sm:w-20 lg:h-[80px] lg:w-[80px] border-black relative ${
                     "" + rowindex + colindex === lastMove.substring(0, 2) ||
                     "" + rowindex + colindex === lastMove.substring(2, 4)
                       ? "bg-blue-200"
