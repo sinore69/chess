@@ -40,8 +40,8 @@ function TimeControl(props: {
     return () => clearInterval(timer);
   });
   return (
-    <div className="flex-grow top-0 left-10 h-14 w-32 lg:h-11 lg:w-28 bg-white border-2 border-black">
-      <div className="text-2xl p-1 pl-4 font-semibold">
+    <div className="flex-grow top-0 left-10 w-32 sm:h-9 md:h-9 lg:h-10 lg:w-28 h-10 bg-white border-2 border-black">
+      <div className="text-2xl p-1 md:p-0 md:pl-4 pl-4 sm:p-0 sm:pl-4 font-semibold">
         {minutes <= 9 ? "0" + minutes : minutes}:
         {seconds <= 9 ? "0" + seconds : seconds}
       </div>

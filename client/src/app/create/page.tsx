@@ -23,7 +23,7 @@ function Page() {
   return (
     <>
       {connectionState ? (
-        <div className="flex p-1 gap-x-4 bg-black box-border max-h-screen min-h-screen">
+        <div className="flex p-1 gap-x-4 bg-black box-border h-[100%] w-[100%] flex-col sm:flex-row md:flex-row">
           <SocketBoard
             movable={true}
             socket={socket}

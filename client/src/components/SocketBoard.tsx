@@ -186,8 +186,8 @@ function SocketBoard(props: {
   }
 
   return (
-    <div className="relative justify-start flex-col min-h-screen box-border max-h-full inline-block">
-      <div className="bg-black">
+    <div className="relative justify-start flex-col box-border w-[100%] h-[100%]">
+      <div className="h-full w-full bg-black">
         {startTimer ? (
           <TimeControl
             time={timeControl}
@@ -208,7 +208,7 @@ function SocketBoard(props: {
               {row.map((col: string, colindex) => (
                 <div
                   key={colindex}
-                  className={`h-12 w-12 sm:h-20 sm:w-20 lg:h-[80px] lg:w-[80px] border-black relative ${
+                  className={`h-[30%] w-[30%] border-black relative ${
                     "" + rowindex + colindex === lastMove.substring(0, 2) ||
                     "" + rowindex + colindex === lastMove.substring(2, 4)
                       ? "bg-blue-200"
@@ -241,7 +241,13 @@ function SocketBoard(props: {
                         }
                       ></Image>
                     ) : (
-                      <></>
+                      <Image
+                        src={"/empty.png"}
+                        height={80}
+                        width={80}
+                        priority
+                        alt=""
+                      ></Image>
                     )}
                     {toggleMove &&
                     (board[rowindex][colindex] === "1" ||
@@ -293,7 +299,7 @@ function SocketBoard(props: {
             <></>
           )}
           {Promotion.current.isPromotion ? (
-            <div className="absolute top-[275px] left-[135px]">
+            <div className="absolute top-[37.5%] left-[13.5%] sm:top-[35.5%] sm:left-[23%] h-[15%] w-[54%]">
               <PromotionPopUp
                 promotion={Promotion}
                 board={board}
@@ -305,6 +311,7 @@ function SocketBoard(props: {
                 wCastle={wCastle}
                 bCastle={bCastle}
                 socket={props.socket}
+                player={"player"}
               ></PromotionPopUp>
             </div>
           ) : (

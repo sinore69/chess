@@ -12,6 +12,7 @@ import Disc from "./Disc";
 import { getPieceMove } from "@/functions/getPieceMove";
 import { isUpperCase } from "@/functions/isuppercase";
 import { MakeBotMove } from "@/functions/botmove";
+import PromotionPopUp from "./PromotionPopUp";
 
 function Board(props: { movable: boolean; color: "w" | "b" }) {
   const [color, setcolor] = useState<"b" | "w">(props.color);
@@ -216,6 +217,25 @@ function Board(props: { movable: boolean; color: "w" | "b" }) {
             ))}
           </div>
         ))}
+        {Promotion.current.isPromotion ? (
+          <div className="absolute top-[275px] left-[135px]">
+            <PromotionPopUp
+              promotion={Promotion}
+              board={board}
+              setboard={setboard}
+              setLastMove={setLastMove}
+              isCheck={isCheck}
+              colorToMove={colorToMove}
+              enPassant={enPassant}
+              wCastle={wCastle}
+              bCastle={bCastle}
+              socket={null}
+              player={"player"}
+            ></PromotionPopUp>
+          </div>
+        ) : (
+          <></>
+        )}
         {isGameOver ? (
           <GameOverPopUp
             loserColor={loserColor.current}

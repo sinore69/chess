@@ -15,7 +15,8 @@ function PromotionPopUp(props: {
   enPassant: React.MutableRefObject<string>;
   wCastle: React.MutableRefObject<"" | "KQ" | "K" | "Q">;
   bCastle: React.MutableRefObject<"" | "kq" | "k" | "q">;
-  socket: WebSocket;
+  socket: WebSocket | null;
+  player: string;
 }) {
   function promote(color: string, piece: string, position: string) {
     const srcRow = parseInt(position.charAt(0));
@@ -44,81 +45,82 @@ function PromotionPopUp(props: {
       props.wCastle,
       props.bCastle
     );
-    sendData(
-      newfen,
-      props.socket,
-      srcRow,
-      srcCol,
-      destRow,
-      destCol,
-      props.isCheck,
-      props.enPassant,
-      props.setLastMove
-    );
+    if (props.player === "player" && props.socket !== null) {
+      sendData(
+        newfen,
+        props.socket,
+        srcRow,
+        srcCol,
+        destRow,
+        destCol,
+        props.isCheck,
+        props.enPassant,
+        props.setLastMove
+      );
+    }
     props.promotion.current.isPromotion = false;
     props.promotion.current.color = "";
     props.promotion.current.position = "";
   }
+
   return (
-    <div>
-      <div className="w-[373px] h-[100px] bg-white flex flex-row gap-1">
-        <Image
-          className="border-2 border-black"
-          onClick={() =>
-            promote(
-              props.promotion.current.color,
-              "q",
-              props.promotion.current.position
-            )
-          }
-          src={`/${props.promotion.current.color}q.png`}
-          alt=""
-          height={90}
-          width={90}
-        ></Image>
-        <Image
-          className="border-2 border-black"
-          onClick={() =>
-            promote(
-              props.promotion.current.color,
-              "b",
-              props.promotion.current.position
-            )
-          }
-          src={`/${props.promotion.current.color}b.png`}
-          alt=""
-          height={90}
-          width={90}
-        ></Image>
-        <Image
-          className="border-2 border-black"
-          onClick={() =>
-            promote(
-              props.promotion.current.color,
-              "r",
-              props.promotion.current.position
-            )
-          }
-          src={`/${props.promotion.current.color}r.png`}
-          alt=""
-          height={90}
-          width={90}
-        ></Image>
-        <Image
-          className="border-2 border-black"
-          onClick={() =>
-            promote(
-              props.promotion.current.color,
-              "n",
-              props.promotion.current.position
-            )
-          }
-          src={`/${props.promotion.current.color}n.png`}
-          alt=""
-          height={90}
-          width={90}
-        ></Image>
-      </div>
+    <div className="h-full w-full flex flex-row gap-2">
+      <Image
+        className="border-2 border-black bg-white"
+        onClick={() =>
+          promote(
+            props.promotion.current.color,
+            "q",
+            props.promotion.current.position
+          )
+        }
+        src={`/${props.promotion.current.color}q.png`}
+        alt=""
+        height={90}
+        width={90}
+      ></Image>
+      <Image
+        className="border-2 border-black bg-white"
+        onClick={() =>
+          promote(
+            props.promotion.current.color,
+            "b",
+            props.promotion.current.position
+          )
+        }
+        src={`/${props.promotion.current.color}b.png`}
+        alt=""
+        height={90}
+        width={90}
+      ></Image>
+      <Image
+        className="border-2 border-black bg-white"
+        onClick={() =>
+          promote(
+            props.promotion.current.color,
+            "r",
+            props.promotion.current.position
+          )
+        }
+        src={`/${props.promotion.current.color}r.png`}
+        alt=""
+        height={90}
+        width={90}
+      ></Image>
+      <Image
+        className="border-2 border-black bg-white"
+        onClick={() =>
+          promote(
+            props.promotion.current.color,
+            "n",
+            props.promotion.current.position
+          )
+        }
+        src={`/${props.promotion.current.color}n.png`}
+        alt=""
+        height={90}
+        width={90}
+      ></Image>
     </div>
   );
 }
