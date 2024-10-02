@@ -44,7 +44,7 @@ function GameControl() {
   }
 
   return (
-    <div className="w-[390px]">
+    <div className="w-[375px] sm:w-[420px]">
       {loading ? (
         <div className="fixed inset-0 flex items-center justify-center">
           <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
@@ -54,10 +54,10 @@ function GameControl() {
       )}
       <div className="h-[20px]"></div>
       <div className="p-3 pt-2 lg:h-[100%] lg:w-[100%] bg-gray-900 flex flex-col text-white">
-        <div className="p-6 pl-28 text-3xl font-bold border-b-2 border-white">
+        <div className="p-6 pl-20 sm:pl-28 text-3xl font-bold border-b-2 border-white">
           Play Against
         </div>
-        <div className="flex flex-row p-6 pl-14">
+        <div className="flex flex-row p-6 sm:pl-14">
           <button
             className={`border-${
               showTimeControl ? "[1px]" : "[3px]"
@@ -80,10 +80,10 @@ function GameControl() {
         </div>
         {showTimeControl ? (
           <div>
-            <div className="pl-32 pt-2 text-2xl font-bold border-b-2 border-white pb-4">
+            <div className="pl-24 sm:pl-32 pt-2 text-2xl font-bold border-b-2 border-white pb-4">
               Time Control
             </div>
-            <div className="p-6 pl-28">
+            <div className="p-6 pl-[70px] sm:pl-28">
               <button
                 className={`rounded-md border-white p-2 pl-4 pr-4 ${
                   gameTime === 3 ? `border-[3px]` : `border-2`
@@ -121,10 +121,10 @@ function GameControl() {
         )}
         {chooseColor ? (
           <div className="">
-            <div className="pl-32 pt-2 text-2xl font-bold border-b-2 border-white pb-4">
+            <div className="pl-24 sm:pl-32 pt-2 text-2xl font-bold border-b-2 border-white pb-4">
               Choose Color
             </div>
-            <div className="p-6 pl-28">
+            <div className="p-6 pl-20 sm:pl-28">
               <button
                 className={`rounded-md border-white p-2 pl-4 pr-4 ${
                   color === "w" ? "border-[3px]" : "border-[1px]"
@@ -149,7 +149,7 @@ function GameControl() {
         ) : (
           <></>
         )}
-        <div className="flex p-4 pl-24 border-b-2 border-white pb-8">
+        <div className="flex p-4 pl-16 sm:pl-24 border-b-2 border-white pb-8">
           <button
             className="border-2 rounded-md border-white p-4 pl-20 pr-20 text-2xl font-semibold hover:bg-gray-700"
             onClick={startGame}
