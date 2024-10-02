@@ -186,8 +186,8 @@ function SocketBoard(props: {
   }
 
   return (
-    <div className="relative justify-start flex-col box-border w-[100%] h-[100%]">
-      <div className="h-full w-full bg-black">
+    <div className="relative justify-start flex-col min-h-screen box-border max-h-full inline-block">
+      <div className="bg-black">
         {startTimer ? (
           <TimeControl
             time={timeControl}
@@ -241,7 +241,7 @@ function SocketBoard(props: {
                         }
                       ></Image>
                     ) : (
-                     <></> 
+                      <></>
                     )}
                     {toggleMove &&
                     (board[rowindex][colindex] === "1" ||
@@ -293,7 +293,7 @@ function SocketBoard(props: {
             <></>
           )}
           {Promotion.current.isPromotion ? (
-            <div className="absolute top-[37.5%] left-[9.5%] sm:top-[35.5%] sm:left-[23%] h-[15%] w-[54%]">
+            <div className="absolute top-[275px] left-[135px]">
               <PromotionPopUp
                 promotion={Promotion}
                 board={board}
