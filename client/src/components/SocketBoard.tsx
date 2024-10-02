@@ -241,13 +241,7 @@ function SocketBoard(props: {
                         }
                       ></Image>
                     ) : (
-                      <Image
-                        src={"/empty.png"}
-                        height={80}
-                        width={80}
-                        priority
-                        alt=""
-                      ></Image>
+                     <></> 
                     )}
                     {toggleMove &&
                     (board[rowindex][colindex] === "1" ||
