@@ -157,7 +157,7 @@ function GameControl() {
             Play
           </button>
         </div>
-        <div className="pl-12 p-12">
+        <div className="pl-14 sm:pl-24 p-12">
           <form onSubmit={handler}>
             <input
               className="p-1"
@@ -165,7 +165,7 @@ function GameControl() {
               id="roomId"
               placeholder="Room Id"
             />
-            <button className="pl-3 text-l" type="submit">
+            <button className="pl-16 sm:pl-16 text-l" type="submit">
               Join Room
             </button>
           </form>

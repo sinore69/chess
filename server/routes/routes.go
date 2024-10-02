@@ -5,7 +5,6 @@ import (
 	"io"
 	"log"
 	"net/http"
-	"server/functions"
 	"server/gamehub"
 	"server/types"
 	"strconv"
@@ -44,49 +43,7 @@ func Bot(w http.ResponseWriter, r *http.Request) {
 	}
 	defer r.Body.Close()
 	reqbody := strings.NewReader(string(body))
-	url := "https://chess-api.com/v1"
-	res, err := http.Post(url, "application/json", reqbody)
-	if err != nil {
-		panic(err)
-	}
-	var eval types.Evaluation
-	resBody, err := io.ReadAll(res.Body)
-	if err != nil {
-		panic(err)
-	}
-	log.Println(string(resBody))
-	var error types.Error
-	err = json.Unmarshal(resBody, &error)
-	if err != nil {
-		panic(err)
-	}
-	err = json.Unmarshal(resBody, &eval)
-	if err != nil {
-		panic(err)
-	}
-	if error.Text == "extendMoveInfo: move must not be undefined" || error.Error == "INVALID_INPUT" {
-		newfen := types.Fen{
-			Fen:        string(body)[1 : len(string(body))-1],
-			Moves:      "######",
-			IsGameOver: true,
-		}
-		// log.Println(newfen)
-		w.Header().Set("Content-Type", "application/json")
-		w.WriteHeader(http.StatusOK)
-		json.NewEncoder(w).Encode(newfen)
-		return
-	}
-	bestmove := eval.From + eval.To
-	newFen, lastMove, err := functions.Newfen(eval.Fen, bestmove)
-	if err != nil {
-		log.Println(err)
-	}
-	allPossibleMove := gamehub.AllPossibleMove(newFen)
-	newfen := types.Fen{
-		Fen:      newFen,
-		LastMove: lastMove,
-		Moves:    allPossibleMove,
-	}
+	newfen := gamehub.GetMove(reqbody, body)
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(newfen)
@@ -107,7 +64,6 @@ func GetFirstMove(w http.ResponseWriter, r *http.Request) {
 		LastMove: "",
 		Moves:    allPossibleMove,
 	}
-	// log.Println(newfen,"##")
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(newfen)
