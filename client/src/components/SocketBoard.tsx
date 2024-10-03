@@ -43,7 +43,7 @@ function SocketBoard(props: {
   const enPassant = useRef<string>("");
   const Promotion = useRef<promotionData>({
     color: "",
-    isPromotion: false,
+    isPromotion:false,
     position: "",
   });
   const ref = useRef<HTMLDivElement | null>(null);
@@ -202,13 +202,13 @@ function SocketBoard(props: {
           <></>
         )}
         <div className="h-1"></div>
-        <div onDrop={onDrop} onDragOver={onDragOver} ref={ref}>
+        <div onDrop={onDrop} onDragOver={onDragOver} ref={ref} className="h-full w-full relative">
           {board.map((row: string[], rowindex: number) => (
             <div key={rowindex} className="flex flex-row ">
               {row.map((col: string, colindex) => (
                 <div
                   key={colindex}
-                  className={`h-12 w-12 sm:h-20 sm:w-20 lg:h-[80px] lg:w-[80px] border-black relative ${
+                  className={`h-12 w-12 sm:h-20 sm:w-20 lg:h-[80px] lg:w-[80px] border-black ${
                     "" + rowindex + colindex === lastMove.substring(0, 2) ||
                     "" + rowindex + colindex === lastMove.substring(2, 4)
                       ? "bg-blue-200"
@@ -293,7 +293,7 @@ function SocketBoard(props: {
             <></>
           )}
           {Promotion.current.isPromotion ? (
-            <div className="absolute top-[275px] left-[135px]">
+            <div className="absolute top-[38%] sm:top-[275px] sm:left-[135px]">
               <PromotionPopUp
                 promotion={Promotion}
                 board={board}

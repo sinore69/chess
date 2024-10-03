@@ -5,7 +5,7 @@ import React from "react";
 function page({ params }: { params: { color: "w" | "b" } }) {
   return (
     <>
-      <div className="flex p-1 gap-x-4 bg-black h-full">
+      <div className="flex p-1 gap-x-4 bg-black h-full overflow-auto">
         <Board movable={true} color={params.color}></Board>
       </div>
     </>

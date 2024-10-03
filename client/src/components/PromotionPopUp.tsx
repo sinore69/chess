@@ -58,6 +58,8 @@ function PromotionPopUp(props: {
         props.setLastMove
       );
     }
+    if (props.player === "bot" && props.socket === null) {
+    }
     props.promotion.current.isPromotion = false;
     props.promotion.current.color = "";
     props.promotion.current.position = "";
