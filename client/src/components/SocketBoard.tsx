@@ -83,7 +83,7 @@ function SocketBoard(props: {
           return;
         }
         validMoves.current = data.moves;
-        if (validMoves.current.length === 1) {
+        if (validMoves.current.length === 2) {
           setIsGameOver(true);
           reason.current = "Check Mate";
           loserColor.current = color.current;
