@@ -14,9 +14,7 @@ func main() {
 	http.HandleFunc("/create", game.CreateGame)
 	http.HandleFunc("/join", game.JoinGame)
 	log.Println("server is running on port 5000")
-	certfile:="/etc/letsencrypt/live/chessapi.kydo.fun/fullchain.pem"
-	key:=" /etc/letsencrypt/live/chessapi.kydo.fun/privkey.pem"
-	err := http.ListenAndServeTLS(":5000",certfile,key, nil)
+	err := http.ListenAndServe(":5000", nil)
 	if err != nil {
 		panic(err)
 	}
