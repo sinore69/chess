@@ -1,4 +1,5 @@
 import { fengenerator } from "@/functions/fengenerator";
+import { getMove } from "@/functions/getMove";
 import IsCheck from "@/functions/IsCheck";
 import { sendData } from "@/functions/senddata";
 import { promotionData } from "@/types/promotion";
@@ -17,6 +18,12 @@ function PromotionPopUp(props: {
   bCastle: React.MutableRefObject<"" | "kq" | "k" | "q">;
   socket: WebSocket | null;
   player: string;
+  wKingPos: React.MutableRefObject<string>;
+  bKingPos: React.MutableRefObject<string>;
+  validMoves: React.MutableRefObject<string>;
+  setIsGameOver: React.Dispatch<React.SetStateAction<boolean>>;
+  reason: React.MutableRefObject<string>;
+  loserColor: React.MutableRefObject<"" | "w" | "b">
 }) {
   function promote(color: string, piece: string, position: string) {
     const srcRow = parseInt(position.charAt(0));
@@ -59,6 +66,22 @@ function PromotionPopUp(props: {
       );
     }
     if (props.player === "bot" && props.socket === null) {
+      props.colorToMove.current = color === "w" ? "b" : "w";
+      getMove(
+        newfen,
+        props.setboard,
+        props.wCastle,
+        props.bCastle,
+        props.colorToMove,
+        props.wKingPos,
+        props.bKingPos,
+        props.validMoves,
+        props.setIsGameOver,
+        props.reason,
+        color,
+        props.loserColor,
+        props.setLastMove
+      );
     }
     props.promotion.current.isPromotion = false;
     props.promotion.current.color = "";

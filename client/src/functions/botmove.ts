@@ -48,7 +48,7 @@ export function MakeBotMove(
   setboard(newposition);
   const lastmove = "" + srcRow + srcCol + destRow + destCol;
   const newfen = fengenerator(newposition, color, wCastle, bCastle);
-  if (oldfen !== newfen) {
+  if (oldfen !== newfen&&Promotion.current.isPromotion===false) {
     setLastMove(lastmove);
     colorToMove.current = color === "w" ? "b" : "w";
     getMove(

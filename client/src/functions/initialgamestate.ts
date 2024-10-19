@@ -14,7 +14,7 @@ export function initialgamestate(color: string) {
   if (color === "w") {
     for (let i = 0; i < 8; i++) {
       board[0][i] = pieces.charAt(i);
-      board[1][i] = pawn;
+      // board[1][i] = pawn;
       board[6][i] = pawn.toUpperCase();
       board[7][i] = pieces.charAt(i).toUpperCase();
     }
@@ -23,9 +23,20 @@ export function initialgamestate(color: string) {
     for (let i = 0; i < 8; i++) {
       board[0][i] = pieces.charAt(i).toUpperCase();
       board[1][i] = pawn.toUpperCase();
-      board[6][i] = pawn;
+      // board[6][i] = pawn;
       board[7][i] = pieces.charAt(i);
     }
   }
+  board[0][1]="1"
+  board[0][2]="1"
+  board[0][3]="1"
+  board[0][5]="1"
+  board[0][6]="1"
+  board[6][0]="1"
+  board[6][7]="1"
+  board[7][1]="1"
+  board[7][2]="1"
+  board[1][1]="P"
+  board[7][5]="Q"
   return board;
 }

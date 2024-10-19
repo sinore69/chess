@@ -30,8 +30,8 @@ function Board(props: { movable: boolean; color: "w" | "b" }) {
   const bKingPos = useRef<string>("");
   const ref = useRef<HTMLDivElement | null>(null);
   const Promotion = useRef<promotionData>({
-    color: "w",
-    isPromotion: true,
+    color: "",
+    isPromotion:false,
     position: "",
   });
   const enPassant = useRef<string>("");
@@ -232,6 +232,12 @@ function Board(props: { movable: boolean; color: "w" | "b" }) {
                 bCastle={bCastle}
                 socket={null}
                 player={"bot"}
+                wKingPos={wKingPos}
+                bKingPos={bKingPos}
+                validMoves={validMoves}
+                setIsGameOver={setIsGameOver}
+                reason={reason}
+                loserColor={loserColor}
               ></PromotionPopUp>
             </div>
           ) : (

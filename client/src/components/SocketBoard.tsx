@@ -306,6 +306,12 @@ function SocketBoard(props: {
                 bCastle={bCastle}
                 socket={props.socket}
                 player={"player"}
+                wKingPos={wKingPos}
+                bKingPos={bKingPos}
+                validMoves={validMoves}
+                setIsGameOver={setIsGameOver}
+                reason={reason}
+                loserColor={loserColor}
               ></PromotionPopUp>
             </div>
           ) : (
