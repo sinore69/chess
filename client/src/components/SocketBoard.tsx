@@ -1,3 +1,4 @@
+"use client";
 import { useRef, useEffect, useState } from "react";
 import { initialgamestate } from "../functions/initialgamestate";
 import { fengenerator } from "../functions/fengenerator";
@@ -57,8 +58,8 @@ function SocketBoard(props: {
       ref.current.focus();
     }
     props.socket.onmessage = (event) => {
+      console.log("Message recieved"+event.data);
       const data = JSON.parse(event.data);
-      // console.log(data);
       if (InitialGameStateValidator(data)) {
         if (props.playAs === "Player") {
           color.current = data.PlayerColor;
@@ -202,7 +203,12 @@ function SocketBoard(props: {
           <></>
         )}
         <div className="h-1"></div>
-        <div onDrop={onDrop} onDragOver={onDragOver} ref={ref} className="h-full w-full relative">
+        <div
+          onDrop={onDrop}
+          onDragOver={onDragOver}
+          ref={ref}
+          className="h-full w-full relative"
+        >
           {board.map((row: string[], rowindex: number) => (
             <div key={rowindex} className="flex flex-row ">
               {row.map((col: string, colindex) => (

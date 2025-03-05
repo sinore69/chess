@@ -5,10 +5,12 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"server/functions"
 	"server/gamehub"
 	"server/types"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/gorilla/websocket"
 )
@@ -80,8 +82,11 @@ func (g *Game) CreateGame(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
-	//id:=functions.NewRoomId(g.GameRoom)
-	g.GameRoom[1] = types.Room{
+	id := functions.NewRoomId(g.GameRoom)
+	session := types.Gamecode{
+		Code: id,
+	}
+	g.GameRoom[id] = types.Room{
 		Creator:      conn,
 		CreatorColor: types.White,
 		PlayerColor:  types.Black,
@@ -89,7 +94,13 @@ func (g *Game) CreateGame(w http.ResponseWriter, r *http.Request) {
 	var result types.Fen
 	var gametime types.GameTime
 	log.Println("creator connected")
-	log.Println(g.GameRoom[1])
+	log.Println(g.GameRoom[id])
+	err = conn.WriteJSON(session)
+	if err != nil {
+		log.Println(err)
+	}
+	time.Sleep(100 * time.Millisecond)
+	log.Println(session)
 outer:
 	for {
 		_, msg, err := conn.ReadMessage()

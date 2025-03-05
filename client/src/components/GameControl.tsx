@@ -52,8 +52,7 @@ function GameControl() {
       ) : (
         <></>
       )}
-      <div className="h-[20px]"></div>
-      <div className="p-3 pt-2 lg:h-[100%] lg:w-[100%] bg-gray-900 flex flex-col text-white">
+      <div className="p-3 lg:h-[100%] lg:w-[100%] bg-gray-800 flex flex-col text-white rounded-lg">
         <div className="p-6 pl-20 sm:pl-28 text-3xl font-bold border-b-2 border-white">
           Play Against
         </div>

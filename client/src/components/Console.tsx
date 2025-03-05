@@ -1,14 +1,18 @@
 import GameControl from "./GameControl";
 import GameLog from "./GameLog";
-function Console(props: { mode: string }) {
+function Console(props: { mode: string; joinCode: string }) {
   return (
-    <div className="bg-black h-[100%] w-[5%] md:w-[40%] lg:w-[85%]">
+    <div className="h-[100%] w-[5%] md:w-[40%] lg:w-[85%]">
       {props.mode === "bot" ? (
-        <></>
+        <GameControl></GameControl>
       ) : (
-        <div className="lg:w[15%] lg:h-[100%]"></div>
+        <GameLog
+          joinCode={props.joinCode}
+          joinLink="gsgs"
+          moves={["1", "1"]}
+          opponentJoined={false}
+        ></GameLog>
       )}
-      {props.mode === "bot" ? <GameControl></GameControl> : <GameLog></GameLog>}
     </div>
   );
 }
