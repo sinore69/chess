@@ -24,7 +24,7 @@ function Page({ params }: { params: { slug: string } }) {
         setIsConnected(false);
       };
     }
-  }, []);
+  });
 
   return (
     <>
