@@ -12,7 +12,7 @@ func main() {
 	http.HandleFunc("/bot", routes.Bot)
 	http.HandleFunc("/bot/getfirstmove", routes.GetFirstMove)
 	http.HandleFunc("/create", game.CreateGame)
-	http.HandleFunc("/join", game.JoinGame)
+	http.HandleFunc("/join/", game.JoinGame)
 	log.Println("server is running on port 5000")
 	err := http.ListenAndServe(":5000", nil)
 	if err != nil {

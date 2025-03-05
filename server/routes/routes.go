@@ -124,36 +124,49 @@ outer:
 		if gametime.GameTime != "" {
 			log.Println(gametime.GameTime)
 			time, err := strconv.Atoi(gametime.GameTime)
-			room := g.GameRoom[1]
+			room := g.GameRoom[id]
 			if err != nil {
 				log.Println("Error:", err)
 				conn.Close()
 				break outer
 			} else {
 				room.Time = time
-				g.GameRoom[1] = room
+				g.GameRoom[id] = room
 			}
 		}
-		if g.GameRoom[1].Player != nil && result.Fen != "" {
+		if g.GameRoom[id].Player != nil && result.Fen != "" {
 			log.Println(result)
 			if !result.IsGameOver {
 				allPossibleMove := gamehub.AllPossibleMove(result.Fen)
 				result.Moves = allPossibleMove
 				log.Println(allPossibleMove)
 			}
-			g.GameRoom[1].Player.WriteJSON(result)
+			g.GameRoom[id].Player.WriteJSON(result)
 		}
 	}
 }
 
 func (g *Game) JoinGame(w http.ResponseWriter, r *http.Request) {
+	parts := strings.Split(r.URL.Path, "/")
+	if len(parts) < 3 {
+		http.Error(w, "Invalid URL", http.StatusBadRequest)
+		return
+	}
+	id := parts[2]
+	num, err := strconv.Atoi(id)
+	if err != nil {
+		log.Println("Error converting string to int:", err)
+	} else {
+		log.Println("Converted number:", num)
+	}
+	log.Printf("Received ID: %s", id)
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		panic(err)
 	}
-	room := g.GameRoom[1]
+	room := g.GameRoom[int(num)]
 	room.Player = conn
-	g.GameRoom[1] = room
+	g.GameRoom[num] = room
 	log.Println("player connected")
 	log.Println(g.GameRoom)
 	gamehub.SendInitialGameState(room)
@@ -165,14 +178,14 @@ outer:
 			conn.Close()
 			break outer
 		}
-		if g.GameRoom[1].Creator != nil {
+		if g.GameRoom[num].Creator != nil {
 			log.Println(data)
 			if !data.IsGameOver {
 				allPossibleMove := gamehub.AllPossibleMove(data.Fen)
 				data.Moves = allPossibleMove
 				log.Println(allPossibleMove)
 			}
-			g.GameRoom[1].Creator.WriteJSON(data)
+			g.GameRoom[num].Creator.WriteJSON(data)
 		}
 	}
 }
