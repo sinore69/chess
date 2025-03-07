@@ -1,7 +1,6 @@
-FROM golang:1.22.5-alpine3.20
+FROM golang:1.24.1-alpine
 WORKDIR /app
-COPY . /app
-RUN go get
-RUN go build -o main .
-EXPOSE 5000
-CMD ["/app/main"]
+COPY . .
+RUN go build -o app .
+CMD ["./app"]
+
