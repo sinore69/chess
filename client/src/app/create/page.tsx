@@ -39,7 +39,7 @@ function Page() {
         <div className="flex justify-center min-h-screen w-full bg-black overflow-hidden">
           <div className="flex gap-x-4 box-border w-full max-w-[90vw] max-h-[90vh] flex-col sm:flex-row">
             <SocketBoard movable={true} socket={socketRef.current!} playAs={"Creator"} />
-            <Console mode={"friend"} joinCode={joinCode} joinLink={`http://localhost:3000/join/${joinCode}`}/>
+            <Console mode={"friend"} joinCode={joinCode} joinLink={`https://chess.saptarshi.site/join/${joinCode}`}/>
           </div>
         </div>
       ) : null}
