@@ -10,7 +10,7 @@ function Page({ params }: { params: { slug: string } }) {
   useEffect(() => {
     if (!socketRef.current) {
       const socket = new WebSocket(
-        `ws://${process.env.NEXT_PUBLIC_DOMAIN}/join/${params.slug}`
+        `wss://${process.env.NEXT_PUBLIC_DOMAIN}/join/${params.slug}`
       );
       socketRef.current = socket;
 

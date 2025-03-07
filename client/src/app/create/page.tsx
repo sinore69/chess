@@ -11,7 +11,7 @@ function Page() {
   useEffect(() => {
     if (!socketRef.current) {
       // Initialize WebSocket only once
-      socketRef.current = new WebSocket(`ws://${process.env.NEXT_PUBLIC_DOMAIN}/create`);
+      socketRef.current = new WebSocket(`wss://${process.env.NEXT_PUBLIC_DOMAIN}/create`);
       
       socketRef.current.onopen = () => {
         connectionState.current = true;
