@@ -6,11 +6,12 @@ import React, { useRef, useState, useEffect } from "react";
 function Page({ params }: { params: { slug: string } }) {
   const socketRef = useRef<WebSocket | null>(null);
   const [isConnected, setIsConnected] = useState(false);
+  const [opponentJoined, setOpponentJoined] = useState<boolean>(false);
   // console.log(params.slug);
   useEffect(() => {
     if (!socketRef.current) {
       const socket = new WebSocket(
-        `wss://${process.env.NEXT_PUBLIC_DOMAIN}/join/${params.slug}`
+        `${process.env.NEXT_PUBLIC_WS}://${process.env.NEXT_PUBLIC_DOMAIN}/join/${params.slug}`
       );
       socketRef.current = socket;
 
@@ -35,8 +36,14 @@ function Page({ params }: { params: { slug: string } }) {
               movable={true}
               socket={socketRef.current}
               playAs={"Player"}
+              setOpponentJoined={setOpponentJoined}
             />
-            <Console mode={"friend"} joinCode="" joinLink="" />
+            <Console
+              mode={"friend"}
+              joinCode=""
+              joinLink=""
+              opponentJoined={opponentJoined}
+            />
           </div>
         </div>
       ) : null}

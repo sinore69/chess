@@ -23,6 +23,7 @@ function SocketBoard(props: {
   movable: boolean;
   socket: WebSocket;
   playAs: string;
+  setOpponentJoined: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const color = useRef<"b" | "w">("w");
   const [board, setboard] = useState<string[][]>(
@@ -44,7 +45,7 @@ function SocketBoard(props: {
   const enPassant = useRef<string>("");
   const Promotion = useRef<promotionData>({
     color: "",
-    isPromotion:false,
+    isPromotion: false,
     position: "",
   });
   const ref = useRef<HTMLDivElement | null>(null);
@@ -53,21 +54,24 @@ function SocketBoard(props: {
   const reason = useRef<string>("");
   const colorCase = color.current === "w" ? "C" : "c";
   const [lastMove, setLastMove] = useState<string>("");
+
   useEffect(() => {
     if (ref.current) {
       ref.current.focus();
     }
     props.socket.onmessage = (event) => {
-      console.log("Message recieved"+event.data);
+      console.log("Message recieved" + event.data);
       const data = JSON.parse(event.data);
       if (InitialGameStateValidator(data)) {
         if (props.playAs === "Player") {
           color.current = data.PlayerColor;
           setboard(initialgamestate(color.current));
+          props.setOpponentJoined(true);
         }
         if (props.playAs === "Creator") {
           color.current = data.CreatorColor;
           setboard(initialgamestate(color.current));
+          props.setOpponentJoined(true);
         }
         if (parseInt(data.Time) == 0) {
         } else {
@@ -125,7 +129,7 @@ function SocketBoard(props: {
         }
       }
     };
-  }, [props.playAs, props.socket]);
+  }, [props]);
 
   function onDragStart(
     e: any,

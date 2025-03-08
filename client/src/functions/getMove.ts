@@ -20,10 +20,13 @@ export async function getMove(
   const data = {
     fen: fen,
   };
-  const res = await fetch(`https://${process.env.NEXT_PUBLIC_DOMAIN}/bot`, {
-    method: "POST",
-    body: JSON.stringify(data),
-  });
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_HTTP}://${process.env.NEXT_PUBLIC_DOMAIN}/bot`,
+    {
+      method: "POST",
+      body: JSON.stringify(data),
+    }
+  );
   const resp = (await res.json()) as Fen;
   console.log(resp);
   //player win
@@ -49,7 +52,7 @@ export async function getMove(
 
 export async function getFirstMove(validMoves: React.MutableRefObject<string>) {
   const res = await fetch(
-    `https://${process.env.NEXT_PUBLIC_DOMAIN}/bot/getfirstmove`,
+    `${process.env.NEXT_PUBLIC_HTTP}://${process.env.NEXT_PUBLIC_DOMAIN}/bot/getfirstmove`,
     {
       method: "GET",
     }
