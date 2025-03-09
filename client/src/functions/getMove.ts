@@ -40,7 +40,11 @@ export async function getMove(
   setboard(newPosition);
   colorToMove.current = updateTurn(resp.fen);
   validMoves.current = resp.moves;
-  setLastMove(resp.lastMove);
+  if (color === "b") {
+    setLastMove(calculateBlackLastMove(resp.lastMove));
+  } else {
+    setLastMove(resp.lastMove);
+  }
   //computer win
   if (validMoves.current.length < 5) {
     setIsGameOver(true);
@@ -60,4 +64,11 @@ export async function getFirstMove(validMoves: React.MutableRefObject<string>) {
   const resp = (await res.json()) as Fen;
   // console.log(resp.moves);
   validMoves.current = resp.moves;
+}
+
+function calculateBlackLastMove(move: string) {
+  return move
+    .split("")
+    .map((digit) => 7 - parseInt(digit))
+    .join("");
 }
