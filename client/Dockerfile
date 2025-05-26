@@ -1,19 +1,26 @@
-# Step 1: Build the Next.js app
-FROM node:22.14-alpine AS build
+FROM node:22.14-alpine AS builder
 
 WORKDIR /app
 
-# Install dependencies
 COPY package.json package-lock.json ./
+RUN npm ci
 
-RUN npm install
-
-# Copy all files and build the Next.js app
 COPY . .
 
 RUN npm run build
 
+FROM node:22.14-alpine AS runner
+
+WORKDIR /app
+
+COPY --from=builder /app/package.json ./
+COPY --from=builder /app/package-lock.json ./
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/node_modules ./node_modules
+
+ENV NODE_ENV production
+
 EXPOSE 3000
 
-# Start the Next.js app
-CMD ["npm","run", "start"]
+CMD ["npm", "run", "start"]
