@@ -24,7 +24,7 @@ const GameLog: React.FC<WaitingUIProps> = ({
   };
 
   return (
-    <div className="flex items-center justify-center h-screen bg-black text-white">
+    <div className="flex items-center justify-center h-[100%] bg-black text-white">
       {!opponentJoined ? (
         <div className="flex flex-col items-center text-center space-y-4">
           {/* Waiting Message with Blinking Dots */}

@@ -191,9 +191,9 @@ function SocketBoard(props: {
   }
 
   return (
-    <div className="relative justify-start flex-col min-h-screen box-border max-h-full inline-block">
-      <div className="bg-black">
-        {startTimer ? (
+    <div className="flex flex-col w-fit h-fit">
+      <div className="flex justify-center py-4">
+        {startTimer && (
           <TimeControl
             time={timeControl}
             isGameOver={isGameOver}
@@ -202,62 +202,60 @@ function SocketBoard(props: {
             loserColor={loserColor}
             color={colorToMove.current}
             reason={reason}
-          ></TimeControl>
-        ) : (
-          <></>
+          />
         )}
-        <div className="h-1"></div>
-        <div
-          onDrop={onDrop}
-          onDragOver={onDragOver}
-          ref={ref}
-          className="h-full w-full relative"
-        >
-          {board.map((row: string[], rowindex: number) => (
-            <div key={rowindex} className="flex flex-row ">
-              {row.map((col: string, colindex) => (
-                <div
-                  key={colindex}
-                  className={`h-12 w-12 sm:h-20 sm:w-20 lg:h-[80px] lg:w-[80px] border-black relative ${
-                    "" + rowindex + colindex === lastMove.substring(0, 2) ||
+      </div>
+
+      <div
+        onDrop={onDrop}
+        onDragOver={onDragOver}
+        ref={ref}
+        className="flex flex-col items-center justify-center grow"
+      >
+        {board.map((row: string[], rowindex: number) => (
+          <div key={rowindex} className="flex">
+            {row.map((col: string, colindex: number) => (
+              <div
+                key={colindex}
+                className={`h-12 w-12 sm:h-20 sm:w-20 lg:h-[80px] lg:w-[80px] relative border-black ${"" + rowindex + colindex === lastMove.substring(0, 2) ||
                     "" + rowindex + colindex === lastMove.substring(2, 4)
-                      ? "bg-blue-200"
-                      : (colindex + rowindex + 1) % 2 === 0
+                    ? "bg-blue-200"
+                    : (colindex + rowindex + 1) % 2 === 0
                       ? "bg-slate-300"
                       : "bg-white"
                   }`}
+              >
+                <div
+                  className="h-full w-full"
+                  draggable={props.movable}
+                  onDragEnd={onDragEnd}
+                  onDragStart={(e) =>
+                    onDragStart(e, rowindex, colindex, col)
+                  }
                 >
-                  <div
-                    className="h-full w-full"
-                    draggable={props.movable}
-                    onDragEnd={onDragEnd}
-                    onDragStart={(e) => onDragStart(e, rowindex, colindex, col)}
-                  >
-                    {col !== "1" ? (
-                      <Image
-                        className="relative"
-                        priority
-                        draggable={props.movable}
-                        src={
-                          col === col.toUpperCase()
-                            ? `/w${col.toLowerCase()}.png`
-                            : `/b${col.toLowerCase()}.png`
-                        }
-                        alt=""
-                        height={80}
-                        width={80}
-                        onClick={() =>
-                          toggle(board[rowindex][colindex], rowindex, colindex)
-                        }
-                      ></Image>
-                    ) : (
-                      <></>
-                    )}
-                    {toggleMove &&
+                  {col !== "1" && (
+                    <Image
+                      className="h-full w-full object-contain"
+                      priority
+                      draggable={props.movable}
+                      src={
+                        col === col.toUpperCase()
+                          ? `/w${col.toLowerCase()}.png`
+                          : `/b${col.toLowerCase()}.png`
+                      }
+                      alt=""
+                      height={80}
+                      width={80}
+                      onClick={() =>
+                        toggle(board[rowindex][colindex], rowindex, colindex)
+                      }
+                    />
+                  )}
+                  {toggleMove &&
                     (board[rowindex][colindex] === "1" ||
                       isUpperCase(colorCase) !==
-                        isUpperCase(board[rowindex][colindex])) ? (
-                      <div className="h-full w-full grid absolute top-0 left-0">
+                      isUpperCase(board[rowindex][colindex])) && (
+                      <div className="absolute inset-0 grid place-items-center">
                         <SocketDisc
                           board={board}
                           pieceMove={pieceMove.current}
@@ -278,18 +276,17 @@ function SocketBoard(props: {
                           setToggleMove={setToggleMove}
                           setLastMove={setLastMove}
                           socket={props.socket}
-                        ></SocketDisc>
+                        />
                       </div>
-                    ) : (
-                      <></>
                     )}
-                  </div>
                 </div>
-              ))}
-            </div>
-          ))}
-          <div className="h-1"></div>
-          {startTimer ? (
+              </div>
+            ))}
+          </div>
+        ))}
+
+        {startTimer && (
+          <div className="mt-4">
             <TimeControl
               time={timeControl}
               isGameOver={isGameOver}
@@ -298,47 +295,44 @@ function SocketBoard(props: {
               loserColor={loserColor}
               color={colorToMove.current}
               reason={reason}
-            ></TimeControl>
-          ) : (
-            <></>
-          )}
-          {Promotion.current.isPromotion ? (
-            <div className="absolute top-[38%] sm:top-[275px] sm:left-[135px]">
-              <PromotionPopUp
-                promotion={Promotion}
-                board={board}
-                setboard={setboard}
-                setLastMove={setLastMove}
-                isCheck={isCheck}
-                colorToMove={colorToMove}
-                enPassant={enPassant}
-                wCastle={wCastle}
-                bCastle={bCastle}
-                socket={props.socket}
-                player={"player"}
-                wKingPos={wKingPos}
-                bKingPos={bKingPos}
-                validMoves={validMoves}
-                setIsGameOver={setIsGameOver}
-                reason={reason}
-                loserColor={loserColor}
-              ></PromotionPopUp>
-            </div>
-          ) : (
-            <></>
-          )}
-          {isGameOver ? (
-            <GameOverPopUp
-              loserColor={loserColor.current}
-              color={color.current}
-              reason={reason.current}
-            ></GameOverPopUp>
-          ) : (
-            <></>
-          )}
-        </div>
+            />
+          </div>
+        )}
+
+        {Promotion.current.isPromotion && (
+          <div className="absolute top-[38%] sm:top-[275px] sm:left-[135px]">
+            <PromotionPopUp
+              promotion={Promotion}
+              board={board}
+              setboard={setboard}
+              setLastMove={setLastMove}
+              isCheck={isCheck}
+              colorToMove={colorToMove}
+              enPassant={enPassant}
+              wCastle={wCastle}
+              bCastle={bCastle}
+              socket={props.socket}
+              player={"player"}
+              wKingPos={wKingPos}
+              bKingPos={bKingPos}
+              validMoves={validMoves}
+              setIsGameOver={setIsGameOver}
+              reason={reason}
+              loserColor={loserColor}
+            />
+          </div>
+        )}
+
+        {isGameOver && (
+          <GameOverPopUp
+            loserColor={loserColor.current}
+            color={color.current}
+            reason={reason.current}
+          />
+        )}
       </div>
     </div>
+
   );
 }
 
