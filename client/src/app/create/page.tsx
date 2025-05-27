@@ -43,7 +43,7 @@ function Page() {
       {connectionState.current ? (
         <div className="min-h-screen w-full bg-black overflow-x-hidden overflow-y-auto">
           <div className="flex justify-center w-full px-4 md:px-8">
-            <div className="flex flex-col md:flex-row gap-y-4 md:gap-x-6 w-full max-w-6xl">
+            <div className="flex flex-col md:flex-row gap-y-4 md:gap-x-6 w-full max-w-6xl border border-green-500">
               <SocketBoard
                 movable={true}
                 socket={socketRef.current!}

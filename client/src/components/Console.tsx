@@ -7,7 +7,7 @@ function Console(props: {
   opponentJoined: boolean;
 }) {
   return (
-    <div className="h-[100%] w-[387px] sm:w-[643px]">
+    <div className="h-[100%] w-[387px] sm:w-[643px] border border-blue-500">
       {props.mode === "bot" ? (
         <GameControl></GameControl>
       ) : (

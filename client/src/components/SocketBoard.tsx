@@ -192,7 +192,7 @@ function SocketBoard(props: {
 
   return (
     <div className="flex flex-col w-fit h-fit">
-      <div className="flex justify-center py-4">
+      <div className="flex justify-center py-1">
         {startTimer && (
           <TimeControl
             time={timeControl}
@@ -286,7 +286,7 @@ function SocketBoard(props: {
         ))}
 
         {startTimer && (
-          <div className="mt-4">
+          <div className="mt-1">
             <TimeControl
               time={timeControl}
               isGameOver={isGameOver}
