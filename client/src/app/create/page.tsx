@@ -48,6 +48,7 @@ function Page() {
                 socket={socketRef.current!}
                 playAs={"Creator"}
                 setOpponentJoined={setOpponentJoined}
+                opponentJoined={opponentJoined}
               />
               {!opponentJoined && (
                 <Console

@@ -18,12 +18,14 @@ import { getPieceMove } from "@/functions/getPieceMove";
 import { isUpperCase } from "@/functions/isuppercase";
 import { MakeMove } from "@/functions/makeMove";
 import SocketDisc from "./SocketDisc";
+import MoveList from "./MoveList";
 
 function SocketBoard(props: {
   movable: boolean;
   socket: WebSocket;
   playAs: string;
   setOpponentJoined: React.Dispatch<React.SetStateAction<boolean>>;
+  opponentJoined: boolean
 }) {
   const color = useRef<"b" | "w">("w");
   const [board, setboard] = useState<string[][]>(
@@ -54,6 +56,7 @@ function SocketBoard(props: {
   const reason = useRef<string>("");
   const colorCase = color.current === "w" ? "C" : "c";
   const [lastMove, setLastMove] = useState<string>("");
+  const [moveList, setMoveList] = useState<[]>();
 
   useEffect(() => {
     if (ref.current) {
@@ -191,148 +194,157 @@ function SocketBoard(props: {
   }
 
   return (
-    <div className="flex flex-col w-fit h-fit">
-      <div className="flex justify-center py-1">
-        {startTimer && (
-          <TimeControl
-            time={timeControl}
-            isGameOver={isGameOver}
-            isRunning={color.current !== colorToMove.current}
-            setIsGameOver={setIsGameOver}
-            loserColor={loserColor}
-            color={colorToMove.current}
-            reason={reason}
-          />
-        )}
-      </div>
+    <div className="flex w-fit h-fit">
+      <div className="flex flex-col lg:flex-row"> {/*overall wrapper*/}
+        <div> {/*board and time wrapper*/}
+          <div className="flex justify-center py-1">
+            {startTimer && (
+              <TimeControl
+                time={timeControl}
+                isGameOver={isGameOver}
+                isRunning={color.current !== colorToMove.current}
+                setIsGameOver={setIsGameOver}
+                loserColor={loserColor}
+                color={colorToMove.current}
+                reason={reason}
+              />
+            )}
+          </div>
 
-      <div
-        onDrop={onDrop}
-        onDragOver={onDragOver}
-        ref={ref}
-        className="flex flex-col items-center justify-center grow"
-      >
-        {board.map((row: string[], rowindex: number) => (
-          <div key={rowindex} className="flex">
-            {row.map((col: string, colindex: number) => (
-              <div
-                key={colindex}
-                className={`h-12 w-12 sm:h-20 sm:w-20 lg:h-[80px] lg:w-[80px] relative border-black ${"" + rowindex + colindex === lastMove.substring(0, 2) ||
-                    "" + rowindex + colindex === lastMove.substring(2, 4)
-                    ? "bg-blue-200"
-                    : (colindex + rowindex + 1) % 2 === 0
-                      ? "bg-slate-300"
-                      : "bg-white"
-                  }`}
-              >
-                <div
-                  className="h-full w-full"
-                  draggable={props.movable}
-                  onDragEnd={onDragEnd}
-                  onDragStart={(e) =>
-                    onDragStart(e, rowindex, colindex, col)
-                  }
-                >
-                  {col !== "1" && (
-                    <Image
-                      className="h-full w-full object-contain"
-                      priority
+          <div
+            onDrop={onDrop}
+            onDragOver={onDragOver}
+            ref={ref}
+            className="flex flex-col items-center justify-center grow"
+          >
+            {board.map((row: string[], rowindex: number) => (
+              <div key={rowindex} className="flex">
+                {row.map((col: string, colindex: number) => (
+                  <div
+                    key={colindex}
+                    className={`h-12 w-12 sm:h-20 sm:w-20 lg:h-[80px] lg:w-[80px] relative border-black ${"" + rowindex + colindex === lastMove.substring(0, 2) ||
+                      "" + rowindex + colindex === lastMove.substring(2, 4)
+                      ? "bg-blue-200"
+                      : (colindex + rowindex + 1) % 2 === 0
+                        ? "bg-slate-300"
+                        : "bg-white"
+                      }`}
+                  >
+                    <div
+                      className="h-full w-full"
                       draggable={props.movable}
-                      src={
-                        col === col.toUpperCase()
-                          ? `/w${col.toLowerCase()}.png`
-                          : `/b${col.toLowerCase()}.png`
+                      onDragEnd={onDragEnd}
+                      onDragStart={(e) =>
+                        onDragStart(e, rowindex, colindex, col)
                       }
-                      alt=""
-                      height={80}
-                      width={80}
-                      onClick={() =>
-                        toggle(board[rowindex][colindex], rowindex, colindex)
-                      }
-                    />
-                  )}
-                  {toggleMove &&
-                    (board[rowindex][colindex] === "1" ||
-                      isUpperCase(colorCase) !==
-                      isUpperCase(board[rowindex][colindex])) && (
-                      <div className="absolute inset-0 grid place-items-center">
-                        <SocketDisc
-                          board={board}
-                          pieceMove={pieceMove.current}
-                          piece={board[rowindex][colindex]}
-                          destRow={rowindex}
-                          destCol={colindex}
-                          color={color}
-                          wCastle={wCastle}
-                          bCastle={bCastle}
-                          isCheck={isCheck}
-                          wKingPos={wKingPos}
-                          bKingPos={bKingPos}
-                          enPassant={enPassant}
-                          Promotion={Promotion}
-                          validMoves={validMoves}
-                          colorToMove={colorToMove}
-                          setboard={setboard}
-                          setToggleMove={setToggleMove}
-                          setLastMove={setLastMove}
-                          socket={props.socket}
+                    >
+                      {col !== "1" && (
+                        <Image
+                          className="h-full w-full object-contain"
+                          priority
+                          draggable={props.movable}
+                          src={
+                            col === col.toUpperCase()
+                              ? `/w${col.toLowerCase()}.png`
+                              : `/b${col.toLowerCase()}.png`
+                          }
+                          alt=""
+                          height={80}
+                          width={80}
+                          onClick={() =>
+                            toggle(board[rowindex][colindex], rowindex, colindex)
+                          }
                         />
-                      </div>
-                    )}
-                </div>
+                      )}
+                      {toggleMove &&
+                        (board[rowindex][colindex] === "1" ||
+                          isUpperCase(colorCase) !==
+                          isUpperCase(board[rowindex][colindex])) && (
+                          <div className="absolute inset-0 grid place-items-center">
+                            <SocketDisc
+                              board={board}
+                              pieceMove={pieceMove.current}
+                              piece={board[rowindex][colindex]}
+                              destRow={rowindex}
+                              destCol={colindex}
+                              color={color}
+                              wCastle={wCastle}
+                              bCastle={bCastle}
+                              isCheck={isCheck}
+                              wKingPos={wKingPos}
+                              bKingPos={bKingPos}
+                              enPassant={enPassant}
+                              Promotion={Promotion}
+                              validMoves={validMoves}
+                              colorToMove={colorToMove}
+                              setboard={setboard}
+                              setToggleMove={setToggleMove}
+                              setLastMove={setLastMove}
+                              socket={props.socket}
+                            />
+                          </div>
+                        )}
+                    </div>
+                  </div>
+                ))}
               </div>
             ))}
-          </div>
-        ))}
 
-        {startTimer && (
-          <div className="mt-1">
-            <TimeControl
-              time={timeControl}
-              isGameOver={isGameOver}
-              isRunning={color.current === colorToMove.current}
-              setIsGameOver={setIsGameOver}
-              loserColor={loserColor}
-              color={colorToMove.current}
-              reason={reason}
-            />
-          </div>
-        )}
+            {startTimer && (
+              <div className="mt-1">
+                <TimeControl
+                  time={timeControl}
+                  isGameOver={isGameOver}
+                  isRunning={color.current === colorToMove.current}
+                  setIsGameOver={setIsGameOver}
+                  loserColor={loserColor}
+                  color={colorToMove.current}
+                  reason={reason}
+                />
+              </div>
+            )}
 
-        {Promotion.current.isPromotion && (
-          <div className="absolute top-[38%] sm:top-[275px] sm:left-[135px]">
-            <PromotionPopUp
-              promotion={Promotion}
-              board={board}
-              setboard={setboard}
-              setLastMove={setLastMove}
-              isCheck={isCheck}
-              colorToMove={colorToMove}
-              enPassant={enPassant}
-              wCastle={wCastle}
-              bCastle={bCastle}
-              socket={props.socket}
-              player={"player"}
-              wKingPos={wKingPos}
-              bKingPos={bKingPos}
-              validMoves={validMoves}
-              setIsGameOver={setIsGameOver}
-              reason={reason}
-              loserColor={loserColor}
-            />
-          </div>
-        )}
+            {Promotion.current.isPromotion && (
+              <div className="absolute top-[38%] sm:top-[275px] sm:left-[135px]">
+                <PromotionPopUp
+                  promotion={Promotion}
+                  board={board}
+                  setboard={setboard}
+                  setLastMove={setLastMove}
+                  isCheck={isCheck}
+                  colorToMove={colorToMove}
+                  enPassant={enPassant}
+                  wCastle={wCastle}
+                  bCastle={bCastle}
+                  socket={props.socket}
+                  player={"player"}
+                  wKingPos={wKingPos}
+                  bKingPos={bKingPos}
+                  validMoves={validMoves}
+                  setIsGameOver={setIsGameOver}
+                  reason={reason}
+                  loserColor={loserColor}
+                />
+              </div>
+            )}
 
-        {isGameOver && (
-          <GameOverPopUp
-            loserColor={loserColor.current}
-            color={color.current}
-            reason={reason.current}
-          />
-        )}
+            {isGameOver && (
+              <GameOverPopUp
+                loserColor={loserColor.current}
+                color={color.current}
+                reason={reason.current}
+              />
+            )}
+          </div>
+        </div>
+        {
+          props.opponentJoined ? <div>{/*movelist*/}
+            <MoveList></MoveList>
+          </div> : <></>
+        }
+
       </div>
     </div>
-
   );
 }
 

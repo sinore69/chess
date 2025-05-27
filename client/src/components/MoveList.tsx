@@ -29,7 +29,7 @@ export default function MoveList() {
   return (
     <div className="min-h-screen bg-gray-900 flex items-center justify-center p-4 font-inter">
       {/* Main container for the move list */}
-      <div className="w-full max-w-sm h-[600px] bg-blue-800 rounded-lg shadow-xl overflow-hidden flex flex-col">
+      <div className="w-[350px] max-w-sm h-[600px] bg-blue-800 rounded-lg shadow-xl overflow-hidden flex flex-col">
         {/* Header for the move list */}
         <div className="p-4 bg-blue-900 text-white text-center text-xl font-semibold rounded-t-lg">
           Chess Move List

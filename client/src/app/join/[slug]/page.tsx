@@ -36,6 +36,7 @@ function Page({ params }: { params: { slug: string } }) {
                 socket={socketRef.current}
                 playAs={"Player"}
                 setOpponentJoined={setOpponentJoined}
+                opponentJoined={opponentJoined}
               />
             </div>
           </div>
