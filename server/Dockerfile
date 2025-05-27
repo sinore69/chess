@@ -1,6 +1,9 @@
-FROM docker.io/golang:1.24.1-alpine
+FROM golang:1.22-alpine AS builder
+
 WORKDIR /app
 COPY . .
-RUN go build -o app .
-CMD ["./app"]
+RUN go build -o app
 
+FROM scratch
+COPY --from=builder /app/app /app
+ENTRYPOINT ["/app"]
