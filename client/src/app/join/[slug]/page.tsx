@@ -1,5 +1,4 @@
 "use client";
-import Console from "@/components/Console";
 import SocketBoard from "@/components/SocketBoard";
 import React, { useRef, useState, useEffect } from "react";
 
@@ -26,24 +25,17 @@ function Page({ params }: { params: { slug: string } }) {
       };
     }
   });
-
   return (
     <>
       {isConnected && socketRef.current ? (
         <div className="min-h-screen w-full bg-black overflow-x-hidden overflow-y-auto">
           <div className="flex justify-center w-full px-4 md:px-8">
-            <div className="flex flex-col md:flex-row gap-y-4 md:gap-x-6 w-full max-w-6xl">
+            <div className="flex flex-col md:flex-row gap-y-4 md:gap-x-6 border border-green-500">
               <SocketBoard
                 movable={true}
                 socket={socketRef.current}
                 playAs={"Player"}
                 setOpponentJoined={setOpponentJoined}
-              />
-              <Console
-                mode={"friend"}
-                joinCode=""
-                joinLink=""
-                opponentJoined={opponentJoined}
               />
             </div>
           </div>

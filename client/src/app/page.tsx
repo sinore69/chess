@@ -11,7 +11,6 @@ export default function Home() {
             mode={"bot"}
             joinCode=""
             joinLink=""
-            opponentJoined={false}
           ></Console>
         </div>
       </div>
