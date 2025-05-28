@@ -7,7 +7,6 @@ import (
 )
 
 func NewRoomId(m map[int]types.Room) int {
-	// Generate a random 4-digit number
 	min := 1000
 	max := 9999
 	var randomNumber int

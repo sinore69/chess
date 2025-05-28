@@ -6,7 +6,6 @@ function Page({ params }: { params: { slug: string } }) {
   const socketRef = useRef<WebSocket | null>(null);
   const [isConnected, setIsConnected] = useState(false);
   const [opponentJoined, setOpponentJoined] = useState<boolean>(false);
-  // console.log(params.slug);
   useEffect(() => {
     if (!socketRef.current) {
       const socket = new WebSocket(
@@ -30,7 +29,7 @@ function Page({ params }: { params: { slug: string } }) {
       {isConnected && socketRef.current ? (
         <div className="min-h-screen w-full bg-black overflow-x-hidden overflow-y-auto">
           <div className="flex justify-center w-full px-4 md:px-8">
-            <div className="flex flex-col md:flex-row gap-y-4 md:gap-x-6 border border-green-500">
+            <div className="flex flex-col md:flex-row gap-y-4 md:gap-x-6">
               <SocketBoard
                 movable={true}
                 socket={socketRef.current}

@@ -10,7 +10,6 @@ function Page() {
   const [opponentJoined, setOpponentJoined] = useState<boolean>(false);
   useEffect(() => {
     if (!socketRef.current) {
-      // Initialize WebSocket only once
       socketRef.current = new WebSocket(
         `${process.env.NEXT_PUBLIC_WS}://${process.env.NEXT_PUBLIC_DOMAIN}/create`
       );
@@ -28,7 +27,7 @@ function Page() {
       socketRef.current.onmessage = (event) => {
         console.log(event.data);
         const res = JSON.parse(event.data);
-        setJoinCode(res.code); // This triggers a re-render
+        setJoinCode(res.code);
       };
 
       socketRef.current.onclose = () => {
@@ -36,13 +35,13 @@ function Page() {
         connectionState.current = false;
       };
     }
-  }, []); // Empty dependency array ensures this runs only once
+  }, []);
   return (
     <>
       {connectionState.current ? (
-        <div className="min-h-screen w-full bg-black overflow-x-hidden overflow-y-auto">
+        <div className="min-h-screen w-full bg-black">
           <div className="flex justify-center w-full px-4 md:px-8">
-            <div className={`flex flex-col md:flex-row gap-y-4 md:gap-x-6 border border-green-500 ${!opponentJoined?`p-4`:``}`}>
+            <div className={`flex flex-col md:flex-row gap-y-4 md:gap-x-6  ${!opponentJoined?`p-4`:``}`}>
               <SocketBoard
                 movable={true}
                 socket={socketRef.current!}

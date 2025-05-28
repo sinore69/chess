@@ -18,7 +18,6 @@ import { getPieceMove } from "@/functions/getPieceMove";
 import { isUpperCase } from "@/functions/isuppercase";
 import { MakeMove } from "@/functions/makeMove";
 import SocketDisc from "./SocketDisc";
-import MoveList from "./MoveList";
 
 function SocketBoard(props: {
   movable: boolean;
@@ -83,7 +82,6 @@ function SocketBoard(props: {
         setStartTimer(true);
       }
       if (GameStateValidator(data)) {
-        // console.log(data);
         if (data.isGameOver) {
           setIsGameOver(true);
           loserColor.current = data.loser;
@@ -215,7 +213,7 @@ function SocketBoard(props: {
             onDrop={onDrop}
             onDragOver={onDragOver}
             ref={ref}
-            className="flex flex-col items-center justify-center grow"
+            className="flex flex-col items-center justify-center grow relative"
           >
             {board.map((row: string[], rowindex: number) => (
               <div key={rowindex} className="flex">
@@ -338,11 +336,10 @@ function SocketBoard(props: {
           </div>
         </div>
         {
-          props.opponentJoined ? <div>{/*movelist*/}
-            <MoveList></MoveList>
-          </div> : <></>
+          // props.opponentJoined ? <div>{/*movelist*/}
+          //   <MoveList></MoveList>
+          // </div> : <></>
         }
-
       </div>
     </div>
   );

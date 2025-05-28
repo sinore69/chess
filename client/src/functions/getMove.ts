@@ -51,7 +51,6 @@ export async function getMove(
     reason.current = "CheckMate";
     loserColor.current = color as "w" | "b";
   }
-  // console.log(validMoves.current);
 }
 
 export async function getFirstMove(validMoves: React.MutableRefObject<string>) {
@@ -62,7 +61,6 @@ export async function getFirstMove(validMoves: React.MutableRefObject<string>) {
     }
   );
   const resp = (await res.json()) as Fen;
-  // console.log(resp.moves);
   validMoves.current = resp.moves;
 }
 

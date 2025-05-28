@@ -3,7 +3,6 @@ package functions
 import (
 	"strings"
 )
-// Function to get all valid knight moves.
 func AllKnightMoves(board [8][8]string, color string, row int, col int, piece, wKingPos, bKingPos string) string {
 	ogPos := piece + string(rune(row+'0')) + string(rune(col+'0'))
 	var moves []string
