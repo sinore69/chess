@@ -1,6 +1,6 @@
 # ♟️ Chess Game Project
 
-This is a full-featured web-based chess game developed using **Nextjs**, **TypeScript**, **Tailwind CSS**, and **Go** for the backend. It allows players to play standard chess, with full support for all legal chess moves including castling, en passant, pawn promotion, and check/checkmate detection.It supports Play with Friend mode using unique room codes that enable real-time multiplayer over WebSockets, allowing two players to join the same match from different devices. Additionally, it offers a Play with Bot mode where users can challenge an AI bots, enabling solo practice and casual play.
+This is a web-based chess game developed using **Nextjs**, **TypeScript**, **Tailwind CSS**, and **Go** for the backend. It allows players to play standard chess, with full support for all legal chess moves including castling, en passant, pawn promotion, and check/checkmate detection.It supports Play with Friend mode using unique room codes that enable real-time multiplayer over WebSockets, allowing two players to join the same match from different devices. Additionally, it offers a Play with Bot mode where users can challenge an AI bots, enabling solo practice and casual play.
 
 ## 🚀 Features
 
