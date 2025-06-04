@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Sword, Users, Clock, RotateCcw, Play } from 'lucide-react';
 
 function GameControl() {
   const [showTimeControl, setShowTimeControl] = useState(false);
@@ -61,47 +62,50 @@ function GameControl() {
       )}
 
       <div className="p-3 bg-gray-900 text-white rounded-lg shadow-md border border-gray-700">
-        <div className="p-6 text-center text-3xl font-bold border-b border-gray-700">
-          Play Against
+        <div className="p-4 text-center text-3xl font-bold border-b border-gray-700">
+          Game Options
         </div>
 
-        <div className="flex justify-center p-6 gap-4">
+        <div className="flex justify-center p-4 gap-4">
           <button
-            className={`border-2 ${
-              !showTimeControl
-                ? "border-blue-500 shadow-md shadow-blue-500/30 scale-105"
-                : "border-gray-700"
-            } bg-gray-800 text-white py-2 px-6 rounded-md font-semibold hover:bg-gray-700 transition-transform`}
+            className={`flex justify-center flex-col item-center border border-2 h-30 w-40 ${!showTimeControl
+              ? "border-blue-500 shadow-md shadow-blue-500/30 scale-105"
+              : "border-gray-700"
+              } bg-gray-800 text-white py-2 px-6 rounded-md font-semibold hover:bg-gray-700 transition-transform`}
             onClick={HideTimeControl}
           >
-            Computer
+            <div className="pl-7 sm:pl-10">
+              <Users size={32} className="mb-2 text-blue-400" />
+            </div>
+            Play vs Bot
           </button>
           <button
-            className={`border-2 ${
-              showTimeControl
-                ? "border-blue-500 shadow-md shadow-blue-500/30 scale-105"
-                : "border-gray-700"
-            } bg-gray-800 text-white py-2 px-6 rounded-md font-semibold hover:bg-gray-700 transition-transform`}
+            className={`flex justify-center flex-col item-center border-2 h-30 w-40 ${showTimeControl
+              ? "border-blue-500 shadow-md shadow-blue-500/30 scale-105"
+              : "border-gray-700"
+              } bg-gray-800 text-white py-2 px-6 rounded-md font-semibold hover:bg-gray-700 transition-transform`}
             onClick={ShowTimeControl}
           >
-            Friend
+            <div className="pl-7">
+              <Sword size={32} className="mb-2 text-red-400" />
+            </div>
+            Play vs Friend
           </button>
         </div>
 
         {showTimeControl && (
-          <div>
-            <div className="text-center text-2xl font-bold border-b border-gray-700 pb-4">
+          <div className="bg-blue">
+            <div className="text-center text-3xl font-bold border-b border-gray-700 pb-2">
               Time Control
             </div>
             <div className="flex justify-center gap-4 p-6">
               {[3, 5, 10].map((time) => (
                 <button
                   key={time}
-                  className={`border-2 ${
-                    gameTime === time
-                      ? "border-blue-500 shadow-md shadow-blue-500/30 scale-105"
-                      : "border-gray-700"
-                  } bg-gray-800 text-white py-2 px-4 rounded-md font-semibold hover:bg-gray-700 transition-transform`}
+                  className={`h-16 w-16 border-2 ${gameTime === time
+                    ? "border-blue-500 shadow-md shadow-blue-500/30 scale-105"
+                    : "border-gray-700"
+                    } bg-gray-800 text-white py-2 px-4 rounded-md font-semibold hover:bg-gray-700 transition-transform`}
                   onClick={() => changeTimeControl(time)}
                 >
                   {time}
@@ -113,35 +117,33 @@ function GameControl() {
 
         {chooseColor && (
           <div>
-            <div className="text-center text-2xl font-bold border-b border-gray-700 pb-4">
-              Choose Color
+            <div className="text-center text-3xl font-bold border-b border-gray-700 pb-2">
+              Choose Your Color
             </div>
             <div className="flex justify-center gap-4 p-6">
               <button
-                className={`border-2 ${
-                  color === "w"
-                    ? "border-blue-500 shadow-md shadow-blue-500/30 scale-105"
-                    : "border-gray-700"
-                } bg-gray-800 text-white py-2 px-4 rounded-md font-semibold hover:bg-gray-700 transition-transform`}
+                className={`h-16 w-16  border-2 ${color === "w"
+                  ? "border-blue-500 shadow-md shadow-blue-500/30 scale-105"
+                  : "border-gray-700"
+                  } bg-gray-800 text-white py-2 px-4 rounded-md font-semibold hover:bg-gray-700 transition-transform`}
                 onClick={changeColorToWhite}
               >
-                White
+                W
               </button>
               <button
-                className={`border-2 ${
-                  color === "b"
-                    ? "border-blue-500 shadow-md shadow-blue-500/30 scale-105"
-                    : "border-gray-700"
-                } bg-gray-800 text-white py-2 px-4 rounded-md font-semibold hover:bg-gray-700 transition-transform`}
+                className={`h-16 w-16 border-2 ${color === "b"
+                  ? "border-blue-500 shadow-md shadow-blue-500/30 scale-105"
+                  : "border-gray-700"
+                  } bg-gray-800 text-white py-2 px-4 rounded-md font-semibold hover:bg-gray-700 transition-transform`}
                 onClick={changeColorToBlack}
               >
-                Black
+                B
               </button>
             </div>
           </div>
         )}
 
-        <div className="flex justify-center p-6 border-b border-gray-700">
+        <div className="flex justify-center pb-6 border-b border-gray-700">
           <button
             className="border-2 border-blue-500 bg-gray-800 text-white py-3 px-10 text-2xl font-semibold rounded-md hover:bg-gray-700 shadow-md shadow-blue-500/30 scale-105 transition-transform"
             onClick={startGame}
