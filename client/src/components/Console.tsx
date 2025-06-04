@@ -6,7 +6,7 @@ function Console(props: {
   joinLink: string;
 }) {
   return (
-    <div className="h-[100%] w-[387px] sm:w-[643px]">
+    <div className="h-[100%] w-[387px] sm:w-[640px] md:w-[640px] lg:w-[440px] flex justify-center">
       {props.mode === "bot" ? (
         <GameControl></GameControl>
       ) : (

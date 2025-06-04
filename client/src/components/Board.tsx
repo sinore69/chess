@@ -133,9 +133,9 @@ function Board(props: { movable: boolean; color: "w" | "b" }) {
   }
 
   return (
-    <div className="justify-start flex-col box-border h-full inline-block">
+    <div className="justify-center flex-col box-border h-full inline-block">
       <div
-        className="flex justify-start flex-col h-full w-full box-border"
+        className="flex justify-center flex-col h-full w-full box-border"
         onDrop={onDrop}
         onDragOver={onDragOver}
         ref={ref}
