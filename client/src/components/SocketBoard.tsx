@@ -195,7 +195,13 @@ function SocketBoard(props: {
     <div className="flex w-fit h-fit">
       <div className="flex flex-col lg:flex-row"> {/*overall wrapper*/}
         <div> {/*board and time wrapper*/}
-          <div className="flex justify-center py-1">
+          <div
+            onDrop={onDrop}
+            onDragOver={onDragOver}
+            ref={ref}
+            className="flex flex-col items-center justify-center grow relative"
+          >
+            <div className="flex justify-center py-1">
             {startTimer && (
               <TimeControl
                 time={timeControl}
@@ -208,13 +214,7 @@ function SocketBoard(props: {
               />
             )}
           </div>
-
-          <div
-            onDrop={onDrop}
-            onDragOver={onDragOver}
-            ref={ref}
-            className="flex flex-col items-center justify-center grow relative"
-          >
+          
             {board.map((row: string[], rowindex: number) => (
               <div key={rowindex} className="flex">
                 {row.map((col: string, colindex: number) => (
@@ -335,11 +335,6 @@ function SocketBoard(props: {
             )}
           </div>
         </div>
-        {
-          // props.opponentJoined ? <div>{/*movelist*/}
-          //   <MoveList></MoveList>
-          // </div> : <></>
-        }
       </div>
     </div>
   );
