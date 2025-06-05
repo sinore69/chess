@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from "react";
 import GameControl from "./GameControl";
 import GameLog from "./GameLog";
 function Console(props: {
@@ -8,7 +9,8 @@ function Console(props: {
   return (
     <div className="h-[100%] w-[387px] sm:w-[640px] md:w-[640px] lg:w-[440px] flex justify-center">
       {props.mode === "bot" ? (
-        <GameControl></GameControl>
+        <GameControl
+        ></GameControl>
       ) : (
         <GameLog
           joinCode={props.joinCode}

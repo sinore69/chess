@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { Sword, Users, Clock, RotateCcw, Play } from 'lucide-react';
+import { Sword, Users } from 'lucide-react';
 
 function GameControl() {
   const [showTimeControl, setShowTimeControl] = useState(false);
@@ -120,24 +121,38 @@ function GameControl() {
             <div className="text-center text-3xl font-bold border-b border-gray-700 pb-2">
               Choose Your Color
             </div>
+            {/*Select player color */}
             <div className="flex justify-center gap-4 p-6">
               <button
-                className={`h-16 w-16  border-2 ${color === "w"
+                className={`h-16 w-16  border-[3px] ${color === "w"
                   ? "border-blue-500 shadow-md shadow-blue-500/30 scale-105"
                   : "border-gray-700"
-                  } bg-gray-800 text-white py-2 px-4 rounded-md font-semibold hover:bg-gray-700 transition-transform`}
+                  } bg-white text-white rounded-md font-semibold transition-transform`}
                 onClick={changeColorToWhite}
               >
-                W
+                <Image
+                  className="h-full w-full"
+                  src={"/wk.png"}
+                  height={100}
+                  width={100}
+                  alt=""
+                />
               </button>
+              {/*Select player color */}
               <button
-                className={`h-16 w-16 border-2 ${color === "b"
+                className={`h-16 w-16 border-[3px] ${color === "b"
                   ? "border-blue-500 shadow-md shadow-blue-500/30 scale-105"
                   : "border-gray-700"
-                  } bg-gray-800 text-white py-2 px-4 rounded-md font-semibold hover:bg-gray-700 transition-transform`}
+                  } bg-black  text-white rounded-md font-semibold transition-transform`}
                 onClick={changeColorToBlack}
               >
-                B
+                <Image
+                  className="h-full w-full"
+                  src={"/bk.png"}
+                  height={100}
+                  width={100}
+                  alt=""
+                />
               </button>
             </div>
           </div>
