@@ -9,4 +9,5 @@ export type Fen = {
   moves: string;
   isGameOver: boolean;
   reason: string;
+  resignedBy: string;
 };
