@@ -27,6 +27,7 @@ export function sendData(
     loser: "",
     moves: "",
     reason: "",
+    resignedBy: "",
   };
   if (socket.readyState === 1) {
     socket.send(JSON.stringify(data));

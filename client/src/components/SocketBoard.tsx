@@ -104,6 +104,7 @@ function SocketBoard(props: {
             winner: color.current === "w" ? "b" : "w",
             reason: reason.current,
             moves: "",
+            resignedBy: ""
           };
           props.socket.send(JSON.stringify(endGame));
         }
@@ -202,19 +203,19 @@ function SocketBoard(props: {
             className="flex flex-col items-center justify-center grow relative"
           >
             <div className="flex justify-center py-1">
-            {startTimer && (
-              <TimeControl
-                time={timeControl}
-                isGameOver={isGameOver}
-                isRunning={color.current !== colorToMove.current}
-                setIsGameOver={setIsGameOver}
-                loserColor={loserColor}
-                color={colorToMove.current}
-                reason={reason}
-              />
-            )}
-          </div>
-          
+              {startTimer && (
+                <TimeControl
+                  time={timeControl}
+                  isGameOver={isGameOver}
+                  isRunning={color.current !== colorToMove.current}
+                  setIsGameOver={setIsGameOver}
+                  loserColor={loserColor}
+                  color={colorToMove.current}
+                  reason={reason}
+                />
+              )}
+            </div>
+
             {board.map((row: string[], rowindex: number) => (
               <div key={rowindex} className="flex">
                 {row.map((col: string, colindex: number) => (
