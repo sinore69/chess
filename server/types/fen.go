@@ -11,4 +11,5 @@ type Fen struct {
 	Moves       string `json:"moves"`
 	IsGameOver  bool   `json:"isGameOver"`
 	Reason      string `json:"reason"`
+	ResignedBy string `json:"resignedBy"`
 }
