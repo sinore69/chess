@@ -15,6 +15,7 @@ const schema: JSONSchemaType<Fen> = {
     loser: { type: "string" },
     moves: { type: "string" },
     reason: { type: "string" },
+    resignedBy: { type: "string" },
   },
   required: ["fen", "lastMove"],
   additionalProperties: false,
