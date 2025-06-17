@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, use } from "react";
 import { initialgamestate } from "../functions/initialgamestate";
 import { fengenerator } from "../functions/fengenerator";
 import { calcCoordinates } from "../functions/calccoordinates";
@@ -11,13 +11,13 @@ import { GameStateValidator } from "@/functions/validator/jsonschema/gamestate";
 import { IsUnderCheck } from "@/functions/undercheck";
 import { promotionData } from "@/types/promotion";
 import PromotionPopUp from "./PromotionPopUp";
-import TimeControl from "./TimeControl";
 import GameOverPopUp from "./GameOverPopUp";
 import { Fen } from "@/types/fen";
 import { getPieceMove } from "@/functions/getPieceMove";
 import { isUpperCase } from "@/functions/isuppercase";
 import { MakeMove } from "@/functions/makeMove";
 import SocketDisc from "./SocketDisc";
+import Essentials from "./Essentials";
 
 function SocketBoard(props: {
   movable: boolean;
@@ -55,8 +55,8 @@ function SocketBoard(props: {
   const reason = useRef<string>("");
   const colorCase = color.current === "w" ? "C" : "c";
   const [lastMove, setLastMove] = useState<string>("");
-  const [moveList, setMoveList] = useState<[]>();
-
+  const [resignedBy, setResignedBy] = useState<"w" | "b" | "">("");
+  const [confirmResignation, setConfirmResignation] = useState<boolean>(false);
   useEffect(() => {
     if (ref.current) {
       ref.current.focus();
@@ -202,9 +202,9 @@ function SocketBoard(props: {
             ref={ref}
             className="flex flex-col items-center justify-center grow relative"
           >
-            <div className="flex justify-center py-1">
+            <div className="flex justify-center py-1 w-full">
               {startTimer && (
-                <TimeControl
+                <Essentials
                   time={timeControl}
                   isGameOver={isGameOver}
                   isRunning={color.current !== colorToMove.current}
@@ -212,6 +212,9 @@ function SocketBoard(props: {
                   loserColor={loserColor}
                   color={colorToMove.current}
                   reason={reason}
+                  gameControl={false}
+                  resignedBy={resignedBy}
+                  confirmResignation={confirmResignation}
                 />
               )}
             </div>
@@ -290,8 +293,8 @@ function SocketBoard(props: {
             ))}
 
             {startTimer && (
-              <div className="mt-1">
-                <TimeControl
+              <div className="mt-1 w-full">
+                <Essentials
                   time={timeControl}
                   isGameOver={isGameOver}
                   isRunning={color.current === colorToMove.current}
@@ -299,6 +302,9 @@ function SocketBoard(props: {
                   loserColor={loserColor}
                   color={colorToMove.current}
                   reason={reason}
+                  gameControl={true}
+                  resignedBy={resignedBy}
+                  confirmResignation={confirmResignation}
                 />
               </div>
             )}
