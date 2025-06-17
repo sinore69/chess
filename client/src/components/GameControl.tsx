@@ -69,14 +69,14 @@ function GameControl() {
 
         <div className="flex justify-center p-4 gap-4">
           <button
-            className={`flex justify-center flex-col item-center border border-2 h-30 w-40 ${!showTimeControl
+            className={`flex justify-center flex-col item-center border-2 h-30 w-40 ${!showTimeControl
               ? "border-blue-500 shadow-md shadow-blue-500/30 scale-105"
               : "border-gray-700"
               } bg-gray-800 text-white py-2 px-6 rounded-md font-semibold hover:bg-gray-700 transition-transform`}
             onClick={HideTimeControl}
           >
             <div className="pl-7 sm:pl-10">
-              <Users size={32} className="mb-2 text-blue-400" />
+              <Sword size={32} className="mb-2 text-red-400" />
             </div>
             Play vs Bot
           </button>
@@ -88,7 +88,7 @@ function GameControl() {
             onClick={ShowTimeControl}
           >
             <div className="pl-7">
-              <Sword size={32} className="mb-2 text-red-400" />
+              <Users size={32} className="mb-2 text-blue-400" />
             </div>
             Play vs Friend
           </button>

@@ -21,7 +21,7 @@ function GameOverPopUp(props: {
         transition-opacity duration-200 ease-out
         ${isOpen ? "opacity-100" : "opacity-0"}
       `}
-      onClick={onClose} // close when clicking outside
+      onClick={onClose}
     >
       <div
         className={`flex flex-col justify-center
@@ -29,7 +29,7 @@ function GameOverPopUp(props: {
           transform transition-transform duration-200 ease-out
           ${isOpen ? "scale-100 opacity-100" : "scale-95 opacity-0"}
         `}
-        onClick={(e) => e.stopPropagation()} // don't close when clicking inside
+        onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold text-white">
