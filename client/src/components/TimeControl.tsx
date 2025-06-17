@@ -40,8 +40,8 @@ function TimeControl(props: {
   });
   return (
     <div className="flex justify-center">
-      <div className="flex top-0 w-32 sm:h-9 md:h-9 lg:h-10 lg:w-28 h-10 bg-white border-2 border-black">
-        <div className="text-2xl p-1 md:p-0 md:pl-4 pl-4 sm:p-0 sm:pl-4 font-semibold">
+      <div className="flex top-0 w-32 sm:h-10 sm:w-28 h-10 bg-white border-2 border-black">
+        <div className="text-2xl md:p-0 md:pl-4 pl-6 sm:p-0 sm:pl-4 font-semibold">
           {minutes <= 9 ? "0" + minutes : minutes}:
           {seconds <= 9 ? "0" + seconds : seconds}
         </div>
