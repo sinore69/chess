@@ -1,4 +1,3 @@
-import { Dispatch, SetStateAction } from "react";
 import GameControl from "./GameControl";
 import GameLog from "./GameLog";
 function Console(props: {
