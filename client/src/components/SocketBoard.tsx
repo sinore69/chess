@@ -215,6 +215,7 @@ function SocketBoard(props: {
                   gameControl={false}
                   resignedBy={resignedBy}
                   confirmResignation={confirmResignation}
+                  setConfirmResignation={setConfirmResignation}
                 />
               )}
             </div>
@@ -305,6 +306,7 @@ function SocketBoard(props: {
                   gameControl={true}
                   resignedBy={resignedBy}
                   confirmResignation={confirmResignation}
+                  setConfirmResignation={setConfirmResignation}
                 />
               </div>
             )}
