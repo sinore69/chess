@@ -14,11 +14,12 @@ function Essentials(props: {
     gameControl: boolean;
     resignedBy: "" | "w" | "b"
     confirmResignation: boolean
+    setConfirmResignation: Dispatch<SetStateAction<boolean>>
 }) {
     return (
         <div className="w-full flex items-center justify-between relative px-1 h-10">
             {
-                props.gameControl ? <GameButtons confirmResignation={props.confirmResignation}/> : <></>
+                props.gameControl ? <GameButtons confirmResignation={props.confirmResignation} setConfirmResignation={props.setConfirmResignation} /> : <></>
             }
             <div className="absolute left-1/2 transform -translate-x-1/2">
                 <TimeControl
