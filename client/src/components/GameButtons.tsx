@@ -1,13 +1,17 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import { RotateCcw, Flag, ThumbsUp } from 'lucide-react';
 
 function GameButtons(props: {
   confirmResignation: boolean
+  setConfirmResignation: Dispatch<SetStateAction<boolean>>
 }) {
+  function setOnResign() {
+    props.setConfirmResignation(true)
+  }
   return (
     <div className='flex flex-row gap-x-2'>
       <button
-        // onClick={onResign}
+        onClick={setOnResign}
         className="flex items-center px-2 py-2 md:px-4 md:py-2 bg-red-600 hover:bg-red-700 text-white rounded-md transition-colors"
       >
         <Flag size={16} className="" />
