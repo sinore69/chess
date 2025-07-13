@@ -2,9 +2,11 @@ package routes
 
 import (
 	"encoding/json"
+	"fmt"
 	"io"
 	"log"
 	"net/http"
+	"os"
 	"server/functions"
 	"server/gamehub"
 	"server/types"
@@ -149,7 +151,9 @@ outer:
 				g.GameRoom[id] = room
 			}
 		}
+
 		if g.GameRoom[id].Player != nil && result.Fen != "" {
+			start := time.Now()
 			log.Println(result)
 			if !result.IsGameOver {
 				allPossibleMove := gamehub.AllPossibleMove(result.Fen)
@@ -157,7 +161,25 @@ outer:
 				log.Println(allPossibleMove)
 			}
 			g.GameRoom[id].Player.WriteJSON(result)
+			duration := time.Since(start)
+			g.logRequestDuration(start, duration)
 		}
+	}
+}
+
+func (g *Game) logRequestDuration(start time.Time, duration time.Duration) {
+	os.MkdirAll("../logs", os.ModePerm) 
+	f, err := os.OpenFile("../logs/gamelogs.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		log.Println("Failed to open log file:", err)
+		return
+	}
+	defer f.Close()
+	timestamp := start.UnixMilli()
+	ms := duration.Microseconds()
+	_, err = f.WriteString(fmt.Sprintf("%d,%d\n", timestamp, ms))
+	if err != nil {
+		log.Println("Failed to write to log file:", err)
 	}
 }
 
@@ -194,6 +216,7 @@ outer:
 			break outer
 		}
 		if g.GameRoom[num].Creator != nil {
+			start := time.Now()
 			log.Println(data)
 			if !data.IsGameOver {
 				allPossibleMove := gamehub.AllPossibleMove(data.Fen)
@@ -201,6 +224,8 @@ outer:
 				log.Println(allPossibleMove)
 			}
 			g.GameRoom[num].Creator.WriteJSON(data)
+			duration := time.Since(start)
+			g.logRequestDuration(start, duration)
 		}
 	}
 }
