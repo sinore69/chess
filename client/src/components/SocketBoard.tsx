@@ -196,7 +196,7 @@ function SocketBoard(props: {
     <div className="flex w-fit h-fit">
       <div className="flex flex-col lg:flex-row"> {/*overall wrapper*/}
         <div> {/*board and time wrapper*/}
-          <div className="flex justify-center py-1 w-full bg-red-200">
+          <div className="flex justify-center py-1 w-full">
             {startTimer && (
               <Essentials
                 time={timeControl}
