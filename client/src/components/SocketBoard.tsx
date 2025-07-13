@@ -196,30 +196,29 @@ function SocketBoard(props: {
     <div className="flex w-fit h-fit">
       <div className="flex flex-col lg:flex-row"> {/*overall wrapper*/}
         <div> {/*board and time wrapper*/}
+          <div className="flex justify-center py-1 w-full bg-red-200">
+            {startTimer && (
+              <Essentials
+                time={timeControl}
+                isGameOver={isGameOver}
+                isRunning={color.current !== colorToMove.current}
+                setIsGameOver={setIsGameOver}
+                loserColor={loserColor}
+                color={colorToMove.current}
+                reason={reason}
+                gameControl={false}
+                resignedBy={resignedBy}
+                confirmResignation={confirmResignation}
+                setConfirmResignation={setConfirmResignation}
+              />
+            )}
+          </div>
           <div
             onDrop={onDrop}
             onDragOver={onDragOver}
             ref={ref}
             className="flex flex-col items-center justify-center grow relative"
           >
-            <div className="flex justify-center py-1 w-full">
-              {startTimer && (
-                <Essentials
-                  time={timeControl}
-                  isGameOver={isGameOver}
-                  isRunning={color.current !== colorToMove.current}
-                  setIsGameOver={setIsGameOver}
-                  loserColor={loserColor}
-                  color={colorToMove.current}
-                  reason={reason}
-                  gameControl={false}
-                  resignedBy={resignedBy}
-                  confirmResignation={confirmResignation}
-                  setConfirmResignation={setConfirmResignation}
-                />
-              )}
-            </div>
-
             {board.map((row: string[], rowindex: number) => (
               <div key={rowindex} className="flex">
                 {row.map((col: string, colindex: number) => (
