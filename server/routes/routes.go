@@ -30,6 +30,7 @@ func Home(w http.ResponseWriter, r *http.Request) {
 }
 
 func Bot(w http.ResponseWriter, r *http.Request) {
+	// start := time.Now()
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
@@ -49,6 +50,20 @@ func Bot(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(newfen)
+	// Logging the request duration
+	// duration := time.Since(start)
+	// logLine := time.Now().Format("2006-01-02 15:04:05") + " - Request took " + duration.String() + "\n"
+
+	// logFilePath := "gamelog.log"
+	// f, err := os.OpenFile(logFilePath, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	// if err != nil {
+	// 	log.Println("Failed to open log file:", err)
+	// 	return
+	// }
+	// defer f.Close()
+	// if _, err := f.WriteString(logLine); err != nil {
+	// 	log.Println("Failed to write to log file:", err)
+	// }
 }
 
 func GetFirstMove(w http.ResponseWriter, r *http.Request) {
